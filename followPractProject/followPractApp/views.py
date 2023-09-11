@@ -7,6 +7,7 @@ from rest_framework import status
 from followPractApp.followPractAppSerializer import Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
+import pandas as pd
 
 @api_view(['GET', 'POST', 'DELETE'])
 def estudiantes_list(request):
@@ -45,6 +46,15 @@ def estudiante_detail(request, estudiante_id):
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'Estudiante no encontrado'}, status=404)
  
+
+def crearDf(archivoExcel):
+    # Lee el archivo Excel en un DataFrame de pandas
+
+    df = pd.read_excel(archivoExcel, sheet_name='Sheet1', usecols="B:H", skiprows=11)
+    df = df[df['PROG -'] != 'SEM']
+    df = df.dropna(how='all')
+    return df
+
     # GET / PUT / DELETE tutorial
     
      
