@@ -1,28 +1,13 @@
-<h1>Estudiantes </h1>
-<table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Programa</th>
-        <th>Código</th>
-        <th>Email Institucional</th>
-        <th>Email Personal</th>
-        <th>Teléfono</th>
-        <th>Nombre</th>
-        <th>Fecha de Registro</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let estudiante of estudiantes">
-        <td>{{ estudiante.id }}</td>
-        <td>{{ estudiante.programa }}</td>
-        <td>{{ estudiante.codigo }}</td>
-        <td>{{ estudiante.emailInstitucional }}</td>
-        <td>{{ estudiante.emailPersonal }}</td>
-        <td>{{ estudiante.telefono }}</td>
-        <td>{{ estudiante.nombre }}</td>
-        <td>{{ estudiante.fechaRegistro }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
+<div class="container">
+  <h2>Cargar Listado de Estudiantes</h2>
+  <form >
+    <div class="form-group">
+      <input type="file"  accept=".xls,.xlsx" />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Cargar Archivo</button>
+    </div>
+  </form>
+
+
+</div>

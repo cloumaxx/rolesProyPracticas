@@ -22,3 +22,6 @@ Crear servicios:
 
 Crear componente:
     ng g c body/cargarListado
+
+
+7X(l$Pm9#1.[
