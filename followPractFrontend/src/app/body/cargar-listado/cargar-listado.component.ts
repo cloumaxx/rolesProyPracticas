@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EstudianteService } from 'src/app/services/EstudianteServices/estudiante-services.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cargar-listado',
@@ -7,20 +8,18 @@ import { EstudianteService } from 'src/app/services/EstudianteServices/estudiant
   styleUrls: ['./cargar-listado.component.css']
 })
 export class CargarListadoComponent implements OnInit {
-  estudiantes: any[] = [];
+  columnas: string[] = []; // Declaración de la propiedad columnas
 
-  constructor(private estudianteService: EstudianteService) { }
+  constructor(
+    private estudianteService: EstudianteService,
+  
+  ) { }
 
   ngOnInit(): void {
-    this.estudianteService.getEstudiantes().subscribe(
-      (data: any) => {
-        this.estudiantes = data;
-      },
-      (error) => {
-        console.error('Error al cargar estudiantes:', error);
-      }
-    );
-  }
+
+   
+   }
+
 
 
 
