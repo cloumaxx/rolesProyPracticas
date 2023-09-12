@@ -19,12 +19,11 @@ export class EstudianteService {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  cargarArchivoExcel(archivo: File): Observable<any> {
+  cargarArchivoExcel(archivo: File, semestre:string): Observable<any> {
     const formData = new FormData();
     formData.append('archivo', archivo);
-
-    // Asegúrate de que la URL coincida con la configuración en tu servidor Django
-    const url = `${this.baseUrl}/cargar_listado/`;
+    formData.append('semestre', semestre);
+    const url = `${this.baseUrl}crear_por_listado_estudiantes/`;
 
     return this.http.post(url, formData);
   }
