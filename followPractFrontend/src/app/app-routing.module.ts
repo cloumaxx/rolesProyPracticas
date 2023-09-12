@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { CargarListadoComponent } from './body/cargar-listado/cargar-listado.component';
 
 const routes: Routes = [
+  
   { 
     path: 'body/cargar-listado',
     component: CargarListadoComponent
   },
   {
-    path: 'body',
+    path: '',
     loadChildren: () => import('./body/body.module').then(m => m.BodyModule)
   }
   

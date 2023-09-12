@@ -10,6 +10,7 @@ class Estudiante(models.Model):
     telefono = models.CharField(max_length=50)
     nombre = models.CharField(max_length=50)
     fechaRegistro = models.DateField(auto_now_add=True)
+    semestre = models.CharField(max_length=50)
     
     def __str__(self):
         return self.nombre
