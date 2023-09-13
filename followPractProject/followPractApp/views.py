@@ -1,10 +1,8 @@
 from django.shortcuts import render
-
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-
 from followPractApp.followPractAppSerializer import Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
@@ -79,7 +77,20 @@ def crearPorListadoEstudiantes(request):
                     nombre=nombre,
                     semestre=semestrePerteneciente
                 )
-                nuevo_estudiante.save()
+                # Verifica si ya existe un estudiante con el mismo código en el mismo semestre
+                existe_estudiante = Estudiante.objects.filter(codigo=codigo, semestre=semestrePerteneciente).exists()
+
+                if not existe_estudiante:
+                    nuevo_estudiante = Estudiante(
+                        programa=programa,
+                        codigo=codigo,
+                        emailInstitucional=emailInstitucional,
+                        emailPersonal=emailPersonal,
+                        telefono=telefono,
+                        nombre=nombre,
+                        semestre=semestrePerteneciente
+                    )
+                    nuevo_estudiante.save()
            
             columnas = df.columns.tolist()
             return Response({'': columnas}, status=status.HTTP_200_OK)
