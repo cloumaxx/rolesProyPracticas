@@ -3,3 +3,108 @@ td,
 table{
     border: black 1px solid;
 }
+/* Estilos para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    background-color: #fff;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Estilos para el título principal */
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+/* Estilos para el párrafo de descripción */
+p {
+    font-size: 16px;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* Estilos para el formulario */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="number"],
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Estilos para el botón de carga de archivo */
+#upload-button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+#upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el mensaje de error */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Estilos para la respuesta exitosa */
+.success-message {
+    color: #4CAF50;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Estilos generales para etiquetas y elementos */
+label, button, select {
+    display: block;
+}
+
+/* Estilos para el contenedor de carga de archivos */
+.file-upload {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilos para el archivo seleccionado */
+#file {
+    display: none;
+}
