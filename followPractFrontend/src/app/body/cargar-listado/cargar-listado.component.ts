@@ -68,9 +68,13 @@ export class CargarListadoComponent implements OnInit {
           }
         );
       } else {
+        
+        this.notificationService.showNotification('Ningún archivo seleccionado');
         console.error('Ningún archivo seleccionado');
       }
     } else {
+      
+      this.notificationService.showNotification('Ningún semestre seleccionado');
       console.error('Ningún semestre seleccionado');
     }
   }
