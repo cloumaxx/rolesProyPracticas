@@ -9,4 +9,6 @@ urlpatterns = [
 
     path('estudiantes/crear_por_listado_estudiantes/', views.crearPorListadoEstudiantes, name='crear_por_listado_estudiantes'),
 
+    path('aspirantes/crear_por_listado_aspirantes/', views.crearPorListadoAspirantes, name='crear_por_listado_aspirantes'),
+
 ]

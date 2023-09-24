@@ -60,7 +60,7 @@ def crearPorListadoEstudiantes(request):
             return Response({'error': 'No se proporcionó ningún archivo'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            df = crearDf(archivo)
+            df = crearDfEstudiantes(archivo)
             estudiantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
             estudiantes_a_eliminar.delete()
             for index, row in df.iterrows():
@@ -70,10 +70,6 @@ def crearPorListadoEstudiantes(request):
                 emailPersonal = row['EMAIL PERSONAL']
                 telefono = row['TELÉFONO']
                 nombre = row['NOMBRE']
-                
-                # Verifica si ya existe un estudiante con el mismo código en el mismo semestre
-                        
-               
                 nuevo_estudiante = Estudiante(
                         programa=programa,
                         codigo=codigo,
@@ -84,14 +80,47 @@ def crearPorListadoEstudiantes(request):
                         semestre=semestrePerteneciente
                     )
                 nuevo_estudiante.save()
-                
-                
-
             return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+@api_view(['POST'])
+def crearPorListadoAspirantes(request):
+    if request.method == 'POST':
+        archivo = request.FILES.get('archivo')
+        semestrePerteneciente = request.POST.get('semestre')
         
+        if not archivo:
+            return Response({'error': 'No se proporcionó ningún archivo'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            df = crearDfAspirantes(archivo)
+            print(df)
+            """estudiantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
+            estudiantes_a_eliminar.delete()
+            for index, row in df.iterrows():
+                programa = row['PROG -']
+                codigo = row['CÓDIGO'].split('.')[0]    
+                emailInstitucional = row['EMAIL INSTITUCIONAL']
+                emailPersonal = row['EMAIL PERSONAL']
+                telefono = row['TELÉFONO']
+                nombre = row['NOMBRE']
+                nuevo_estudiante = Estudiante(
+                        programa=programa,
+                        codigo=codigo,
+                        emailInstitucional=emailInstitucional,
+                        emailPersonal=emailPersonal,
+                        telefono=telefono,
+                        nombre=nombre,
+                        semestre=semestrePerteneciente
+                    )
+                nuevo_estudiante.save()
+            """
+            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+          
+
 @api_view(['GET', 'PUT', 'DELETE'])
 def estudiante_detail(request, estudiante_id):
     try:
@@ -111,8 +140,14 @@ def estudiante_detail(request, estudiante_id):
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'Estudiante no encontrado'}, status=404)
  
+def crearDfAspirantes(archivoExcel):
+    df = pd.read_excel(archivoExcel, skiprows=2)
+    df = df.dropna(how='all')
+    df = df.astype(str)
+    return df
 
-def crearDf(archivoExcel):
+
+def crearDfEstudiantes(archivoExcel):
     # Lee el archivo Excel en un DataFrame de pandas
     df = pd.read_excel(archivoExcel, sheet_name='Sheet1', usecols="B:H", skiprows=11)
     df = df[df['PROG -'] != 'SEM']

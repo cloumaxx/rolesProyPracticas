@@ -45,6 +45,7 @@ class AspirantesDoc2(models.Model):
     datosTutor = models.CharField(max_length=80)
     documentosPendientes = models.CharField(max_length=80)
     sector = models.CharField(max_length=80)
-   
+    semestreRegistro = models.CharField(max_length=80)
+    
     def __str__(self):
         return self.codigo
