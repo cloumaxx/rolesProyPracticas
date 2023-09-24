@@ -16,7 +16,8 @@ class Estudiante(models.Model):
         return self.nombre
     
 class AspirantesDoc2(models.Model):
-    item = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+    item = models.CharField(max_length=3000)
     periodoPractica = models.CharField(max_length=80)
     aprobacionProg = models.CharField(max_length=80)
     comentariosProg = models.CharField(max_length=80)
@@ -44,3 +45,6 @@ class AspirantesDoc2(models.Model):
     datosTutor = models.CharField(max_length=80)
     documentosPendientes = models.CharField(max_length=80)
     sector = models.CharField(max_length=80)
+   
+    def __str__(self):
+        return self.codigo

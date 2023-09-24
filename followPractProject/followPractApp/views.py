@@ -49,39 +49,32 @@ def crearEstudiante(request):
         return JsonResponse({'message': 'Estudiante creado con éxito', 'id': nuevo_estudiante.id}, status=201)
 
 
+
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':
-        archivo = request.FILES.get('archivo')  # Usamos request.FILES para obtener el archivo adjunto
+        archivo = request.FILES.get('archivo')
         semestrePerteneciente = request.POST.get('semestre')
-        print(archivo, semestrePerteneciente)
+        
         if not archivo:
             return Response({'error': 'No se proporcionó ningún archivo'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            
             df = crearDf(archivo)
+            estudiantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
+            estudiantes_a_eliminar.delete()
             for index, row in df.iterrows():
-                programa  = row['PROG -']
+                programa = row['PROG -']
                 codigo = row['CÓDIGO'].split('.')[0]    
                 emailInstitucional = row['EMAIL INSTITUCIONAL']
                 emailPersonal = row['EMAIL PERSONAL']
                 telefono = row['TELÉFONO']
                 nombre = row['NOMBRE']
-                nuevo_estudiante = Estudiante(
-                    programa=programa,
-                    codigo=codigo,
-                    emailInstitucional=emailInstitucional,
-                    emailPersonal=emailPersonal,
-                    telefono=telefono,
-                    nombre=nombre,
-                    semestre=semestrePerteneciente
-                )
+                
                 # Verifica si ya existe un estudiante con el mismo código en el mismo semestre
-                existe_estudiante = Estudiante.objects.filter(codigo=codigo, semestre=semestrePerteneciente).exists()
-
-                if not existe_estudiante:
-                    nuevo_estudiante = Estudiante(
+                        
+               
+                nuevo_estudiante = Estudiante(
                         programa=programa,
                         codigo=codigo,
                         emailInstitucional=emailInstitucional,
@@ -90,17 +83,19 @@ def crearPorListadoEstudiantes(request):
                         nombre=nombre,
                         semestre=semestrePerteneciente
                     )
-                    nuevo_estudiante.save()
-           
-            columnas = df.columns.tolist()
-            return Response({'': columnas}, status=status.HTTP_200_OK)
+                nuevo_estudiante.save()
+                
+                
+
+            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+        
+        
 @api_view(['GET', 'PUT', 'DELETE'])
 def estudiante_detail(request, estudiante_id):
     try:
+        
         estudiante = Estudiante.objects.get(id=estudiante_id)
         data = {
             'id': estudiante.id,

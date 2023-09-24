@@ -23,6 +23,7 @@ export class EstudianteService {
     const formData = new FormData();
     formData.append('archivo', archivo);
     formData.append('semestre', semestre);
+    
     const url = `${this.baseUrl}crear_por_listado_estudiantes/`;
 
     return this.http.post(url, formData);

@@ -27,7 +27,9 @@ export class CargarListadoComponent implements OnInit {
     private notificationService: NotificationService
   )
    {
-    console.log("-->" + this.semestreSeleccionado);
+    this.semestreSeleccionado = this.year + "-" + this.semester;
+
+    console.log("1-->" + this.semestreSeleccionado);
   }
   ngOnInit(): void {
     // Subscribe to notifications
@@ -51,6 +53,7 @@ export class CargarListadoComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0]; // Obtén el archivo seleccionado
+    console.log(this.selectedFile);
   }
 
 
