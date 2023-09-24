@@ -1,19 +1,17 @@
 from django.shortcuts import render
-
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-
 from followPractApp.followPractAppSerializer import Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import Estudiante
+from .models import AspirantesDoc2, Estudiante
 
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['GET'])
 def estudiantes_list(request):
     estudiantes = Estudiante.objects.all()
     data = []
@@ -26,70 +24,174 @@ def estudiantes_list(request):
             'emailPersonal': estudiante.emailPersonal,
             'telefono': estudiante.telefono,
             'nombre': estudiante.nombre,
-            'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d')  # Formatear la fecha como una cadena
+            'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d'),  # Formatear la fecha como una cadena
+            'semestre': estudiante.semestre
         })
 
     return JsonResponse(data, safe=False)
-
-
-
-@api_view(['POST'])
-def crearEstudiante(request):
-    if request.method == 'POST':
-        estudiante = request.data  # Utiliza request.data para acceder a los datos JSON enviados en la solicitud POST.
-
-        nuevo_estudiante = Estudiante(
-            programa=estudiante['programa'],
-            codigo=estudiante['codigo'],
-            emailInstitucional=estudiante['emailInstitucional'],
-            emailPersonal=estudiante['emailPersonal'],
-            telefono=estudiante['telefono'],
-            nombre=estudiante['nombre']
-        )
-        nuevo_estudiante.save()
-
-        return JsonResponse({'message': 'Estudiante creado con éxito', 'id': nuevo_estudiante.id}, status=201)
-
+@api_view(['GET'])
+def tablaCompletaPracticas_list(request,semestreEntrada):
+    resultados = AspirantesDoc2.objects.filter(
+        codigo__in=Estudiante.objects.values('codigo'),
+        semestreRegistro=semestreEntrada  # Filtrar por el semestre "2022-01"
+    )
+    # Convertir el QuerySet en una lista de diccionarios
+    resultados_serializable = [
+        {
+            'id': item.id,
+            'item': item.item,
+            'periodoPractica': item.periodoPractica,
+            'aprobacionProg': item.aprobacionProg,
+            'comentariosProg': item.comentariosProg,
+            'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
+            'nombres': item.nombres,
+            'apellidos': item.apellidos,
+            'codigo': item.codigo,
+            'cedula': item.cedula,
+            'celular': item.celular,
+            'correo': item.correo,
+            'planEstudios': item.planEstudios,
+            'jornada': item.jornada,
+            'inscripcion': item.inscripcion,
+            'cursoInduccion': item.cursoInduccion,
+            'rutaPreparacionVl': item.rutaPreparacionVl,
+            'envioHv': item.envioHv,
+            'tituloTecnico': item.tituloTecnico,
+            'practicaDondeLabora': item.practicaDondeLabora,
+            'estadoUbicacion': item.estadoUbicacion,
+            'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
+            'tipoContrato': item.tipoContrato,
+            'fechaInicio': item.fechaInicio,
+            'fechaFinal': item.fechaFinal,
+            'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
+            'datosTutor': item.datosTutor,
+            'documentosPendientes': item.documentosPendientes,
+            'sector': item.sector,
+            'semestreRegistro': item.semestreRegistro,
+        }
+        for item in resultados
+    ]
+    
+    return JsonResponse(resultados_serializable, safe=False)
 
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':
-        archivo = request.FILES.get('archivo')  # Usamos request.FILES para obtener el archivo adjunto
+        archivo = request.FILES.get('archivo')
         semestrePerteneciente = request.POST.get('semestre')
-        print(archivo, semestrePerteneciente)
+        
         if not archivo:
             return Response({'error': 'No se proporcionó ningún archivo'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            
-            df = crearDf(archivo)
+            df = crearDfEstudiantes(archivo)
+            estudiantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
+            estudiantes_a_eliminar.delete()
             for index, row in df.iterrows():
-                programa  = row['PROG -']
+                programa = row['PROG -']
                 codigo = row['CÓDIGO'].split('.')[0]    
                 emailInstitucional = row['EMAIL INSTITUCIONAL']
                 emailPersonal = row['EMAIL PERSONAL']
                 telefono = row['TELÉFONO']
                 nombre = row['NOMBRE']
                 nuevo_estudiante = Estudiante(
-                    programa=programa,
-                    codigo=codigo,
-                    emailInstitucional=emailInstitucional,
-                    emailPersonal=emailPersonal,
-                    telefono=telefono,
-                    nombre=nombre,
-                    semestre=semestrePerteneciente
-                )
+                        programa=programa,
+                        codigo=codigo,
+                        emailInstitucional=emailInstitucional,
+                        emailPersonal=emailPersonal,
+                        telefono=telefono,
+                        nombre=nombre,
+                        semestre=semestrePerteneciente
+                    )
                 nuevo_estudiante.save()
-           
-            columnas = df.columns.tolist()
-            return Response({'': columnas}, status=status.HTTP_200_OK)
+            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+@api_view(['POST'])
+def crearPorListadoAspirantes(request):
+    if request.method == 'POST':
+        archivo = request.FILES.get('archivo')
+        semestrePerteneciente = request.POST.get('semestre')
+        
+        if not archivo:
+            return Response({'error': 'No se proporcionó ningún archivo'}, status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            df = crearDfAspirantes(archivo)
+            aspirantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
+            aspirantes_a_eliminar.delete()
+            for index, row in df.iterrows():
+                item = row['ITEM']
+                periodo_de_practica = row['PERIODO DE PRÁCTICA']
+                aprobacion_del_prog_academico = row['APROBACIÓN DEL PROG ACADEMICO']
+                comentarios_del_prog_academico = row['COMENTARIOS DEL PROG ACADÉMICO']
+                matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
+                nombre = row['NOMBRE']
+                apellidos = row['APELLIDOS']
+                codigo = row['CODIGO']
+                cedula = row['CEDULA']
+                celular = row['CELULAR']
+                correo = row['CORREO']
+                plan_de_estudios = row['PLAN DE ESTUDIOS ']
+                jornada = row['JORNADA']
+                inscripcion = row['INSCRIPCION']
+                curso_induccion_y_rl = row['CURSO INDUCCION Y RL']
+                ruta_de_preparacion_a_la_vida_laboral = row['RUTA DE PREPARACION A LA VIDA LABORAL']
+                envio_hv = row['ENVIÓ HV']
+                tiene_titulo_tecnico_o_tecnologo = row['TIENE TITULO TÉCNICO O TECNÓLOGO']
+                practica_donde_labora_empresa_flia_emprendim_otro = row['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO']
+                estado_de_ubicacion = row['ESTADO DE UBICACIÓN']
+                comentarios_proceso_de_ubicacion_y_otros = row['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS']
+                tipo_de_contrato = row['TIPO DE CONTRATO']
+                fecha_inicio = row['FECHA INICIO']
+                fecha_final = row['FECHA FINAL']
+                datos_encargado_proceso_de_seleccion = row['DATOS ENCARGADO PROCESO DE SELECCION']
+                datos_tutor_o_jefe_directo = row['DATOS TUTOR O JEFE DIRECTO']
+                documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
+                sector = row['SECTOR']
 
-@api_view(['GET', 'PUT', 'DELETE'])
+                nuevo_aspirante = AspirantesDoc2(
+                    item=item,
+                    periodoPractica=periodo_de_practica,
+                    aprobacionProg=aprobacion_del_prog_academico,
+                    comentariosProg=comentarios_del_prog_academico,
+                    matriculadoAcadFinanc=matriculado_acad_y_financ,
+                    nombres=nombre,
+                    apellidos=apellidos,
+                    codigo=codigo,
+                    cedula=cedula,
+                    celular=celular,
+                    correo=correo,
+                    planEstudios=plan_de_estudios,
+                    jornada=jornada,
+                    inscripcion=inscripcion,
+                    cursoInduccion=curso_induccion_y_rl,
+                    rutaPreparacionVl=ruta_de_preparacion_a_la_vida_laboral,
+                    envioHv=envio_hv,
+                    tituloTecnico=tiene_titulo_tecnico_o_tecnologo,
+                    practicaDondeLabora=practica_donde_labora_empresa_flia_emprendim_otro,
+                    estadoUbicacion=estado_de_ubicacion,
+                    comentariosProcesoUbicacion=comentarios_proceso_de_ubicacion_y_otros,
+                    tipoContrato=tipo_de_contrato,
+                    fechaInicio=fecha_inicio,
+                    fechaFinal=fecha_final,
+                    datosEncargadoProcesoSeleccion=datos_encargado_proceso_de_seleccion,
+                    datosTutor=datos_tutor_o_jefe_directo,
+                    documentosPendientes=documentos_pendientes_de_formalizacion,
+                    sector=sector,
+                    semestreRegistro=semestrePerteneciente
+                )
+                nuevo_aspirante.save()
+            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+          
+
+@api_view(['GET'])
 def estudiante_detail(request, estudiante_id):
     try:
+        
         estudiante = Estudiante.objects.get(id=estudiante_id)
         data = {
             'id': estudiante.id,
@@ -105,8 +207,14 @@ def estudiante_detail(request, estudiante_id):
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'Estudiante no encontrado'}, status=404)
  
+def crearDfAspirantes(archivoExcel):
+    df = pd.read_excel(archivoExcel, skiprows=2)
+    df = df.dropna(how='all')
+    df = df.astype(str)
+    return df
 
-def crearDf(archivoExcel):
+
+def crearDfEstudiantes(archivoExcel):
     # Lee el archivo Excel en un DataFrame de pandas
     df = pd.read_excel(archivoExcel, sheet_name='Sheet1', usecols="B:H", skiprows=11)
     df = df[df['PROG -'] != 'SEM']

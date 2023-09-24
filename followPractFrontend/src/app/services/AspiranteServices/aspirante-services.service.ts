@@ -5,26 +5,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EstudianteService {
-  private baseUrl = 'http://localhost:8080/estudiantes/';
+export class AspiranteServicesService {
+  private baseUrl = 'http://localhost:8080/aspirantes/';
 
   constructor(private http: HttpClient) { }
-
-  obtenerDetalleEstudiante(id: number): Observable<any> {
-    const url = `${this.baseUrl}/${id}/`;
-    return this.http.get(url);
-  }
-
-  getEstudiantes(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
-  }
-
   cargarArchivoExcel(archivo: File, semestre:string): Observable<any> {
     const formData = new FormData();
     formData.append('archivo', archivo);
     formData.append('semestre', semestre);
     
-    const url = `${this.baseUrl}crear_por_listado_estudiantes/`;
+    const url = `${this.baseUrl}crear_por_listado_aspirantes/`;
 
     return this.http.post(url, formData);
   }
