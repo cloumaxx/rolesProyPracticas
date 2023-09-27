@@ -18,4 +18,13 @@ export class AspiranteServicesService {
 
     return this.http.post(url, formData);
   }
+
+  visualizarListado(semestre:string): Observable<any> {
+   // const formData = new FormData();
+   // formData.append('semestre', semestre);
+    
+    const url = `${this.baseUrl}tablaCompletaPracticas_list/` + semestre;
+
+    return this.http.get(url);
+  }
 }
