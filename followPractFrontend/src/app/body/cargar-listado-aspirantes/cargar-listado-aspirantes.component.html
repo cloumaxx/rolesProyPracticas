@@ -1,0 +1,36 @@
+<header>
+    <app-nav-bar> </app-nav-bar>
+</header>
+<body>
+    <div class="container" >
+        <h2>Cargar Listado de Aspirantes</h2>
+        <br>
+        <div style="padding-bottom: 10px;">
+          <label>Elige el año:</label>
+          <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
+          <label>Selecciona el periodo:</label>
+          <select id="semester" name="semester" (change)="onSemesterChange($event)">
+              <option value="01">01</option>
+              <option value="02">02</option>
+          </select>
+          <br><br>
+          <label>Semestre seleccionado: {{semestreSeleccionado}}<span id="semestreSeleccionado"></span></label>
+      </div>
+        <div>
+          <input type="file" id="fileInput" accept=".xls,.xlsx" (change)="onFileSelected($event)" />
+        </div>
+        <div>
+          <button id="upload-button" class="btn btn-primary" (click)="uploadFile()">Cargar Archivo</button>
+        </div>
+        <div class="notification-area" *ngIf="notificationMessage">
+          {{ notificationMessage }}
+          <button class="close-button" (click)="clearNotification()">X</button>
+        </div>
+        
+      
+      
+      </div>
+</body>
+<footer>
+    
+</footer>

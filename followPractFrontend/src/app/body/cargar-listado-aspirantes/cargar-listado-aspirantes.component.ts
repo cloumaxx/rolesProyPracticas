@@ -1,35 +1,25 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  EstudianteService
-} from 'src/app/services/EstudianteServices/estudiante-services.service';
+import { Component } from '@angular/core';
 import { NotificationService } from 'src/app/notification.service';
-
+import { AspiranteServicesService } from 'src/app/services/AspiranteServices/aspirante-services.service';
 
 @Component({
-  selector: 'app-cargar-listado',
-  templateUrl: './cargar-listado.component.html',
-  styleUrls: ['./cargar-listado.component.css'],
-  template: `
-    <button (click)="showNotification()">Show Notification</button>
-  `,
+  selector: 'app-cargar-listado-aspirantes',
+  templateUrl: './cargar-listado-aspirantes.component.html',
+  styleUrls: ['./cargar-listado-aspirantes.component.css']
 })
-export class CargarListadoComponent implements OnInit {
+export class CargarListadoAspirantesComponent {
   selectedFile: File | undefined;
   semestreSeleccionado: string = "";
   year: number = 2022;
   semester: string = '01';
   notificationMessage: string = '';
   constructor(
-    private estudianteService: EstudianteService,
+    private aspiranteService: AspiranteServicesService,
     private notificationService: NotificationService
   )
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
 
-    console.log("1-->" + this.semestreSeleccionado);
   }
   ngOnInit(): void {
     // Subscribe to notifications
@@ -60,7 +50,7 @@ export class CargarListadoComponent implements OnInit {
   uploadFile(): void {
     if (this.semestreSeleccionado != "") {
       if (this.selectedFile) {
-        this.estudianteService.cargarArchivoExcel(this.selectedFile, this.semestreSeleccionado).subscribe(
+        this.aspiranteService.cargarArchivoExcel(this.selectedFile, this.semestreSeleccionado).subscribe(
           (response) => {
             this.notificationService.showNotification('Archivo cargado con éxito');
             console.log('Archivo cargado con éxito', response);
