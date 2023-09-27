@@ -15,4 +15,8 @@ export class NavBarComponent {
   routLinkCargarEstudiantes(){
     this.router.navigate(['body/cargarListado']);
   }
+  routLinkVisualizarListadoAspirantes(){
+    this.router.navigate(['body/visualizar_listado_completo']);
+  }
 }
+
