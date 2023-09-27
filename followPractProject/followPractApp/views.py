@@ -31,15 +31,17 @@ def estudiantes_list(request):
     return JsonResponse(data, safe=False)
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
+    print('salio',semestreEntrada)
     resultados = AspirantesDoc2.objects.filter(
         codigo__in=Estudiante.objects.values('codigo'),
-        semestreRegistro=semestreEntrada  # Filtrar por el semestre "2022-01"
+        semestreRegistro=semestreEntrada  
     )
     
     # Convertir el QuerySet en una lista de diccionarios
     resultados_serializable = []
     for item in resultados:
         estudiante = Estudiante.objects.get(codigo=item.codigo)
+        print()
         if estudiante is not None:
             resultado_serializable = {
                 'id': item.id,
@@ -96,7 +98,7 @@ def tablaCompletaPracticas_list(request,semestreEntrada):
                 'sector': item.sector,
             }
             resultados_serializable.append(resultado_serializable)
-
+    
 
     return JsonResponse(resultados_serializable, safe=False)
 
@@ -111,29 +113,78 @@ def crearPorListadoEstudiantes(request):
 
         try:
             df = crearDfEstudiantes(archivo)
-            estudiantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
-            estudiantes_a_eliminar.delete()
-            for index, row in df.iterrows():
-                programa = row['PROG -']
-                codigo = row['CÓDIGO'].split('.')[0]    
-                emailInstitucional = row['EMAIL INSTITUCIONAL']
-                emailPersonal = row['EMAIL PERSONAL']
-                telefono = row['TELÉFONO']
-                nombre = row['NOMBRE']
-                nuevo_estudiante = Estudiante(
-                        programa=programa,
-                        codigo=codigo,
-                        emailInstitucional=emailInstitucional,
-                        emailPersonal=emailPersonal,
-                        telefono=telefono,
-                        nombre=nombre,
-                        semestre=semestrePerteneciente
-                    )
-                nuevo_estudiante.save()
+            
+            estudiantes_anteriores = Estudiante.objects.filter(semestre=semestrePerteneciente)
+            #estudiantes_anteriores.delete()
+            if len(estudiantes_anteriores) == 0:
+                for index, row in df.iterrows():
+                    programa = row['PROG -']
+                    codigo = row['CÓDIGO'].split('.')[0]    
+                    emailInstitucional = row['EMAIL INSTITUCIONAL']
+                    emailPersonal = row['EMAIL PERSONAL']
+                    telefono = row['TELÉFONO'].split('.')[0]   
+                    nombre = row['NOMBRE']
+                    nuevo_estudiante = Estudiante(
+                            programa=programa,
+                            codigo=codigo,
+                            emailInstitucional=emailInstitucional,
+                            emailPersonal=emailPersonal,
+                            telefono=telefono,
+                            nombre=nombre,
+                            semestre=semestrePerteneciente,
+                            estado=True
+                        )
+                    nuevo_estudiante.save()
+            else:
+                # Crea una lista para almacenar los códigos de estudiantes anteriores
+                codigos_estudiantes = [str(estudiante.codigo) for estudiante in estudiantes_anteriores]
+
+                # Elimina ".0" de los códigos en el DataFrame df
+                df['CÓDIGO'] = df['CÓDIGO'].astype(str).str.replace('.0', '', regex=False)
+
+                # Convierte los códigos en df a una lista
+                codigos_df = df['CÓDIGO'].tolist()
+                # Compara los códigos en df con los códigos de estudiantes anteriores
+                for codigo in codigos_df:
+                    if codigo not in codigos_estudiantes:
+                        estudianteAcrear = df[df['CÓDIGO'] == codigo]
+                        programa = estudianteAcrear['PROG -'].values[0]
+                        codigo_estudiante = estudianteAcrear['CÓDIGO'].values[0].split('.')[0]
+                        email_institucional = estudianteAcrear['EMAIL INSTITUCIONAL'].values[0]
+                        email_personal = estudianteAcrear['EMAIL PERSONAL'].values[0]
+                        telefono = estudianteAcrear['TELÉFONO'].values[0].split('.')[0]
+                        nombre = estudianteAcrear['NOMBRE'].values[0]
+                        nuevo_estudiante = Estudiante(
+                            programa=programa,
+                            codigo=codigo_estudiante,
+                            emailInstitucional=email_institucional,
+                            emailPersonal=email_personal,
+                            telefono=telefono,
+                            nombre=nombre,
+                            semestre=semestrePerteneciente,
+                            estado=True
+                        )
+                        nuevo_estudiante.save()
+                        print(f'Estudiante con el código {codigo} se registro: ',estudianteAcrear)
+                    else:
+                        estudiante_a_actualizar = Estudiante.objects.get(codigo=codigo)
+                        estudiante_a_actualizar.estado = True
+                        estudiante_a_actualizar.save()
+                        print(f'Estado(True) actualizado para el estudiante con código {codigo}') 
+                # Compara los códigos en df con los códigos de estudiantes anteriores
+                for codigo in codigos_estudiantes:
+                    if codigo not in codigos_df:
+                        estudiante_a_actualizar = Estudiante.objects.get(codigo=codigo)
+                        estudiante_a_actualizar.estado = False
+                        estudiante_a_actualizar.save()
+                        print(f'Estado(false) actualizado para el estudiante con código {codigo}')
+
+
             return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+
 @api_view(['POST'])
 def crearPorListadoAspirantes(request):
     if request.method == 'POST':
@@ -155,9 +206,9 @@ def crearPorListadoAspirantes(request):
                 matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
                 nombre = row['NOMBRE']
                 apellidos = row['APELLIDOS']
-                codigo = row['CODIGO']
-                cedula = row['CEDULA']
-                celular = row['CELULAR']
+                codigo = row['CODIGO'].split('.')[0]   
+                cedula = row['CEDULA'].split('.')[0]   
+                celular = row['CELULAR'].split('.')[0]   
                 correo = row['CORREO']
                 plan_de_estudios = row['PLAN DE ESTUDIOS ']
                 jornada = row['JORNADA']
