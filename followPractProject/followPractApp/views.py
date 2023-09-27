@@ -31,7 +31,6 @@ def estudiantes_list(request):
     return JsonResponse(data, safe=False)
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
-    print('salio',semestreEntrada)
     resultados = AspirantesDoc2.objects.filter(
         codigo__in=Estudiante.objects.values('codigo'),
         semestreRegistro=semestreEntrada  
@@ -40,7 +39,7 @@ def tablaCompletaPracticas_list(request,semestreEntrada):
     # Convertir el QuerySet en una lista de diccionarios
     resultados_serializable = []
     for item in resultados:
-        estudiante = Estudiante.objects.get(codigo=item.codigo)
+        estudiante = Estudiante.objects.get(codigo=item.codigo,estado=True)
         print()
         if estudiante is not None:
             resultado_serializable = {
