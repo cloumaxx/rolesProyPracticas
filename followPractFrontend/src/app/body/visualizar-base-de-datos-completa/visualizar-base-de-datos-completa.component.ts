@@ -12,6 +12,8 @@ export class VisualizarBaseDeDatosCompletaComponent {
   year: number = 2023;
   semester: string = '01';
   notificationMessage: string = '';
+  datosJson: any;
+
   constructor(
     private aspirantesService: AspiranteServicesService,
     private notificationService: NotificationService
@@ -34,6 +36,14 @@ export class VisualizarBaseDeDatosCompletaComponent {
       console.log(message)
     });
   }
+  
+  cargarListado() {
+    this.aspirantesService.visualizarListado(this.semestreSeleccionado).subscribe((data) => {
+      this.datosJson = data;
+      console.log(this.datosJson); // Solo para verificar en la consola
+    });
+  }
+
 
   onYearChange(event: any) {
     this.year = event.target.value;

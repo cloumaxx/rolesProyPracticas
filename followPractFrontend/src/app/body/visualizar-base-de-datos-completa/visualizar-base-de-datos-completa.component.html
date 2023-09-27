@@ -1,20 +1,59 @@
 <header>
-    <app-nav-bar> </app-nav-bar>
-</header>
-<main>
-    <div style="padding-bottom: 10px;">
+    <app-nav-bar></app-nav-bar>
+  </header>
+  <main>
+    <div class="container">
+      <div class="filters">
         <label>Elige el año:</label>
         <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
         <label>Selecciona el periodo:</label>
         <select id="semester" name="semester" (change)="onSemesterChange($event)">
-            <option value="01">01</option>
-            <option value="02">02</option>
+          <option value="01">01</option>
+          <option value="02">02</option>
         </select>
         <br><br>
         <label>Semestre seleccionado: {{semestreSeleccionado}}<span id="semestreSeleccionado"></span></label>
+        <button class="btn" (click)="cargarListado()">Cargar Listado</button>
+      </div>
+  
+      <div *ngIf="datosJson">
+        <h3>Listado de Aspirantes</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Semestre Registro</th>
+                <th>Semestre</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Codigo</th>
+                <th>Correo</th>
+                <th>Periodo de Práctica</th>
+                <th>Datos Tutor</th>
+                <th>Documentos Pendientes</th>
+                <!-- ... Agregar más columnas según sea necesario ... -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of datosJson">
+                <td>{{ item.id }}</td>
+                <td>{{ item.semestreRegistro }}</td>
+                <td>{{ item.semestre }}</td>
+                <td>{{ item.nombres }}</td>
+                <td>{{ item.apellidos }}</td>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.correo }}</td>
+                <td>{{ item.periodoPractica }}</td>
+                <td>{{ item.datosTutor }}</td>
+                <td>{{ item.documentosPendientes }}</td>
+                <!-- ... Agregar más columnas según sea necesario ... -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-</main>
-
-<footer>
-
-</footer>
+  </main>
+  <footer></footer>
+  
