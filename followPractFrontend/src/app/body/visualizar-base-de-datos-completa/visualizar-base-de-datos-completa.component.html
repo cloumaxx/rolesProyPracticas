@@ -17,7 +17,7 @@
       </div>
   
       <div *ngIf="datosJson">
-        <h3>Listado de Aspirantes</h3>
+        <h3>Listado de Matriculados</h3>
         <div class="table-container">
           <table class="data-table">
             <thead>
@@ -32,7 +32,14 @@
                 <th>Periodo de Práctica</th>
                 <th>Datos Tutor</th>
                 <th>Documentos Pendientes</th>
-                <!-- ... Agregar más columnas según sea necesario ... -->
+                <th>Asignatura</th>
+                <th>Nombre asignatura</th>
+                <th>Practicante Programa</th>
+                <th>Practicante Estado</th>
+                <th>Aprobacion Programa</th>
+                <th>Comentarios Programa</th>
+                <th>MatriculadoAcadFinanc</th>
+                <th>Plan de estudios</th>
               </tr>
             </thead>
             <tbody>
@@ -47,7 +54,14 @@
                 <td>{{ item.periodoPractica }}</td>
                 <td>{{ item.datosTutor }}</td>
                 <td>{{ item.documentosPendientes }}</td>
-                <!-- ... Agregar más columnas según sea necesario ... -->
+                <td>{{ item.asignatura }}</td>
+                <td>{{ item.asignaturanombre }}</td>
+                <td>{{ item.practicanteprograma }}</td>
+                <td>{{ item.practicanteestado }}</td>
+                <td>{{ item.aprobacionProg }}</td>
+                <td>{{ item.comentariosProg }}</td>
+                <td>{{ item.matriculadoAcadFinanc }}</td>
+                <td>{{ item.planEstudios }}</td>
               </tr>
             </tbody>
           </table>
