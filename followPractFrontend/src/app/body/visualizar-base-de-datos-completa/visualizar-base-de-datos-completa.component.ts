@@ -21,7 +21,6 @@ export class VisualizarBaseDeDatosCompletaComponent {
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
 
-    console.log("1-->" + this.semestreSeleccionado);
   }
   ngOnInit(): void {
     // Subscribe to notifications

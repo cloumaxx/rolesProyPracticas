@@ -6,6 +6,7 @@ import {
   EstudianteService
 } from 'src/app/services/EstudianteServices/estudiante-services.service';
 import { NotificationService } from 'src/app/notification.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 
 @Component({
@@ -22,14 +23,16 @@ export class CargarListadoComponent implements OnInit {
   year: number = 2022;
   semester: string = '01';
   notificationMessage: string = '';
+  serverResponse: any;
+
   constructor(
     private estudianteService: EstudianteService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dialog: MatDialog
   )
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
 
-    console.log("1-->" + this.semestreSeleccionado);
   }
   ngOnInit(): void {
     // Subscribe to notifications
@@ -62,8 +65,12 @@ export class CargarListadoComponent implements OnInit {
       if (this.selectedFile) {
         this.estudianteService.cargarArchivoExcel(this.selectedFile, this.semestreSeleccionado).subscribe(
           (response) => {
+            this.serverResponse = response;
             this.notificationService.showNotification('Archivo cargado con éxito');
             console.log('Archivo cargado con éxito', response);
+        
+            // Abre un diálogo/modal para mostrar la respuesta
+            this.openResponseDialog();
           },
           (error) => {
             this.notificationService.showNotification('Error al cargar el archivo');
@@ -85,5 +92,10 @@ export class CargarListadoComponent implements OnInit {
 
   clearNotification() {
     this.notificationMessage = '';
+  }
+  openResponseDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = this.serverResponse; // Pasa la respuesta al diálogo
+    this.dialog.open(ResponseDialogComponent, dialogConfig);
   }
 }

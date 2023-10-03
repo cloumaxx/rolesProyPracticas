@@ -1,0 +1,32 @@
+<header>
+    <app-nav-bar> </app-nav-bar>
+</header>
+<main>
+    <!-- semestre.component.html -->
+<div>
+    <h2>Registrar Semestre</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="fechaInicio">Fecha de Inicio: </label>
+        <input type="date" id="fechaInicio" name="fechaInicio" required>
+      </div>
+      <div class="form-group">
+        <label for="fechaFin">Fecha de Fin: </label>
+        <input type="date" id="fechaFin" name="fechaFin"required>
+      </div>
+      <div class="form-group">
+        <label for="numeroSemestre">Número de Semestre:</label>añoActual
+        <input type="text" id="numeroSemestre" name="numeroSemestre" required >
+      </div>
+      <!--
+
+      <div class="form-group">
+        <label for="vigente">Vigente:</label>
+        <input type="checkbox" id="vigente" name="vigente">
+      </div>
+      -->
+      <button type="submit">Registrar Semestre</button>
+    </form>
+  </div>
+  
+</main>
