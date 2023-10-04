@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,9 @@ export class SemestreService {
 
   constructor(private http: HttpClient) { }
   
-  registrarSemestre(semestre: any) {
-    const url = `${this.baseUrl}crear_sesmestre/`;
-
-    return this.http.post(url, semestre);
+  crearSemestre(semestreData: any): Observable<any> {
+    const url = `${this.baseUrl}crear_semestre/`;
+    return this.http.post(url, semestreData);
   }
 
   /*

@@ -32,75 +32,77 @@ def estudiantes_list(request):
     return JsonResponse(data, safe=False)
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
-    resultados = AspirantesDoc2.objects.filter(
-        codigo__in=Estudiante.objects.values('codigo'),
-        semestreRegistro=semestreEntrada  
-    )
-    
-    # Convertir el QuerySet en una lista de diccionarios
-    resultados_serializable = []
-    for item in resultados:
-        estudiante = Estudiante.objects.get(codigo=item.codigo)
-        if estudiante is not None:
-            resultado_serializable = {
-                'id': item.id,
-                'semestreRegistro': item.semestreRegistro,
-                'semestre': estudiante.programa.split('-')[1],
-                'asignatura': '79073-7L',
-                'asignaturanombre': 'PRACTICA EMPRESARIAL',
-                'practicanteprograma':'SISTEMAS',
-                'asisID':'8',
-                'practicantesemestre': estudiante.programa,
-                'practicantecodigo':estudiante.codigo,
-                'practicanteemail':estudiante.emailInstitucional,
-                'practicanteemailOtro':estudiante.emailPersonal,
-                'practicantetelefono':estudiante.telefono,
-                'practicantenombre':estudiante.nombre,
-                'practicanteestado':'',
-                'seguimientoinicio':'',  
-                'seguimientocierre':'',
-                'notacierre':'',
-                'notamecanismo':'',
-                'notafecha':'',
-                'docentemonitor':'',
-                'docenteasignacion':'',
-                'matriculaasis':'',
-                'matriculaok':'',
-                'matriculafecha':'',
-                'item': item.item,
-                'periodoPractica': item.periodoPractica,
-                'aprobacionProg': item.aprobacionProg,
-                'comentariosProg': item.comentariosProg,
-                'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
-                'nombres': item.nombres,
-                'apellidos': item.apellidos,
-                'codigo': item.codigo,
-                'cedula': item.cedula,
-                'celular': item.celular,
-                'correo': item.correo,
-                'planEstudios': item.planEstudios,
-                'jornada': item.jornada,
-                'inscripcion': item.inscripcion,
-                'cursoInduccion': item.cursoInduccion,
-                'rutaPreparacionVl': item.rutaPreparacionVl,
-                'envioHv': item.envioHv,
-                'tituloTecnico': item.tituloTecnico,
-                'practicaDondeLabora': item.practicaDondeLabora,
-                'estadoUbicacion': item.estadoUbicacion,
-                'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
-                'tipoContrato': item.tipoContrato,
-                'fechaInicio': item.fechaInicio,
-                'fechaFinal': item.fechaFinal,
-                'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
-                'datosTutor': item.datosTutor,
-                'documentosPendientes': item.documentosPendientes,
-                'sector': item.sector,
-            }
-            resultados_serializable.append(resultado_serializable)
-    
+    try:
+        resultados = AspirantesDoc2.objects.filter(
+            codigo__in=Estudiante.objects.values('codigo'),
+            semestreRegistro=semestreEntrada  
+        )
+        
+        # Convertir el QuerySet en una lista de diccionarios
+        resultados_serializable = []
+        for item in resultados:
+            estudiante = Estudiante.objects.get(codigo=item.codigo)
+            if estudiante is not None:
+                resultado_serializable = {
+                    'id': item.id,
+                    'semestreRegistro': item.semestreRegistro,
+                    'semestre': estudiante.programa.split('-')[1],
+                    'asignatura': '79073-7L',
+                    'asignaturanombre': 'PRACTICA EMPRESARIAL',
+                    'practicanteprograma':'SISTEMAS',
+                    'asisID':'8',
+                    'practicantesemestre': estudiante.programa,
+                    'practicantecodigo':estudiante.codigo,
+                    'practicanteemail':estudiante.emailInstitucional,
+                    'practicanteemailOtro':estudiante.emailPersonal,
+                    'practicantetelefono':estudiante.telefono,
+                    'practicantenombre':estudiante.nombre,
+                    'practicanteestado':'',
+                    'seguimientoinicio':'',  
+                    'seguimientocierre':'',
+                    'notacierre':'',
+                    'notamecanismo':'',
+                    'notafecha':'',
+                    'docentemonitor':'',
+                    'docenteasignacion':'',
+                    'matriculaasis':'',
+                    'matriculaok':'',
+                    'matriculafecha':'',
+                    'item': item.item,
+                    'periodoPractica': item.periodoPractica,
+                    'aprobacionProg': item.aprobacionProg,
+                    'comentariosProg': item.comentariosProg,
+                    'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
+                    'nombres': item.nombres,
+                    'apellidos': item.apellidos,
+                    'codigo': item.codigo,
+                    'cedula': item.cedula,
+                    'celular': item.celular,
+                    'correo': item.correo,
+                    'planEstudios': item.planEstudios,
+                    'jornada': item.jornada,
+                    'inscripcion': item.inscripcion,
+                    'cursoInduccion': item.cursoInduccion,
+                    'rutaPreparacionVl': item.rutaPreparacionVl,
+                    'envioHv': item.envioHv,
+                    'tituloTecnico': item.tituloTecnico,
+                    'practicaDondeLabora': item.practicaDondeLabora,
+                    'estadoUbicacion': item.estadoUbicacion,
+                    'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
+                    'tipoContrato': item.tipoContrato,
+                    'fechaInicio': item.fechaInicio,
+                    'fechaFinal': item.fechaFinal,
+                    'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
+                    'datosTutor': item.datosTutor,
+                    'documentosPendientes': item.documentosPendientes,
+                    'sector': item.sector,
+                }
+                resultados_serializable.append(resultado_serializable)
+        
 
-    return JsonResponse(resultados_serializable, safe=False)
-
+        return JsonResponse(resultados_serializable, safe=False)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':

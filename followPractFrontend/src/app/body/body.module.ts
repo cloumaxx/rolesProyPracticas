@@ -11,8 +11,10 @@ import { ResponseDialogComponent } from './cargar-listado/response-dialog-compon
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { ResponseDialogComponentAspirantesComponent } from './cargar-listado/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
+import { ResponseDialogComponentAspirantesComponent } from './cargar-listado-aspirantes/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
 import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
+import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -32,7 +34,10 @@ import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-
     BodyRoutingModule,
     MatDialogModule,
     CommonModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    FormsModule,
+    ToastrModule.forRoot() 
+    
   ]
 })
 export class BodyModule { }

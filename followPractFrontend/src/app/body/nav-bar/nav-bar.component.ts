@@ -26,5 +26,7 @@ export class NavBarComponent {
   routLinkVisualizarCrearSemestre(){
     this.router.navigate(['body/menu_principal_coordinador']);
   }
+  
+ 
 }
 

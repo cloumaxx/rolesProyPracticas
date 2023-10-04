@@ -11,5 +11,5 @@ urlpatterns = [
 
     path('aspirantes/tablaCompletaPracticas_list/<str:semestreEntrada>/', views.tablaCompletaPracticas_list, name='tablaCompletaPracticas_list'),
 
-    path('semestre/crear_sesmestre/', views.crearSemestre, name='crear_semestre'),
+    path('semestre/crear_semestre/', views.crearSemestre, name='crear_semestre'),
 ]
