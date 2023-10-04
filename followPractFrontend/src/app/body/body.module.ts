@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { BodyRoutingModule } from './body-routing.module';
 import { CargarListadoComponent } from './cargar-listado/cargar-listado.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -15,6 +14,7 @@ import { ResponseDialogComponentAspirantesComponent } from './cargar-listado-asp
 import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { NgModule } from '@angular/core';
 
 
 @NgModule({
@@ -36,7 +36,15 @@ import { ToastrModule } from 'ngx-toastr';
     CommonModule,
     CarouselModule.forRoot(),
     FormsModule,
-    ToastrModule.forRoot() 
+    ToastrModule.forRoot({
+      timeOut: 3000, // Tiempo en milisegundos antes de que el mensaje desaparezca automáticamente
+      positionClass: 'toast-top-center', // Ubicación del mensaje (en la parte superior del centro)
+      preventDuplicates: true, // Evita que se muestren mensajes duplicados
+      progressBar: true, // Muestra una barra de progreso
+      closeButton: true, // Muestra un botón de cierre
+      enableHtml: true, // Permite el uso de HTML en los mensajes
+      toastClass: 'ngx-toastr-custom', // Clase CSS personalizada para los mensajes
+    })
     
   ]
 })
