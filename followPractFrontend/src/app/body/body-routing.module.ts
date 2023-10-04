@@ -8,10 +8,20 @@ import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
+import { LoginComponent } from './login/login.component';
+import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
 const routes: Routes = [
   {
     path:'',
+    component:LoginComponent
+  },
+  {
+    path:'body/MenuPrincCoordinador',
     component:MenuPrincCoordinadorComponent
+  },
+  {
+    path:'body/MenuPrincOficinaPracticas',
+    component:MenuPrincOficinaPracticasComponent
   },
   {
     path:'body/cargarListado',
