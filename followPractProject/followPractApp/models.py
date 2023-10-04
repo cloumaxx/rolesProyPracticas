@@ -12,7 +12,7 @@ class Estudiante(models.Model):
     fechaRegistro = models.DateField(auto_now_add=True)
     estado = models.BooleanField(default=True)
     semestre = models.CharField(max_length=10)
-    
+    idDocenteMonitor = models.IntegerField(default=0)
     def __str__(self):
         return self.nombre
     
