@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormularioNuevoDocenteMonitorComponent,
     ResponseDialogComponent,
     ResponseDialogComponentAspirantesComponent,
-    VisualizarSemestresComponent
+    VisualizarSemestresComponent,
+    VisualizarListadoDocentesComponent
   ],
   imports: [
     BodyRoutingModule,
@@ -37,8 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CommonModule,
     CarouselModule.forRoot(),
     FormsModule,
-    MatSnackBarModule ,
-   
+    MatSnackBarModule,
     
 
     

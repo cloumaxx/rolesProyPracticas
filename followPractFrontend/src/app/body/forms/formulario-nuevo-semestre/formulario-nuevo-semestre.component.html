@@ -8,16 +8,22 @@
         <form (submit)="crearSemestre()">
             <label for="fechaInicio">Fecha de inicio:</label>
             <input type="date" id="fechaInicio" [(ngModel)]="semestreData.fechaInicio" name="fechaInicio" required>
+            <br>
           
             <label for="fechaFin">Fecha de fin:</label>
             <input type="date" id="fechaFin" [(ngModel)]="semestreData.fechaFin" name="fechaFin" required>
-          
-            <label for="numeroSemestre">Número de semestre:</label>
-            <input type="number" id="numeroSemestre" [(ngModel)]="semestreData.numeroSemestre" name="numeroSemestre" required>
-          
+            <br>
+            <label for="numeroSemestre">Número de semestre:</label><br>
+            <label>Elige el año:</label>
+            <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
+            <label>Selecciona el periodo:</label>
+            <select id="semester" name="semester" (change)="onSemesterChange($event)">
+                <option value="01">01</option>
+                <option value="02">02</option>
+            </select><br>
             <label for="vigente">Vigente:</label>
             <input type="checkbox" id="vigente" [(ngModel)]="semestreData.vigente" name="vigente">
-          
+            <br>
             <button type="submit">Crear Semestre</button>
           </form>
      

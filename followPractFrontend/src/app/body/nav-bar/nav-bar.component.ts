@@ -30,5 +30,9 @@ export class NavBarComponent {
   routLinkVisualizarListadoDocentes(){
     this.router.navigate(['body/visualizar_listado_docentes']);
   }
+  
+  routLinkVisualizarListadoSemestres(){
+    this.router.navigate(['body/visualizar_semestres']);
+  }
 }
 

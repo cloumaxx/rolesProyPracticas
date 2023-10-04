@@ -14,6 +14,10 @@ export class SemestreService {
     const url = `${this.baseUrl}crear_semestre/`;
     return this.http.post(url, semestreData);
   }
+  verSemestres(): Observable<any> {
+    const url = `${this.baseUrl}semestres_list/`;
+    return this.http.get(url);
+  }
 
   /*
    cargarArchivoExcel(archivo: File, semestre:string): Observable<any> {

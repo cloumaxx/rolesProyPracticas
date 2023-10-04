@@ -3,10 +3,33 @@
     <header>
         <app-nav-bar> </app-nav-bar>
     </header>
-    <main>
+    <main >
           
-            <h2>Semestres registrados</h2>
-       
+            <div class="container">
+                <h1>Listado de Semestres</h1>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Fecha de Inicio</th>
+                      <th>Fecha de Fin</th>
+                      <th>Número de Semestre</th>
+                      <th>Vigente</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let semestre of semestres">
+                      <td>{{ semestre.id }}</td>
+                      <td>{{ semestre.fechaInicio }}</td>
+                      <td>{{ semestre.fechaFin }}</td>
+                      <td>{{ semestre.numeroSemestre }}</td>
+                      <td *ngIf="semestre.vigente == true">Si</td>
+                        <td *ngIf="semestre.vigente == false">No</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
     </main>
     <footer>
     

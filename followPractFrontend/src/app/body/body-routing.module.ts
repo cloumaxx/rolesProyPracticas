@@ -6,6 +6,7 @@ import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-dat
 import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
+import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'body/formulario_nuevo_semestre',
     component: FormularioNuevoSemestreComponent
+  },
+  {
+    path: 'body/visualizar_semestres',
+    component: VisualizarSemestresComponent
   },
   {
     path: 'body/visualizar_listado_docentes',

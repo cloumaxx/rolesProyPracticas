@@ -12,18 +12,22 @@ import  { Docente, DocenteService } from '../../services/DocenteServices/docente
   styleUrls: ['./visualizar-listado-docentes.component.css']
 })
 export class VisualizarListadoDocentesComponent {
- displayedColumns : string[] = ['id', 'nombre', 'apellido', 'cedula', 'correoPersonal', 'correoInstitucional', 'contraseña', 'fechaNacimiento', 'estado', 'horasDisponibles']; 
- 
- docentes_list = new MatTableDataSource<Docente>();
+docentes: any[] = [];
 
  constructor(private docenteService: DocenteService) { }
 
  ngOnInit() {
-  this.docenteService.getDocentes().subscribe(docentes => this.docentes_list.data = docentes);
- }
+  this.obtenerDocentes();
+}
 
- applyFilter(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.docentes_list.filter = filterValue.trim().toLowerCase();
- }
+ obtenerDocentes() {
+  this.docenteService.verDocentes().subscribe(
+    (data) => {
+      this.docentes = data;
+    },
+    (error) => {
+      console.error('Error al obtener los docentes', error);
+    }
+  );
+}
 }

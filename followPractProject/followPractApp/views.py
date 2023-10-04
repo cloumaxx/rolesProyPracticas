@@ -9,10 +9,8 @@ from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Estudiante, Semestre
+from .models import AspirantesDoc2, DocenteMonitor, Estudiante, Semestre
 from django.forms.models import model_to_dict
-
-from .routes.docentes import docentes_list
 
 @api_view(['GET'])
 def estudiantes_list(request):
@@ -333,3 +331,44 @@ def crearSemestre(request):
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+def docentes_monitores_list(request):
+    try:
+        
+        docentes = DocenteMonitor.objects.all()
+        data = []
+        for docente in docentes:
+            data.append({
+                'id': docente.id,
+                'nombre': docente.nombre,
+                'apellido': docente.apellido,
+                'cedula': docente.cedula,
+                'correoPersonal': docente.correoPersonal,
+                'correoInstitucional': docente.correoInstitucional,
+                'contrasena': docente.contrasena,
+                'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
+                'estado': docente.estado,
+                'horasDispobibles': docente.horasDispobibles
+
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay docentes'}, status=404)
+@api_view(['GET'])
+def semestres_list(request):
+    try:
+        
+        semestres = Semestre.objects.all()
+        data = []
+        for semestre in semestres:
+            data.append({
+                'id': semestre.id,
+                'fechaInicio': semestre.fechaInicio.strftime('%Y-%m-%d'),
+                'fechaFin': semestre.fechaFin.strftime('%Y-%m-%d'),
+                'numeroSemestre': semestre.numeroSemestre,
+                'vigente': semestre.vigente
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay semestres'}, status=404)
+    

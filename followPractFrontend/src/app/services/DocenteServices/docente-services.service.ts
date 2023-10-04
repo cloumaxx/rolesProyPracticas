@@ -25,7 +25,9 @@ export class DocenteService {
 
   constructor( private http: HttpClient ) { }
 
-  getDocentes(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+  verDocentes(): Observable<any> {
+    const url = `${this.baseUrl}semestres_list/`;
+    return this.http.get(url);
   }
+
 }

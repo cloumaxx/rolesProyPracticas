@@ -13,16 +13,25 @@ export class FormularioNuevoSemestreComponent {
   semestreData = {
     fechaInicio: '',
     fechaFin: '',
-    numeroSemestre: 0,
+    numeroSemestre: '',
     vigente: false
   };
-
+  semestreSeleccionado: string = '';
+  year: number = 2022;
+  semester: string = '01';
+  notificationMessage: string = '';
+  serverResponse: any;
   constructor(private semestreService: SemestreService, private snackBar: MatSnackBar) {}
   ngOnInit(): void {
    
-  
+    this.semestreSeleccionado = this.year + "-" + this.semester;
+
   }
   crearSemestre() {
+    console.log(this.semestreSeleccionado);
+
+    this.semestreData.numeroSemestre = this.semestreSeleccionado;
+    console.log(this.semestreData.numeroSemestre);
     console.log(this.semestreData); 
     this.semestreService.crearSemestre(this.semestreData)
       .subscribe(
@@ -52,11 +61,14 @@ export class FormularioNuevoSemestreComponent {
   
     this.snackBar.open(mensaje, '', config);
   }
-  /*
-  mostrarMensajeExito() {
-    this.toastr.success('Semestre creado con éxito', 'Éxito');
+  onYearChange(event: any) {
+    this.year = event.target.value;
+    this.semestreSeleccionado = this.year + "-" + this.semester;
   }
-  mostrarMensajeError() {
-    this.toastr.error('Error al crear el semestre', 'Error');
-  }*/
+
+  onSemesterChange(event: any) {
+    this.semester = event.target.value;
+
+    this.semestreSeleccionado = this.year + "-" + this.semester;
+  }
 }
