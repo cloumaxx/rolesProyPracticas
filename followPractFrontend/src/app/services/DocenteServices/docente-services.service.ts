@@ -55,4 +55,9 @@ export class DocenteService {
 
     return this.http.delete(url);
   }
+
+  verDocentes(): Observable<any> {
+    const url = `${this.baseUrl}docentes_list/`;
+    return this.http.get(url);
+  }
 }

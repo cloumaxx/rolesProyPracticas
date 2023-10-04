@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
 
 @Component({

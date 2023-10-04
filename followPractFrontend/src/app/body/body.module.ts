@@ -13,8 +13,6 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 //import { ResponseDialogComponentAspirantesComponent } from './cargar-listado/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
 import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 import { ResponseDialogComponentAspirantesComponent } from './cargar-listado-aspirantes/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
-import { ResponseDialogComponentAspirantesComponent } from './cargar-listado-aspirantes/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
-import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { NgModule } from '@angular/core';

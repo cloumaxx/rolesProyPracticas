@@ -6,11 +6,8 @@ import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-dat
 import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { FormularioNuevoDocenteMonitorComponent } from './forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
-import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
-import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
-import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
 
 
