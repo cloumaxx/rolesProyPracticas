@@ -11,7 +11,7 @@ import { ResponseDialogComponent } from './cargar-listado/response-dialog-compon
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
+import { VisualizarListadoDocentesModule } from '../modules/visualizar-listado-docentes/visualizar-listado-docentes.module';
 
 @NgModule({
   declarations: [
@@ -22,13 +22,14 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MenuPrincCoordinadorComponent,
     FormularioNuevoSemestreComponent,
     FormularioNuevoDocenteMonitorComponent,
-    ResponseDialogComponent
+    ResponseDialogComponent,
   ],
   imports: [
     BodyRoutingModule,
     MatDialogModule,
     CommonModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    VisualizarListadoDocentesModule
   ]
 })
 export class BodyModule { }

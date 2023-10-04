@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'followPractProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rolesdb',
-        'USER': 'postgres',
+        'USER': 'root',
         'PASSWORD': '7X(l$Pm9#1.[',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 
