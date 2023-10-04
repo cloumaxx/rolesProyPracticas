@@ -19,10 +19,19 @@ import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
+<<<<<<< HEAD
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 
+=======
+import { LoginComponent } from './login/login.component';
+import { MenuPrincDirectorComponent } from './DirectorCity/menu-princ-director/menu-princ-director.component';
+import { MenuPrincDocenteMonitorComponent } from './Docente_monitor/menu-princ-docente-monitor/menu-princ-docente-monitor.component';
+import { MenuPrincEstudianteComponent } from './Estudiante/menu-princ-estudiante/menu-princ-estudiante.component';
+import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
+import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc-practicas/nav-bar-ofc-practicas.component';
+>>>>>>> origin/main
 
 
 @NgModule({
@@ -40,6 +49,15 @@ import { MatInputModule } from '@angular/material/input';
     VisualizarListadoDocentesComponent,
     VisualizarEstudiantesComponent,
     VisualizarAspirantesComponent,
+<<<<<<< HEAD
+=======
+    LoginComponent,
+    MenuPrincDirectorComponent,
+    MenuPrincDocenteMonitorComponent,
+    MenuPrincEstudianteComponent,
+    MenuPrincOficinaPracticasComponent,
+    NavBarOfcPracticasComponent
+>>>>>>> origin/main
   ],
   imports: [
     BodyRoutingModule,
