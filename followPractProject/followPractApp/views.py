@@ -9,100 +9,106 @@ from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Estudiante, Semestre
+from .models import AspirantesDoc2, DocenteMonitor, Estudiante, Semestre
 from django.forms.models import model_to_dict
-
-from .routes.docentes import docentes_list
 
 @api_view(['GET'])
 def estudiantes_list(request):
-    estudiantes = Estudiante.objects.all()
-    data = []
-    for estudiante in estudiantes:
-        data.append({
-            'id': estudiante.id,
-            'programa': estudiante.programa,
-            'codigo': estudiante.codigo,
-            'emailInstitucional': estudiante.emailInstitucional,
-            'emailPersonal': estudiante.emailPersonal,
-            'telefono': estudiante.telefono,
-            'nombre': estudiante.nombre,
-            'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d'),  # Formatear la fecha como una cadena
-            'semestre': estudiante.semestre
-        })
+    try:
+        estudiantes = Estudiante.objects.all()
+        data = []
+        for estudiante in estudiantes:
+            data.append({
+                'id': estudiante.id,
+                'programa': estudiante.programa,
+                'codigo': estudiante.codigo,
+                'emailInstitucional': estudiante.emailInstitucional,
+                'emailPersonal': estudiante.emailPersonal,
+                'telefono': estudiante.telefono,
+                'nombre': estudiante.nombre,
+                'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d'),  
+                'semestre': estudiante.semestre,
+                'estado': estudiante.estado,
+                'idDocenteMonitor': estudiante.idDocenteMonitor
 
-    return JsonResponse(data, safe=False)
+            })
+        return Response(data, status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay docentes'}, status=404)
+
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
-    resultados = AspirantesDoc2.objects.filter(
-        codigo__in=Estudiante.objects.values('codigo'),
-        semestreRegistro=semestreEntrada  
-    )
-    
-    # Convertir el QuerySet en una lista de diccionarios
-    resultados_serializable = []
-    for item in resultados:
-        estudiante = Estudiante.objects.get(codigo=item.codigo)
-        if estudiante is not None:
-            resultado_serializable = {
-                'id': item.id,
-                'semestreRegistro': item.semestreRegistro,
-                'semestre': estudiante.programa.split('-')[1],
-                'asignatura': '79073-7L',
-                'asignaturanombre': 'PRACTICA EMPRESARIAL',
-                'practicanteprograma':'SISTEMAS',
-                'asisID':'8',
-                'practicantesemestre': estudiante.programa,
-                'practicantecodigo':estudiante.codigo,
-                'practicanteemail':estudiante.emailInstitucional,
-                'practicanteemailOtro':estudiante.emailPersonal,
-                'practicantetelefono':estudiante.telefono,
-                'practicantenombre':estudiante.nombre,
-                'practicanteestado':'',
-                'seguimientoinicio':'',  
-                'seguimientocierre':'',
-                'notacierre':'',
-                'notamecanismo':'',
-                'notafecha':'',
-                'docentemonitor':'',
-                'docenteasignacion':'',
-                'matriculaasis':'',
-                'matriculaok':'',
-                'matriculafecha':'',
-                'item': item.item,
-                'periodoPractica': item.periodoPractica,
-                'aprobacionProg': item.aprobacionProg,
-                'comentariosProg': item.comentariosProg,
-                'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
-                'nombres': item.nombres,
-                'apellidos': item.apellidos,
-                'codigo': item.codigo,
-                'cedula': item.cedula,
-                'celular': item.celular,
-                'correo': item.correo,
-                'planEstudios': item.planEstudios,
-                'jornada': item.jornada,
-                'inscripcion': item.inscripcion,
-                'cursoInduccion': item.cursoInduccion,
-                'rutaPreparacionVl': item.rutaPreparacionVl,
-                'envioHv': item.envioHv,
-                'tituloTecnico': item.tituloTecnico,
-                'practicaDondeLabora': item.practicaDondeLabora,
-                'estadoUbicacion': item.estadoUbicacion,
-                'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
-                'tipoContrato': item.tipoContrato,
-                'fechaInicio': item.fechaInicio,
-                'fechaFinal': item.fechaFinal,
-                'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
-                'datosTutor': item.datosTutor,
-                'documentosPendientes': item.documentosPendientes,
-                'sector': item.sector,
-            }
-            resultados_serializable.append(resultado_serializable)
-    
+    try:
+        resultados = AspirantesDoc2.objects.filter(
+            codigo__in=Estudiante.objects.values('codigo'),
+            semestreRegistro=semestreEntrada  
+        )
+        
+        # Convertir el QuerySet en una lista de diccionarios
+        resultados_serializable = []
+        for item in resultados:
+            estudiante = Estudiante.objects.get(codigo=item.codigo)
+            if estudiante is not None:
+                resultado_serializable = {
+                    'id': item.id,
+                    'semestreRegistro': item.semestreRegistro,
+                    'semestre': estudiante.programa.split('-')[1],
+                    'asignatura': '79073-7L',
+                    'asignaturanombre': 'PRACTICA EMPRESARIAL',
+                    'practicanteprograma':'SISTEMAS',
+                    'asisID':'8',
+                    'practicantesemestre': estudiante.programa,
+                    'practicantecodigo':estudiante.codigo,
+                    'practicanteemail':estudiante.emailInstitucional,
+                    'practicanteemailOtro':estudiante.emailPersonal,
+                    'practicantetelefono':estudiante.telefono,
+                    'practicantenombre':estudiante.nombre,
+                    'practicanteestado':'',
+                    'seguimientoinicio':'',  
+                    'seguimientocierre':'',
+                    'notacierre':'',
+                    'notamecanismo':'',
+                    'notafecha':'',
+                    'docentemonitor':'',
+                    'docenteasignacion':'',
+                    'matriculaasis':'',
+                    'matriculaok':'',
+                    'matriculafecha':'',
+                    'item': item.item,
+                    'periodoPractica': item.periodoPractica,
+                    'aprobacionProg': item.aprobacionProg,
+                    'comentariosProg': item.comentariosProg,
+                    'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
+                    'nombres': item.nombres,
+                    'apellidos': item.apellidos,
+                    'codigo': item.codigo,
+                    'cedula': item.cedula,
+                    'celular': item.celular,
+                    'correo': item.correo,
+                    'planEstudios': item.planEstudios,
+                    'jornada': item.jornada,
+                    'inscripcion': item.inscripcion,
+                    'cursoInduccion': item.cursoInduccion,
+                    'rutaPreparacionVl': item.rutaPreparacionVl,
+                    'envioHv': item.envioHv,
+                    'tituloTecnico': item.tituloTecnico,
+                    'practicaDondeLabora': item.practicaDondeLabora,
+                    'estadoUbicacion': item.estadoUbicacion,
+                    'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
+                    'tipoContrato': item.tipoContrato,
+                    'fechaInicio': item.fechaInicio,
+                    'fechaFinal': item.fechaFinal,
+                    'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
+                    'datosTutor': item.datosTutor,
+                    'documentosPendientes': item.documentosPendientes,
+                    'sector': item.sector,
+                }
+                resultados_serializable.append(resultado_serializable)
+        
 
-    return JsonResponse(resultados_serializable, safe=False)
-
+        return JsonResponse(resultados_serializable, safe=False)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':
@@ -195,6 +201,10 @@ def crearPorListadoEstudiantes(request):
 @api_view(['POST'])
 def crearPorListadoAspirantes(request):
     if request.method == 'POST':
+        AspirantesDoc2_creados = []
+        AspirantesDoc2_nuevos = []
+        AspirantesDoc2_activados = []
+        AspirantesDoc2_inactivados = []
         archivo = request.FILES.get('archivo')
         semestrePerteneciente = request.POST.get('semestre')
         
@@ -203,74 +213,136 @@ def crearPorListadoAspirantes(request):
 
         try:
             df = crearDfAspirantes(archivo)
-            aspirantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
-            #aspirantes_a_eliminar.delete()
-            for index, row in df.iterrows():
-                item = row['ITEM']
-                periodo_de_practica = row['PERIODO DE PRÁCTICA']
-                aprobacion_del_prog_academico = row['APROBACIÓN DEL PROG ACADEMICO']
-                comentarios_del_prog_academico = row['COMENTARIOS DEL PROG ACADÉMICO']
-                matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
-                nombre = row['NOMBRE']
-                apellidos = row['APELLIDOS']
-                codigo = row['CODIGO'].split('.')[0]   
-                cedula = row['CEDULA'].split('.')[0]   
-                celular = row['CELULAR'].split('.')[0]   
-                correo = row['CORREO']
-                plan_de_estudios = row['PLAN DE ESTUDIOS ']
-                jornada = row['JORNADA']
-                inscripcion = row['INSCRIPCION']
-                curso_induccion_y_rl = row['CURSO INDUCCION Y RL']
-                ruta_de_preparacion_a_la_vida_laboral = row['RUTA DE PREPARACION A LA VIDA LABORAL']
-                envio_hv = row['ENVIÓ HV']
-                tiene_titulo_tecnico_o_tecnologo = row['TIENE TITULO TÉCNICO O TECNÓLOGO']
-                practica_donde_labora_empresa_flia_emprendim_otro = row['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO']
-                estado_de_ubicacion = row['ESTADO DE UBICACIÓN']
-                comentarios_proceso_de_ubicacion_y_otros = row['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS']
-                tipo_de_contrato = row['TIPO DE CONTRATO']
-                fecha_inicio = row['FECHA INICIO']
-                fecha_final = row['FECHA FINAL']
-                datos_encargado_proceso_de_seleccion = row['DATOS ENCARGADO PROCESO DE SELECCION']
-                datos_tutor_o_jefe_directo = row['DATOS TUTOR O JEFE DIRECTO']
-                documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
-                sector = row['SECTOR']
+            aspirantes_anteriores = AspirantesDoc2.objects.filter(semestreRegistro=semestrePerteneciente)
+            
+            if len(aspirantes_anteriores) == 0:
+                for index, row in df.iterrows():
+                    item = row['ITEM']
+                    periodo_de_practica = row['PERIODO DE PRÁCTICA']
+                    aprobacion_del_prog_academico = row['APROBACIÓN DEL PROG ACADEMICO']
+                    comentarios_del_prog_academico = row['COMENTARIOS DEL PROG ACADÉMICO']
+                    matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
+                    nombre = row['NOMBRE']
+                    apellidos = row['APELLIDOS']
+                    codigo = row['CODIGO'].split('.')[0]   
+                    cedula = row['CEDULA'].split('.')[0]   
+                    celular = row['CELULAR'].split('.')[0]   
+                    correo = row['CORREO']
+                    plan_de_estudios = row['PLAN DE ESTUDIOS ']
+                    jornada = row['JORNADA']
+                    inscripcion = row['INSCRIPCION']
+                    curso_induccion_y_rl = row['CURSO INDUCCION Y RL']
+                    ruta_de_preparacion_a_la_vida_laboral = row['RUTA DE PREPARACION A LA VIDA LABORAL']
+                    envio_hv = row['ENVIÓ HV']
+                    tiene_titulo_tecnico_o_tecnologo = row['TIENE TITULO TÉCNICO O TECNÓLOGO']
+                    practica_donde_labora_empresa_flia_emprendim_otro = row['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO']
+                    estado_de_ubicacion = row['ESTADO DE UBICACIÓN']
+                    comentarios_proceso_de_ubicacion_y_otros = row['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS']
+                    tipo_de_contrato = row['TIPO DE CONTRATO']
+                    fecha_inicio = row['FECHA INICIO']
+                    fecha_final = row['FECHA FINAL']
+                    datos_encargado_proceso_de_seleccion = row['DATOS ENCARGADO PROCESO DE SELECCION']
+                    datos_tutor_o_jefe_directo = row['DATOS TUTOR O JEFE DIRECTO']
+                    documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
+                    sector = row['SECTOR']
 
-                nuevo_aspirante = AspirantesDoc2(
-                    item=item,
-                    periodoPractica=periodo_de_practica,
-                    aprobacionProg=aprobacion_del_prog_academico,
-                    comentariosProg=comentarios_del_prog_academico,
-                    matriculadoAcadFinanc=matriculado_acad_y_financ,
-                    nombres=nombre,
-                    apellidos=apellidos,
-                    codigo=codigo,
-                    cedula=cedula,
-                    celular=celular,
-                    correo=correo,
-                    planEstudios=plan_de_estudios,
-                    jornada=jornada,
-                    inscripcion=inscripcion,
-                    cursoInduccion=curso_induccion_y_rl,
-                    rutaPreparacionVl=ruta_de_preparacion_a_la_vida_laboral,
-                    envioHv=envio_hv,
-                    tituloTecnico=tiene_titulo_tecnico_o_tecnologo,
-                    practicaDondeLabora=practica_donde_labora_empresa_flia_emprendim_otro,
-                    estadoUbicacion=estado_de_ubicacion,
-                    comentariosProcesoUbicacion=comentarios_proceso_de_ubicacion_y_otros,
-                    tipoContrato=tipo_de_contrato,
-                    fechaInicio=fecha_inicio,
-                    fechaFinal=fecha_final,
-                    datosEncargadoProcesoSeleccion=datos_encargado_proceso_de_seleccion,
-                    datosTutor=datos_tutor_o_jefe_directo,
-                    documentosPendientes=documentos_pendientes_de_formalizacion,
-                    sector=sector,
-                    semestreRegistro=semestrePerteneciente
-                )
-                nuevo_aspirante.save()
-            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
+                    nuevo_aspirante = AspirantesDoc2(
+                        item=item,
+                        periodoPractica=periodo_de_practica,
+                        aprobacionProg=aprobacion_del_prog_academico,
+                        comentariosProg=comentarios_del_prog_academico,
+                        matriculadoAcadFinanc=matriculado_acad_y_financ,
+                        nombres=nombre,
+                        apellidos=apellidos,
+                        codigo=codigo,
+                        cedula=cedula,
+                        celular=celular,
+                        correo=correo,
+                        planEstudios=plan_de_estudios,
+                        jornada=jornada,
+                        inscripcion=inscripcion,
+                        cursoInduccion=curso_induccion_y_rl,
+                        rutaPreparacionVl=ruta_de_preparacion_a_la_vida_laboral,
+                        envioHv=envio_hv,
+                        tituloTecnico=tiene_titulo_tecnico_o_tecnologo,
+                        practicaDondeLabora=practica_donde_labora_empresa_flia_emprendim_otro,
+                        estadoUbicacion=estado_de_ubicacion,
+                        comentariosProcesoUbicacion=comentarios_proceso_de_ubicacion_y_otros,
+                        tipoContrato=tipo_de_contrato,
+                        fechaInicio=fecha_inicio,
+                        fechaFinal=fecha_final,
+                        datosEncargadoProcesoSeleccion=datos_encargado_proceso_de_seleccion,
+                        datosTutor=datos_tutor_o_jefe_directo,
+                        documentosPendientes=documentos_pendientes_de_formalizacion,
+                        sector=sector,
+                        semestreRegistro=semestrePerteneciente
+                    )
+                    nuevo_aspirante.save()
+                    AspirantesDoc2_creados.append(model_to_dict(nuevo_aspirante))
+            else:
+                codigos_aspirantes = [str(aspirante.codigo) for aspirante in aspirantes_anteriores]
+                df['CODIGO'] = df['CODIGO'].astype(str).str.split('.').str[0]
+                codigos_df = df['CODIGO'].tolist()
+                
+                for codigo in codigos_df:
+                    if codigo not in codigos_aspirantes:
+                        aspirante_nuevo = df[df['CODIGO'] == codigo].iloc[0]
+                        
+                        nuevo_aspirante = AspirantesDoc2(
+                            item=aspirante_nuevo['ITEM'],
+                            periodoPractica=aspirante_nuevo['PERIODO DE PRÁCTICA'],
+                            aprobacionProg=aspirante_nuevo['APROBACIÓN DEL PROG ACADEMICO'],
+                            comentariosProg=aspirante_nuevo['COMENTARIOS DEL PROG ACADÉMICO'],
+                            matriculadoAcadFinanc=aspirante_nuevo['MATRICULADO ACAD Y FINANC'],
+                            nombres=aspirante_nuevo['NOMBRE'],
+                            apellidos=aspirante_nuevo['APELLIDOS'],
+                            codigo=aspirante_nuevo['CODIGO'].split('.')[0],
+                            cedula=aspirante_nuevo['CEDULA'].split('.')[0],
+                            celular=aspirante_nuevo['CELULAR'].split('.')[0],
+                            correo=aspirante_nuevo['CORREO'],
+                            planEstudios=aspirante_nuevo['PLAN DE ESTUDIOS '],
+                            jornada=aspirante_nuevo['JORNADA'],
+                            inscripcion=aspirante_nuevo['INSCRIPCION'],
+                            cursoInduccion=aspirante_nuevo['CURSO INDUCCION Y RL'],
+                            rutaPreparacionVl=aspirante_nuevo['RUTA DE PREPARACION A LA VIDA LABORAL'],
+                            envioHv=aspirante_nuevo['ENVIÓ HV'],
+                            tituloTecnico=aspirante_nuevo['TIENE TITULO TÉCNICO O TECNÓLOGO'],
+                            practicaDondeLabora=aspirante_nuevo['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO'],
+                            estadoUbicacion=aspirante_nuevo['ESTADO DE UBICACIÓN'],
+                            comentariosProcesoUbicacion=aspirante_nuevo['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS'],
+                            tipoContrato=aspirante_nuevo['TIPO DE CONTRATO'],
+                            fechaInicio=aspirante_nuevo['FECHA INICIO'],
+                            fechaFinal=aspirante_nuevo['FECHA FINAL'],
+                            datosEncargadoProcesoSeleccion=aspirante_nuevo['DATOS ENCARGADO PROCESO DE SELECCION'],
+                            datosTutor=aspirante_nuevo['DATOS TUTOR O JEFE DIRECTO'],
+                            documentosPendientes=aspirante_nuevo['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN'],
+                            sector=aspirante_nuevo['SECTOR'],
+                            semestreRegistro=semestrePerteneciente
+                        )
+                        nuevo_aspirante.save()
+                        AspirantesDoc2_nuevos.append(model_to_dict(nuevo_aspirante))
+                    else:
+                        aspirante_a_activar = AspirantesDoc2.objects.get(codigo=codigo)
+                        aspirante_a_activar.save()
+                        AspirantesDoc2_activados.append(model_to_dict(aspirante_a_activar))
+                
+                for aspirante_existente in aspirantes_anteriores:
+                    if str(aspirante_existente.codigo) not in codigos_df:
+                        aspirante_existente.estado = False
+                        aspirante_existente.save()
+                        AspirantesDoc2_inactivados.append(model_to_dict(aspirante_existente))
+
+            cambios_realizados = {
+                "AspirantesDoc2 creados": AspirantesDoc2_creados,
+                "AspirantesDoc2 nuevos": AspirantesDoc2_nuevos,
+                "AspirantesDoc2 activados": AspirantesDoc2_activados,
+                "AspirantesDoc2 inactivados": AspirantesDoc2_inactivados
+            }
+
+            return Response({'Cambios': cambios_realizados}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-          
+
 
 @api_view(['GET'])
 def estudiante_detail(request, estudiante_id):
@@ -331,3 +403,45 @@ def crearSemestre(request):
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def docentes_monitores_list(request):
+    try:
+        
+        docentes = DocenteMonitor.objects.all()
+        data = []
+        for docente in docentes:
+            data.append({
+                'id': docente.id,
+                'nombre': docente.nombre,
+                'apellido': docente.apellido,
+                'cedula': docente.cedula,
+                'correoPersonal': docente.correoPersonal,
+                'correoInstitucional': docente.correoInstitucional,
+                'contrasena': docente.contrasena,
+                'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
+                'estado': docente.estado,
+                'horasDispobibles': docente.horasDispobibles
+
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay docentes'}, status=404)
+@api_view(['GET'])
+def semestres_list(request):
+    try:
+        
+        semestres = Semestre.objects.all()
+        data = []
+        for semestre in semestres:
+            data.append({
+                'id': semestre.id,
+                'fechaInicio': semestre.fechaInicio.strftime('%Y-%m-%d'),
+                'fechaFin': semestre.fechaFin.strftime('%Y-%m-%d'),
+                'numeroSemestre': semestre.numeroSemestre,
+                'vigente': semestre.vigente
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay semestres'}, status=404)
+    

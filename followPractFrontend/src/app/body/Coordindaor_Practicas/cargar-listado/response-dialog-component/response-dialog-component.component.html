@@ -1,0 +1,136 @@
+<div class="scroll-container">
+  <carousel #carousel [itemsPerSlide]="1" >
+  
+    <slide class="slide" *ngIf="estudiantesActivados && estudiantesActivados.length > 0" >
+  
+      <!-- Tabla para estudiantes activados -->
+      <h2>Estudiantes Activados</h2>
+  
+      <table class="table mx-auto">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Programa</th>
+            <th>Código</th>
+            <th>Email Institucional</th>
+            <th>Email Personal</th>
+            <th>Teléfono</th>
+            <th>Nombre</th>
+            <th>Semestre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let estudiante of estudiantesActivados">
+            <td>{{ estudiante.id }}</td>
+            <td>{{ estudiante.programa }}</td>
+            <td>{{ estudiante.codigo }}</td>
+            <td>{{ estudiante.emailInstitucional }}</td>
+            <td>{{ estudiante.emailPersonal }}</td>
+            <td>{{ estudiante.telefono }}</td>
+            <td>{{ estudiante.nombre }}</td>
+            <td>{{ estudiante.semestre }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </slide>
+    <slide  class="slide" *ngIf="estudiantesCreados && estudiantesCreados.length > 0">
+      <!-- Tabla para estudiantes creados -->
+      <h2>Estudiantes Creados</h2>
+  
+      <table class="table mx-auto">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Programa</th>
+            <th>Código</th>
+            <th>Email Institucional</th>
+            <th>Email Personal</th>
+            <th>Teléfono</th>
+            <th>Nombre</th>
+            <th>Semestre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let estudiante of estudiantesCreados">
+            <td>{{ estudiante.id }}</td>
+            <td>{{ estudiante.programa }}</td>
+            <td>{{ estudiante.codigo }}</td>
+            <td>{{ estudiante.emailInstitucional }}</td>
+            <td>{{ estudiante.emailPersonal }}</td>
+            <td>{{ estudiante.telefono }}</td>
+            <td>{{ estudiante.nombre }}</td>
+            <td>{{ estudiante.semestre }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </slide>
+    <slide  class="slide" *ngIf="estudiantesInactivados && estudiantesInactivados.length > 0">
+      <!-- Tabla para estudiantes inactivados -->
+      <h2>Estudiantes Inactivados</h2>
+      <table class="table mx-auto">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Programa</th>
+              <th>Código</th>
+              <th>Email Institucional</th>
+              <th>Email Personal</th>
+              <th>Teléfono</th>
+              <th>Nombre</th>
+              <th>Semestre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let estudiante of estudiantesInactivados">
+              <td>{{ estudiante.id }}</td>
+              <td>{{ estudiante.programa }}</td>
+              <td>{{ estudiante.codigo }}</td>
+              <td>{{ estudiante.emailInstitucional }}</td>
+              <td>{{ estudiante.emailPersonal }}</td>
+              <td>{{ estudiante.telefono }}</td>
+              <td>{{ estudiante.nombre }}</td>
+              <td>{{ estudiante.semestre }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </slide>
+    <slide  class="slide" *ngIf="estudiantesNuevos && estudiantesNuevos.length > 0"> 
+      <!-- Tabla para estudiantes nuevos -->
+      <h2>Estudiantes Nuevos</h2>
+      <table class="table mx-auto">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Programa</th>
+              <th>Código</th>
+              <th>Email Institucional</th>
+              <th>Email Personal</th>
+              <th>Teléfono</th>
+              <th>Nombre</th>
+              <th>Semestre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let estudiante of estudiantesNuevos">
+              <td>{{ estudiante.id }}</td>
+              <td>{{ estudiante.programa }}</td>
+              <td>{{ estudiante.codigo }}</td>
+              <td>{{ estudiante.emailInstitucional }}</td>
+              <td>{{ estudiante.emailPersonal }}</td>
+              <td>{{ estudiante.telefono }}</td>
+              <td>{{ estudiante.nombre }}</td>
+              <td>{{ estudiante.semestre }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </slide>
+  </carousel>
+  
+  <button (click)="prevSlide()">Anterior</button>
+  <button (click)="nextSlide()">Siguiente</button>
+  <br>
+  
+  <div class="mat-dialog-actions">
+    <button mat-button (click)="closeDialog()">Cerrar</button>
+  </div>
+</div>

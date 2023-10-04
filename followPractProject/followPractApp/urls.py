@@ -1,7 +1,7 @@
 from followPractApp import views 
 from django.urls import path
 urlpatterns = [ 
-    path('estudiantes/', views.estudiantes_list, name='listado_estudiantes'),
+    path('estudiantes/estudiantes_list/', views.estudiantes_list, name='listado_estudiantes'),
 
     path('estudiantes/<int:estudiante_id>/', views.estudiante_detail, name='detalle_estudiante'),
     
@@ -11,7 +11,10 @@ urlpatterns = [
 
     path('aspirantes/tablaCompletaPracticas_list/<str:semestreEntrada>/', views.tablaCompletaPracticas_list, name='tablaCompletaPracticas_list'),
 
-    path('semestre/crear_sesmestre/', views.crearSemestre, name='crear_semestre'),
+    path('docentes/docentes_list/', views.docentes_monitores_list, name='docentes_monitores_list'),
 
-    path('docentes/', views.docentes_list, name='listado_docentes'),
+    path('semestre/crear_semestre/', views.crearSemestre, name='crear_semestre'),
+
+    path('semestre/semestres_list/', views.semestres_list, name='semestres_list'),
+    #path('docentes/', views.docentes_list, name='listado_docentes'),
 ]
