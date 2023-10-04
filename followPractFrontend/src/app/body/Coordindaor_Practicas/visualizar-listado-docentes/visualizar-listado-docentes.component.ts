@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
+import { DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
 
-import  { Docente, DocenteService } from '../../services/DocenteServices/docente-services.service';
 
 
 @Component({
