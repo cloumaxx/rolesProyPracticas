@@ -1,0 +1,80 @@
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.nav-item::after {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 2px;
+  background: white;
+  transition: 0.4s
+}
+
+.nav-item:hover::after {
+  width: 100%
+}
+.navbar-brand,
+.dropdown-menu,
+.dropdown-item {
+  cursor: pointer;
+}
+
+
+#logoNavbar {
+  width: 359px;
+  height: 95px;
+}
+
+#navcol-1 {
+  height: 100px;
+}
+
+#navBarTitles {
+  color: #041f52;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#endHeader {
+  background: #192451;
+  height: 50%;
+}
+
+#textColum1 {
+  font-weight: bold;
+  padding-top: 10px;
+  font-size: 21px;
+  position: relative;
+}
+
+#textColum11 {
+  position: absolute;
+  color: white;
+  font-size: 25px;
+
+  font-family: 'Franklin Gothic Medium';
+}
+
+#textColum2 {
+  position: relative;
+  text-align: center;
+  font-family: Questrial, sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+
+}
+
+#textColum21 {
+  position: absolute;
+  top: 50%;
+  left: 49%;
+  color: white;
+}
+#navBarTitles{
+  color: white;
+}
+#navbar{
+  background-color: #FF8000;
+  color: white;
+}

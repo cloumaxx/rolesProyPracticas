@@ -1,0 +1,49 @@
+
+<body>
+    <header>
+      <app-nav-bar></app-nav-bar>
+    </header>
+    <main>
+      <div class="container">
+        <div class="form-group">
+          <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="searchText" placeholder="Buscar...">
+        </div>
+        <h1>Listado de Estudiantes</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Programa</th>
+              <th>Código</th>
+              <th>Email Institucional</th>
+              <th>Email Personal</th>
+              <th>Teléfono</th>
+              <th>Nombre</th>
+              <th>Fecha de Registro</th>
+              <th>Semestre</th>
+              <th>Estado</th>
+              <th>ID Docente Monitor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Aquí puedes usar un bucle para mostrar los datos de los estudiantes -->
+            <tr *ngFor="let estudiante of estudiantes" [hidden]="!matchesFilter(estudiante)">
+              <td>{{ estudiante.id }}</td>
+              <td>{{ estudiante.programa }}</td>
+              <td>{{ estudiante.codigo }}</td>
+              <td>{{ estudiante.emailInstitucional }}</td>
+              <td>{{ estudiante.emailPersonal }}</td>
+              <td>{{ estudiante.telefono }}</td>
+              <td>{{ estudiante.nombre }}</td>
+              <td>{{ estudiante.fechaRegistro }}</td>
+              <td>{{ estudiante.semestre }}</td>
+              <td>{{ estudiante.estado }}</td>
+              <td>{{ estudiante.idDocenteMonitor }}</td>
+            </tr>
+            <!-- Fin del bucle -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <footer></footer>
+  </body>

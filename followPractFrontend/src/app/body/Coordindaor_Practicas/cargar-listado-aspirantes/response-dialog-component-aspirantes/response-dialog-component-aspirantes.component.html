@@ -1,0 +1,136 @@
+<div class="scroll-container">
+    <carousel #carousel [itemsPerSlide]="1" >
+    
+      <slide class="slide" *ngIf="AspirantesDoc2Activados && AspirantesDoc2Activados.length > 0" >
+    
+        <!-- Tabla para AspirantesDoc2 activados -->
+        <h2>Aspitantes Activados</h2>
+    
+        <table class="table mx-auto">
+          <thead>
+            <tr>
+                <th>ID</th>
+                <th>Periodo de Practica</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Semestre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let AspirantesDoc2 of AspirantesDoc2Activados">
+              <td>{{ AspirantesDoc2.id }}</td>
+              <td>{{ AspirantesDoc2.periodoPractica }}</td>
+              <td>{{ AspirantesDoc2.codigo }}</td>
+              <td>{{ AspirantesDoc2.correo }}</td>
+              <td>{{ AspirantesDoc2.celular }}</td>
+              <td>{{ AspirantesDoc2.nombres }}</td>
+              <td>{{ AspirantesDoc2.apellidos }}</td>
+              <td>{{ AspirantesDoc2.semestre }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </slide>
+      <slide  class="slide" *ngIf="AspirantesDoc2Creados && AspirantesDoc2Creados.length > 0">
+        <!-- Tabla para AspirantesDoc2 creados -->
+        <h2>Aspirantes Creados</h2>
+    
+        <table class="table mx-auto">
+          <thead>
+            <tr>
+                <th>ID</th>
+                <th>Periodo de Practica</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Semestre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let AspirantesDoc2 of AspirantesDoc2Creados">
+                <td>{{ AspirantesDoc2.id }}</td>
+                <td>{{ AspirantesDoc2.periodoPractica }}</td>
+                <td>{{ AspirantesDoc2.codigo }}</td>
+                <td>{{ AspirantesDoc2.correo }}</td>
+                <td>{{ AspirantesDoc2.celular }}</td>
+                <td>{{ AspirantesDoc2.nombres }}</td>
+                <td>{{ AspirantesDoc2.apellidos }}</td>
+                <td>{{ AspirantesDoc2.semestre }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </slide>
+      <slide  class="slide" *ngIf="AspirantesDoc2Inactivados && AspirantesDoc2Inactivados.length > 0">
+        <!-- Tabla para AspirantesDoc2 inactivados -->
+        <h2>Aspirantes Inactivados</h2>
+        <table class="table mx-auto">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Periodo de Practica</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Semestre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let AspirantesDoc2 of AspirantesDoc2Inactivados">
+                <td>{{ AspirantesDoc2.id }}</td>
+                <td>{{ AspirantesDoc2.periodoPractica }}</td>
+                <td>{{ AspirantesDoc2.codigo }}</td>
+                <td>{{ AspirantesDoc2.correo }}</td>
+                <td>{{ AspirantesDoc2.celular }}</td>
+                <td>{{ AspirantesDoc2.nombres }}</td>
+                <td>{{ AspirantesDoc2.apellidos }}</td>
+                <td>{{ AspirantesDoc2.semestre }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </slide>
+      <slide  class="slide" *ngIf="AspirantesDoc2Nuevos && AspirantesDoc2Nuevos.length > 0"> 
+        <!-- Tabla para Aspirantes nuevos -->
+        <h2>Aspirantes Nuevos</h2>
+        <table class="table mx-auto">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Periodo de Practica</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Semestre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let AspirantesDoc2 of AspirantesDoc2Nuevos">
+                <td>{{ AspirantesDoc2.id }}</td>
+                <td>{{ AspirantesDoc2.periodoPractica }}</td>
+                <td>{{ AspirantesDoc2.codigo }}</td>
+                <td>{{ AspirantesDoc2.correo }}</td>
+                <td>{{ AspirantesDoc2.celular }}</td>
+                <td>{{ AspirantesDoc2.nombres }}</td>
+                <td>{{ AspirantesDoc2.apellidos }}</td>
+                <td>{{ AspirantesDoc2.semestre }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </slide>
+    </carousel>
+    
+    <button (click)="prevSlide()">Anterior</button>
+    <button (click)="nextSlide()">Siguiente</button>
+    <br>
+    
+    <div class="mat-dialog-actions">
+      <button mat-button (click)="closeDialog()">Cerrar</button>
+    </div>
+  </div>
