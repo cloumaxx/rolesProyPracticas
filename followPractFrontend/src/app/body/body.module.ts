@@ -19,6 +19,10 @@ import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 @NgModule({
@@ -35,7 +39,7 @@ import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar
     VisualizarSemestresComponent,
     VisualizarListadoDocentesComponent,
     VisualizarEstudiantesComponent,
-    VisualizarAspirantesComponent
+    VisualizarAspirantesComponent,
   ],
   imports: [
     BodyRoutingModule,
@@ -44,8 +48,7 @@ import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar
     CarouselModule.forRoot(),
     FormsModule,
     MatSnackBarModule,
-    
-
+    MatFormFieldModule, MatTableModule, MatInputModule
     
   ]
 })
