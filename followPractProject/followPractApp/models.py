@@ -13,6 +13,10 @@ class Estudiante(models.Model):
     estado = models.BooleanField(default=True)
     semestre = models.CharField(max_length=10)
     idDocenteMonitor = models.IntegerField(default=0)
+    certificadoArl = models.CharField(max_length=500)
+    certificadoEps = models.CharField(max_length=500)
+    contratoPractica = models.CharField(max_length=500)
+
     def __str__(self):
         return self.nombre
     
@@ -63,9 +67,16 @@ class DocenteMonitor(models.Model):
     estado = models.BooleanField(default=True)
     horasDispobibles = models.IntegerField()
 
-class Semestre(models.Model):
+class Semestre(models.Model):      
     id = models.AutoField(primary_key=True)
     fechaInicio = models.DateField()
     fechaFin = models.DateField()
     numeroSemestre = models.CharField(max_length=20)
-    vigente = models.BooleanField(default=True)
+
+class AsignacionEstudiantesDocentes(models.Model):
+    id = models.AutoField(primary_key=True)
+    idEstudiante = models.IntegerField()
+    idDocenteMonitor = models.IntegerField()
+    idSemestre = models.IntegerField()
+    fechaAsignacion = models.DateField(auto_now_add=True)
+    programa = models.CharField(max_length=50) 
