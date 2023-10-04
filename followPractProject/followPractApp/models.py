@@ -50,3 +50,17 @@ class AspirantesDoc2(models.Model):
     
     def __str__(self):
         return self.codigo
+
+"""class DocenteMonitor(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    correoPersonal = models.EmailField()
+    correoInstitucional = models.EmailField()
+"""
+class Semestre(models.Model):
+    id = models.AutoField(primary_key=True)
+    fechaInicio = models.DateField()
+    fechaFin = models.DateField()
+    numeroSemestre = models.CharField(max_length=20)
+    vigente = models.BooleanField(default=True)

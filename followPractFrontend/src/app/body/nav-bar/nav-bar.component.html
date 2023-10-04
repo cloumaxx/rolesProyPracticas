@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light navbar-expand-md">
     <div class="container-fluid">
-      <a class="navbar-brand" routerLink="body/home">
+      <a class="navbar-brand" (click)="routLinkVisualizarMenuCoordinador()">
         <img id="logoNavbar" src="assets/img/USB-LOGO-01.png">
       </a>
       
@@ -8,7 +8,7 @@
         <ul class="navbar-nav ms-auto" id="navbarItems">
           
           <li class="nav-item dropdown">
-            <a  (click)="routLinkVisualizarListadoAspirantes()">Visualizar listado aspirantes</a>
+            <a  (click)="routLinkVisualizarListadoAspirantes()">Visualizar listado matriculados</a>
           </li>
           
           <li class="nav-item dropdown">

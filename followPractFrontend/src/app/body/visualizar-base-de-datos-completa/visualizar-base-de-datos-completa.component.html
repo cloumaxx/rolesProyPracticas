@@ -1,20 +1,73 @@
 <header>
-    <app-nav-bar> </app-nav-bar>
-</header>
-<main>
-    <div style="padding-bottom: 10px;">
+    <app-nav-bar></app-nav-bar>
+  </header>
+  <main>
+    <div class="container">
+      <div class="filters">
         <label>Elige el año:</label>
         <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
         <label>Selecciona el periodo:</label>
         <select id="semester" name="semester" (change)="onSemesterChange($event)">
-            <option value="01">01</option>
-            <option value="02">02</option>
+          <option value="01">01</option>
+          <option value="02">02</option>
         </select>
         <br><br>
         <label>Semestre seleccionado: {{semestreSeleccionado}}<span id="semestreSeleccionado"></span></label>
+        <button class="btn" (click)="cargarListado()">Cargar Listado</button>
+      </div>
+  
+      <div *ngIf="datosJson">
+        <h3>Listado de Matriculados</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Semestre Registro</th>
+                <th>Semestre</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Codigo</th>
+                <th>Correo</th>
+                <th>Periodo de Práctica</th>
+                <th>Datos Tutor</th>
+                <th>Documentos Pendientes</th>
+                <th>Asignatura</th>
+                <th>Nombre asignatura</th>
+                <th>Practicante Programa</th>
+                <th>Practicante Estado</th>
+                <th>Aprobacion Programa</th>
+                <th>Comentarios Programa</th>
+                <th>MatriculadoAcadFinanc</th>
+                <th>Plan de estudios</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of datosJson">
+                <td>{{ item.id }}</td>
+                <td>{{ item.semestreRegistro }}</td>
+                <td>{{ item.semestre }}</td>
+                <td>{{ item.nombres }}</td>
+                <td>{{ item.apellidos }}</td>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.correo }}</td>
+                <td>{{ item.periodoPractica }}</td>
+                <td>{{ item.datosTutor }}</td>
+                <td>{{ item.documentosPendientes }}</td>
+                <td>{{ item.asignatura }}</td>
+                <td>{{ item.asignaturanombre }}</td>
+                <td>{{ item.practicanteprograma }}</td>
+                <td>{{ item.practicanteestado }}</td>
+                <td>{{ item.aprobacionProg }}</td>
+                <td>{{ item.comentariosProg }}</td>
+                <td>{{ item.matriculadoAcadFinanc }}</td>
+                <td>{{ item.planEstudios }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-</main>
-
-<footer>
-
-</footer>
+  </main>
+  <footer></footer>
+  

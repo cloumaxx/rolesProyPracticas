@@ -18,5 +18,13 @@ export class NavBarComponent {
   routLinkVisualizarListadoAspirantes(){
     this.router.navigate(['body/visualizar_listado_completo']);
   }
+  routLinkVisualizarMenuCoordinador(){
+    this.router.navigate(['body/menu_principal_coordinador']);
+  }
+  //MenuPrincCoordinadorComponent
+  
+  routLinkVisualizarCrearSemestre(){
+    this.router.navigate(['body/menu_principal_coordinador']);
+  }
 }
 
