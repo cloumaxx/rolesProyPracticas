@@ -201,6 +201,10 @@ def crearPorListadoEstudiantes(request):
 @api_view(['POST'])
 def crearPorListadoAspirantes(request):
     if request.method == 'POST':
+        AspirantesDoc2_creados = []
+        AspirantesDoc2_nuevos = []
+        AspirantesDoc2_activados = []
+        AspirantesDoc2_inactivados = []
         archivo = request.FILES.get('archivo')
         semestrePerteneciente = request.POST.get('semestre')
         
@@ -209,74 +213,136 @@ def crearPorListadoAspirantes(request):
 
         try:
             df = crearDfAspirantes(archivo)
-            aspirantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
-            #aspirantes_a_eliminar.delete()
-            for index, row in df.iterrows():
-                item = row['ITEM']
-                periodo_de_practica = row['PERIODO DE PRÁCTICA']
-                aprobacion_del_prog_academico = row['APROBACIÓN DEL PROG ACADEMICO']
-                comentarios_del_prog_academico = row['COMENTARIOS DEL PROG ACADÉMICO']
-                matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
-                nombre = row['NOMBRE']
-                apellidos = row['APELLIDOS']
-                codigo = row['CODIGO'].split('.')[0]   
-                cedula = row['CEDULA'].split('.')[0]   
-                celular = row['CELULAR'].split('.')[0]   
-                correo = row['CORREO']
-                plan_de_estudios = row['PLAN DE ESTUDIOS ']
-                jornada = row['JORNADA']
-                inscripcion = row['INSCRIPCION']
-                curso_induccion_y_rl = row['CURSO INDUCCION Y RL']
-                ruta_de_preparacion_a_la_vida_laboral = row['RUTA DE PREPARACION A LA VIDA LABORAL']
-                envio_hv = row['ENVIÓ HV']
-                tiene_titulo_tecnico_o_tecnologo = row['TIENE TITULO TÉCNICO O TECNÓLOGO']
-                practica_donde_labora_empresa_flia_emprendim_otro = row['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO']
-                estado_de_ubicacion = row['ESTADO DE UBICACIÓN']
-                comentarios_proceso_de_ubicacion_y_otros = row['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS']
-                tipo_de_contrato = row['TIPO DE CONTRATO']
-                fecha_inicio = row['FECHA INICIO']
-                fecha_final = row['FECHA FINAL']
-                datos_encargado_proceso_de_seleccion = row['DATOS ENCARGADO PROCESO DE SELECCION']
-                datos_tutor_o_jefe_directo = row['DATOS TUTOR O JEFE DIRECTO']
-                documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
-                sector = row['SECTOR']
+            aspirantes_anteriores = AspirantesDoc2.objects.filter(semestreRegistro=semestrePerteneciente)
+            
+            if len(aspirantes_anteriores) == 0:
+                for index, row in df.iterrows():
+                    item = row['ITEM']
+                    periodo_de_practica = row['PERIODO DE PRÁCTICA']
+                    aprobacion_del_prog_academico = row['APROBACIÓN DEL PROG ACADEMICO']
+                    comentarios_del_prog_academico = row['COMENTARIOS DEL PROG ACADÉMICO']
+                    matriculado_acad_y_financ = row['MATRICULADO ACAD Y FINANC']
+                    nombre = row['NOMBRE']
+                    apellidos = row['APELLIDOS']
+                    codigo = row['CODIGO'].split('.')[0]   
+                    cedula = row['CEDULA'].split('.')[0]   
+                    celular = row['CELULAR'].split('.')[0]   
+                    correo = row['CORREO']
+                    plan_de_estudios = row['PLAN DE ESTUDIOS ']
+                    jornada = row['JORNADA']
+                    inscripcion = row['INSCRIPCION']
+                    curso_induccion_y_rl = row['CURSO INDUCCION Y RL']
+                    ruta_de_preparacion_a_la_vida_laboral = row['RUTA DE PREPARACION A LA VIDA LABORAL']
+                    envio_hv = row['ENVIÓ HV']
+                    tiene_titulo_tecnico_o_tecnologo = row['TIENE TITULO TÉCNICO O TECNÓLOGO']
+                    practica_donde_labora_empresa_flia_emprendim_otro = row['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO']
+                    estado_de_ubicacion = row['ESTADO DE UBICACIÓN']
+                    comentarios_proceso_de_ubicacion_y_otros = row['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS']
+                    tipo_de_contrato = row['TIPO DE CONTRATO']
+                    fecha_inicio = row['FECHA INICIO']
+                    fecha_final = row['FECHA FINAL']
+                    datos_encargado_proceso_de_seleccion = row['DATOS ENCARGADO PROCESO DE SELECCION']
+                    datos_tutor_o_jefe_directo = row['DATOS TUTOR O JEFE DIRECTO']
+                    documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
+                    sector = row['SECTOR']
 
-                nuevo_aspirante = AspirantesDoc2(
-                    item=item,
-                    periodoPractica=periodo_de_practica,
-                    aprobacionProg=aprobacion_del_prog_academico,
-                    comentariosProg=comentarios_del_prog_academico,
-                    matriculadoAcadFinanc=matriculado_acad_y_financ,
-                    nombres=nombre,
-                    apellidos=apellidos,
-                    codigo=codigo,
-                    cedula=cedula,
-                    celular=celular,
-                    correo=correo,
-                    planEstudios=plan_de_estudios,
-                    jornada=jornada,
-                    inscripcion=inscripcion,
-                    cursoInduccion=curso_induccion_y_rl,
-                    rutaPreparacionVl=ruta_de_preparacion_a_la_vida_laboral,
-                    envioHv=envio_hv,
-                    tituloTecnico=tiene_titulo_tecnico_o_tecnologo,
-                    practicaDondeLabora=practica_donde_labora_empresa_flia_emprendim_otro,
-                    estadoUbicacion=estado_de_ubicacion,
-                    comentariosProcesoUbicacion=comentarios_proceso_de_ubicacion_y_otros,
-                    tipoContrato=tipo_de_contrato,
-                    fechaInicio=fecha_inicio,
-                    fechaFinal=fecha_final,
-                    datosEncargadoProcesoSeleccion=datos_encargado_proceso_de_seleccion,
-                    datosTutor=datos_tutor_o_jefe_directo,
-                    documentosPendientes=documentos_pendientes_de_formalizacion,
-                    sector=sector,
-                    semestreRegistro=semestrePerteneciente
-                )
-                nuevo_aspirante.save()
-            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
+                    nuevo_aspirante = AspirantesDoc2(
+                        item=item,
+                        periodoPractica=periodo_de_practica,
+                        aprobacionProg=aprobacion_del_prog_academico,
+                        comentariosProg=comentarios_del_prog_academico,
+                        matriculadoAcadFinanc=matriculado_acad_y_financ,
+                        nombres=nombre,
+                        apellidos=apellidos,
+                        codigo=codigo,
+                        cedula=cedula,
+                        celular=celular,
+                        correo=correo,
+                        planEstudios=plan_de_estudios,
+                        jornada=jornada,
+                        inscripcion=inscripcion,
+                        cursoInduccion=curso_induccion_y_rl,
+                        rutaPreparacionVl=ruta_de_preparacion_a_la_vida_laboral,
+                        envioHv=envio_hv,
+                        tituloTecnico=tiene_titulo_tecnico_o_tecnologo,
+                        practicaDondeLabora=practica_donde_labora_empresa_flia_emprendim_otro,
+                        estadoUbicacion=estado_de_ubicacion,
+                        comentariosProcesoUbicacion=comentarios_proceso_de_ubicacion_y_otros,
+                        tipoContrato=tipo_de_contrato,
+                        fechaInicio=fecha_inicio,
+                        fechaFinal=fecha_final,
+                        datosEncargadoProcesoSeleccion=datos_encargado_proceso_de_seleccion,
+                        datosTutor=datos_tutor_o_jefe_directo,
+                        documentosPendientes=documentos_pendientes_de_formalizacion,
+                        sector=sector,
+                        semestreRegistro=semestrePerteneciente
+                    )
+                    nuevo_aspirante.save()
+                    AspirantesDoc2_creados.append(model_to_dict(nuevo_aspirante))
+            else:
+                codigos_aspirantes = [str(aspirante.codigo) for aspirante in aspirantes_anteriores]
+                df['CODIGO'] = df['CODIGO'].astype(str).str.split('.').str[0]
+                codigos_df = df['CODIGO'].tolist()
+                
+                for codigo in codigos_df:
+                    if codigo not in codigos_aspirantes:
+                        aspirante_nuevo = df[df['CODIGO'] == codigo].iloc[0]
+                        
+                        nuevo_aspirante = AspirantesDoc2(
+                            item=aspirante_nuevo['ITEM'],
+                            periodoPractica=aspirante_nuevo['PERIODO DE PRÁCTICA'],
+                            aprobacionProg=aspirante_nuevo['APROBACIÓN DEL PROG ACADEMICO'],
+                            comentariosProg=aspirante_nuevo['COMENTARIOS DEL PROG ACADÉMICO'],
+                            matriculadoAcadFinanc=aspirante_nuevo['MATRICULADO ACAD Y FINANC'],
+                            nombres=aspirante_nuevo['NOMBRE'],
+                            apellidos=aspirante_nuevo['APELLIDOS'],
+                            codigo=aspirante_nuevo['CODIGO'].split('.')[0],
+                            cedula=aspirante_nuevo['CEDULA'].split('.')[0],
+                            celular=aspirante_nuevo['CELULAR'].split('.')[0],
+                            correo=aspirante_nuevo['CORREO'],
+                            planEstudios=aspirante_nuevo['PLAN DE ESTUDIOS '],
+                            jornada=aspirante_nuevo['JORNADA'],
+                            inscripcion=aspirante_nuevo['INSCRIPCION'],
+                            cursoInduccion=aspirante_nuevo['CURSO INDUCCION Y RL'],
+                            rutaPreparacionVl=aspirante_nuevo['RUTA DE PREPARACION A LA VIDA LABORAL'],
+                            envioHv=aspirante_nuevo['ENVIÓ HV'],
+                            tituloTecnico=aspirante_nuevo['TIENE TITULO TÉCNICO O TECNÓLOGO'],
+                            practicaDondeLabora=aspirante_nuevo['PRACTICA DONDE LABORA, EMPRESA FLIAR, EMPRENDIM, OTRO'],
+                            estadoUbicacion=aspirante_nuevo['ESTADO DE UBICACIÓN'],
+                            comentariosProcesoUbicacion=aspirante_nuevo['COMENTARIOS PROCESO DE UBICACIÓN Y OTROS'],
+                            tipoContrato=aspirante_nuevo['TIPO DE CONTRATO'],
+                            fechaInicio=aspirante_nuevo['FECHA INICIO'],
+                            fechaFinal=aspirante_nuevo['FECHA FINAL'],
+                            datosEncargadoProcesoSeleccion=aspirante_nuevo['DATOS ENCARGADO PROCESO DE SELECCION'],
+                            datosTutor=aspirante_nuevo['DATOS TUTOR O JEFE DIRECTO'],
+                            documentosPendientes=aspirante_nuevo['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN'],
+                            sector=aspirante_nuevo['SECTOR'],
+                            semestreRegistro=semestrePerteneciente
+                        )
+                        nuevo_aspirante.save()
+                        AspirantesDoc2_nuevos.append(model_to_dict(nuevo_aspirante))
+                    else:
+                        aspirante_a_activar = AspirantesDoc2.objects.get(codigo=codigo)
+                        aspirante_a_activar.save()
+                        AspirantesDoc2_activados.append(model_to_dict(aspirante_a_activar))
+                
+                for aspirante_existente in aspirantes_anteriores:
+                    if str(aspirante_existente.codigo) not in codigos_df:
+                        aspirante_existente.estado = False
+                        aspirante_existente.save()
+                        AspirantesDoc2_inactivados.append(model_to_dict(aspirante_existente))
+
+            cambios_realizados = {
+                "AspirantesDoc2 creados": AspirantesDoc2_creados,
+                "AspirantesDoc2 nuevos": AspirantesDoc2_nuevos,
+                "AspirantesDoc2 activados": AspirantesDoc2_activados,
+                "AspirantesDoc2 inactivados": AspirantesDoc2_inactivados
+            }
+
+            return Response({'Cambios': cambios_realizados}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-          
+
 
 @api_view(['GET'])
 def estudiante_detail(request, estudiante_id):

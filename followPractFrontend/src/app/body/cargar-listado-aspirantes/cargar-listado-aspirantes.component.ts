@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NotificationService } from 'src/app/notification.service';
 import { AspiranteServicesService } from 'src/app/services/AspiranteServices/aspirante-services.service';
+import { ResponseDialogComponentAspirantesComponent } from './response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cargar-listado-aspirantes',
@@ -13,9 +15,12 @@ export class CargarListadoAspirantesComponent {
   year: number = 2022;
   semester: string = '01';
   notificationMessage: string = '';
+  serverResponse: any;
+
   constructor(
     private aspiranteService: AspiranteServicesService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dialog: MatDialog
   )
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
@@ -52,8 +57,11 @@ export class CargarListadoAspirantesComponent {
       if (this.selectedFile) {
         this.aspiranteService.cargarArchivoExcel(this.selectedFile, this.semestreSeleccionado).subscribe(
           (response) => {
+            this.serverResponse = response;
             this.notificationService.showNotification('Archivo cargado con éxito');
             console.log('Archivo cargado con éxito', response);
+        
+            this.openResponseDialog();
           },
           (error) => {
             this.notificationService.showNotification('Error al cargar el archivo');
@@ -75,5 +83,10 @@ export class CargarListadoAspirantesComponent {
 
   clearNotification() {
     this.notificationMessage = '';
+  }
+  openResponseDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = this.serverResponse; // Pasa la respuesta al diálogo
+    this.dialog.open(ResponseDialogComponentAspirantesComponent, dialogConfig);
   }
 }
