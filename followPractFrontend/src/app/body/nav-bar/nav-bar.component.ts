@@ -26,5 +26,17 @@ export class NavBarComponent {
   routLinkVisualizarCrearSemestre(){
     this.router.navigate(['body/menu_principal_coordinador']);
   }
+
+  routLinkVisualizarListadoDocentes(){
+    this.router.navigate(['body/visualizar_listado_docentes']);
+  }
+  
+  routLinkVisualizarListadoSemestres(){
+    this.router.navigate(['body/visualizar_semestres']);
+  }
+  
+  routLinkVisualizarListadoEstudiantes(){
+    this.router.navigate(['body/visualizar_listado_estudiantes']);
+  }
 }
 

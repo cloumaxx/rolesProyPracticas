@@ -1,32 +1,32 @@
 <header>
-    <app-nav-bar> </app-nav-bar>
+    <app-nav-bar></app-nav-bar>
 </header>
 <main>
     <!-- semestre.component.html -->
-<div>
-    <h2>Registrar Semestre</h2>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="fechaInicio">Fecha de Inicio: </label>
-        <input type="date" id="fechaInicio" name="fechaInicio" required>
-      </div>
-      <div class="form-group">
-        <label for="fechaFin">Fecha de Fin: </label>
-        <input type="date" id="fechaFin" name="fechaFin"required>
-      </div>
-      <div class="form-group">
-        <label for="numeroSemestre">Número de Semestre:</label>añoActual
-        <input type="text" id="numeroSemestre" name="numeroSemestre" required >
-      </div>
-      <!--
-
-      <div class="form-group">
-        <label for="vigente">Vigente:</label>
-        <input type="checkbox" id="vigente" name="vigente">
-      </div>
-      -->
-      <button type="submit">Registrar Semestre</button>
-    </form>
-  </div>
-  
+    <div>
+        <h2>Registrar Semestre</h2>
+        <form (submit)="crearSemestre()">
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input type="date" id="fechaInicio" [(ngModel)]="semestreData.fechaInicio" name="fechaInicio" required>
+            <br>
+          
+            <label for="fechaFin">Fecha de fin:</label>
+            <input type="date" id="fechaFin" [(ngModel)]="semestreData.fechaFin" name="fechaFin" required>
+            <br>
+            <label for="numeroSemestre">Número de semestre:</label><br>
+            <label>Elige el año:</label>
+            <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
+            <label>Selecciona el periodo:</label>
+            <select id="semester" name="semester" (change)="onSemesterChange($event)">
+                <option value="01">01</option>
+                <option value="02">02</option>
+            </select><br>
+            <label for="vigente">Vigente:</label>
+            <input type="checkbox" id="vigente" [(ngModel)]="semestreData.vigente" name="vigente">
+            <br>
+            <button type="submit">Crear Semestre</button>
+          </form>
+     
+    </div>
+    
 </main>

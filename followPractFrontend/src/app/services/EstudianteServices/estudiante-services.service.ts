@@ -15,8 +15,10 @@ export class EstudianteService {
     return this.http.get(url);
   }
 
-  getEstudiantes(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+
+  verEstudiantes(): Observable<any> {
+    const url = `${this.baseUrl}estudiantes_list/`;
+    return this.http.get(url);
   }
 
   cargarArchivoExcel(archivo: File, semestre:string): Observable<any> {

@@ -6,6 +6,14 @@ import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-dat
 import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { FormularioNuevoDocenteMonitorComponent } from './forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
+import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
+import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
+import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
+import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
+import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
+import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
+
+
 const routes: Routes = [
   {
     path:'',
@@ -34,7 +42,20 @@ const routes: Routes = [
   {
     path: 'body/formulario_nuevo_docente',
     component: FormularioNuevoDocenteMonitorComponent
+  },
+  {
+    path: 'body/visualizar_semestres',
+    component: VisualizarSemestresComponent
+  },
+  {
+    path: 'body/visualizar_listado_docentes',
+    component: VisualizarListadoDocentesComponent
+  },
+  {
+    path: 'body/visualizar_listado_estudiantes',
+    component: VisualizarEstudiantesComponent
   }
+  
 ];
 
 @NgModule({
