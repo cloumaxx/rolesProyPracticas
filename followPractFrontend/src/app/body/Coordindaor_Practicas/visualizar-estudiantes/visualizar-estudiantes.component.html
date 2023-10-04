@@ -5,6 +5,9 @@
     </header>
     <main>
       <div class="container">
+        <div class="form-group">
+          <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="searchText" placeholder="Buscar...">
+        </div>
         <h1>Listado de Estudiantes</h1>
         <table>
           <thead>
@@ -24,7 +27,7 @@
           </thead>
           <tbody>
             <!-- Aquí puedes usar un bucle para mostrar los datos de los estudiantes -->
-            <tr *ngFor="let estudiante of estudiantes">
+            <tr *ngFor="let estudiante of estudiantes" [hidden]="!matchesFilter(estudiante)">
               <td>{{ estudiante.id }}</td>
               <td>{{ estudiante.programa }}</td>
               <td>{{ estudiante.codigo }}</td>
