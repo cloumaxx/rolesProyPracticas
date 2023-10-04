@@ -12,6 +12,8 @@ from rest_framework.request import Request
 from .models import AspirantesDoc2, Estudiante, Semestre
 from django.forms.models import model_to_dict
 
+from .routes.docentes import docentes_list
+
 @api_view(['GET'])
 def estudiantes_list(request):
     estudiantes = Estudiante.objects.all()

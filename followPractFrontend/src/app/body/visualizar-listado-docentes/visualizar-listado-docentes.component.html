@@ -1,0 +1,72 @@
+
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
+</mat-form-field>
+
+<table mat-table [dataSource]="docentes_list" class="mat-elevation-z8">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.id}} </td>
+    </ng-container>
+
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.nombre}} </td>
+    </ng-container>
+
+    <!-- Apellido Column -->
+    <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.apellido}} </td>
+    </ng-container>
+
+    <!-- Cedula Column -->
+    <ng-container matColumnDef="cedula">
+        <th mat-header-cell *matHeaderCellDef> Cedula </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.cedula}} </td>
+    </ng-container>
+
+    <!-- Correo Personal Column -->
+    <ng-container matColumnDef="correoPersonal">
+        <th mat-header-cell *matHeaderCellDef> Correo Personal </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.correoPersonal}} </td>
+    </ng-container>
+
+    <!-- Correo Institucional Column -->
+    <ng-container matColumnDef="correoInstitucional">
+        <th mat-header-cell *matHeaderCellDef> Correo Institucional </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.correoInstitucional}} </td>
+    </ng-container>
+
+    <!-- Contraseña Column -->
+    <ng-container matColumnDef="contraseña">
+        <th mat-header-cell *matHeaderCellDef> Contraseña </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.contrasena}} </td>
+    </ng-container>
+
+    <!-- Fecha Nacimiento Column -->
+    <ng-container matColumnDef="fechaNacimiento">
+        <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.fechaNacimiento}} </td>
+    </ng-container>
+
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.estado}} </td>
+    </ng-container>
+
+    <!-- Horas Disponibles Column -->
+    <ng-container matColumnDef="horasDisponibles">
+        <th mat-header-cell *matHeaderCellDef> Horas Disponibles </th>
+        <td mat-cell *matCellDef="let docente"> {{docente.horasDisponibles}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<!-- END: ed8c6549bwf9 -->

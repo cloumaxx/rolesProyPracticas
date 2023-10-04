@@ -25,3 +25,14 @@ Crear componente:
 
 
 7X(l$Pm9#1.[
+
+
+----
+
+Mientras no se sepan datos sobre los docentes monitores, carga este archivo para agregar datos de
+prueba en la carpeta Scripts:
+
+```bash
+mariadb -u root -p
+source ~/Scripts/docentemonitor_insertmock.sql
+```
