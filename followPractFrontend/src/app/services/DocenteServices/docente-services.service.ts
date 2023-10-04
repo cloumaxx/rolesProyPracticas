@@ -1,6 +1,5 @@
-
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Docente {
@@ -22,10 +21,14 @@ export interface Docente {
 })
 
 export class DocenteService {
-  private baseUrl = 'http://localhost:8080/docente/';
+  private baseUrl = 'http://localhost:8080/docentes/';
 
-  constructor(private http: HttpClient) { }
+  constructor( private http: HttpClient ) { }
 
+  verDocentes(): Observable<any> {
+    const url = `${this.baseUrl}docentes_list/`;
+    return this.http.get(url);
+  }
   registrarDocente(docente: any) {
     const url = `${this.baseUrl}crear_docente/`;
 
@@ -56,8 +59,4 @@ export class DocenteService {
     return this.http.delete(url);
   }
 
-  verDocentes(): Observable<any> {
-    const url = `${this.baseUrl}docentes_list/`;
-    return this.http.get(url);
-  }
 }
