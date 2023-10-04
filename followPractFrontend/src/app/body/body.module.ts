@@ -17,6 +17,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
+import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
+import { VisualizarAspirantesComponent } from './visualizar-aspirantes/visualizar-aspirantes.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { VisualizarListadoDocentesComponent } from './visualizar-listado-docente
     ResponseDialogComponent,
     ResponseDialogComponentAspirantesComponent,
     VisualizarSemestresComponent,
-    VisualizarListadoDocentesComponent
+    VisualizarListadoDocentesComponent,
+    VisualizarEstudiantesComponent,
+    VisualizarAspirantesComponent
   ],
   imports: [
     BodyRoutingModule,

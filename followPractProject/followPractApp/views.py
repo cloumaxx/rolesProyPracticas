@@ -14,22 +14,28 @@ from django.forms.models import model_to_dict
 
 @api_view(['GET'])
 def estudiantes_list(request):
-    estudiantes = Estudiante.objects.all()
-    data = []
-    for estudiante in estudiantes:
-        data.append({
-            'id': estudiante.id,
-            'programa': estudiante.programa,
-            'codigo': estudiante.codigo,
-            'emailInstitucional': estudiante.emailInstitucional,
-            'emailPersonal': estudiante.emailPersonal,
-            'telefono': estudiante.telefono,
-            'nombre': estudiante.nombre,
-            'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d'),  # Formatear la fecha como una cadena
-            'semestre': estudiante.semestre
-        })
+    try:
+        estudiantes = Estudiante.objects.all()
+        data = []
+        for estudiante in estudiantes:
+            data.append({
+                'id': estudiante.id,
+                'programa': estudiante.programa,
+                'codigo': estudiante.codigo,
+                'emailInstitucional': estudiante.emailInstitucional,
+                'emailPersonal': estudiante.emailPersonal,
+                'telefono': estudiante.telefono,
+                'nombre': estudiante.nombre,
+                'fechaRegistro': estudiante.fechaRegistro.strftime('%Y-%m-%d'),  
+                'semestre': estudiante.semestre,
+                'estado': estudiante.estado,
+                'idDocenteMonitor': estudiante.idDocenteMonitor
 
-    return JsonResponse(data, safe=False)
+            })
+        return Response(data, status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay docentes'}, status=404)
+
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
     try:
@@ -331,6 +337,7 @@ def crearSemestre(request):
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def docentes_monitores_list(request):
     try:

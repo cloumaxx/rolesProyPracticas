@@ -34,5 +34,9 @@ export class NavBarComponent {
   routLinkVisualizarListadoSemestres(){
     this.router.navigate(['body/visualizar_semestres']);
   }
+  
+  routLinkVisualizarListadoEstudiantes(){
+    this.router.navigate(['body/visualizar_listado_estudiantes']);
+  }
 }
 

@@ -7,6 +7,7 @@ import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-pri
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarListadoDocentesComponent } from './visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
+import { VisualizarEstudiantesComponent } from './visualizar-estudiantes/visualizar-estudiantes.component';
 
 const routes: Routes = [
   {
@@ -40,7 +41,12 @@ const routes: Routes = [
   {
     path: 'body/visualizar_listado_docentes',
     component: VisualizarListadoDocentesComponent
+  },
+  {
+    path: 'body/visualizar_listado_estudiantes',
+    component: VisualizarEstudiantesComponent
   }
+  
 ];
 
 @NgModule({

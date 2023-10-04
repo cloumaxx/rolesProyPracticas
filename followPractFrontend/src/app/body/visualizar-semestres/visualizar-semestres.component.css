@@ -1,3 +1,45 @@
 main{
     padding-bottom: 30px;
 }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+
+
+
+  .container {
+    max-width: 100%;
+    margin: 20px;
+    overflow-x: auto; /* Hace que la tabla sea scrollable horizontalmente si es necesario */
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 95%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #333;
+    color: #fff;
+  }
+
+  tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+

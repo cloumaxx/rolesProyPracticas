@@ -26,7 +26,7 @@ export class DocenteService {
   constructor( private http: HttpClient ) { }
 
   verDocentes(): Observable<any> {
-    const url = `${this.baseUrl}semestres_list/`;
+    const url = `${this.baseUrl}docentes_list/`;
     return this.http.get(url);
   }
 
