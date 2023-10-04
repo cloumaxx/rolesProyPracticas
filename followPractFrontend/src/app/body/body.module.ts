@@ -7,7 +7,7 @@ import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-dat
 import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { FormularioNuevoDocenteMonitorComponent } from './forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
-import { ResponseDialogComponent } from './response-dialog-component/response-dialog-component.component';
+import { ResponseDialogComponent } from './cargar-listado/response-dialog-component/response-dialog-component.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
