@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CargarListadoComponent } from './cargar-listado/cargar-listado.component';
 import { CargarListadoAspirantesComponent } from './cargar-listado-aspirantes/cargar-listado-aspirantes.component';
 import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-datos-completa/visualizar-base-de-datos-completa.component';
+import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
+import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 const routes: Routes = [
   {
     path:'',
-    component:CargarListadoComponent
+    component:MenuPrincCoordinadorComponent
   },
   {
     path:'body/cargarListado',
@@ -19,6 +21,14 @@ const routes: Routes = [
   {
     path:'body/visualizar_listado_completo',
     component:VisualizarBaseDeDatosCompletaComponent
+  },
+  {
+    path: 'body/menu_principal_coordinador',
+    component: MenuPrincCoordinadorComponent
+  },
+  {
+    path: 'body/formulario_nuevo_semestre',
+    component: FormularioNuevoSemestreComponent
   }
 ];
 

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BodyModule } from './body/body.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { BodyModule } from './body/body.module';
     BrowserModule,
     AppRoutingModule,
     BodyModule,
-    HttpClientModule 
+    HttpClientModule,
+    BrowserAnimationsModule 
     
   ],
   providers: [],

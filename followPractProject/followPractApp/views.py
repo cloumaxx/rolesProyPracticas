@@ -9,7 +9,8 @@ from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Estudiante
+from .models import AspirantesDoc2, Estudiante, Semestre
+from django.forms.models import model_to_dict
 
 @api_view(['GET'])
 def estudiantes_list(request):
@@ -31,7 +32,6 @@ def estudiantes_list(request):
     return JsonResponse(data, safe=False)
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
-    print('salio',semestreEntrada)
     resultados = AspirantesDoc2.objects.filter(
         codigo__in=Estudiante.objects.values('codigo'),
         semestreRegistro=semestreEntrada  
@@ -41,7 +41,6 @@ def tablaCompletaPracticas_list(request,semestreEntrada):
     resultados_serializable = []
     for item in resultados:
         estudiante = Estudiante.objects.get(codigo=item.codigo)
-        print()
         if estudiante is not None:
             resultado_serializable = {
                 'id': item.id,
@@ -105,6 +104,10 @@ def tablaCompletaPracticas_list(request,semestreEntrada):
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':
+        estudiantes_creados = []
+        estudiantes_nuevos = []
+        estudiantes_activados = []
+        estudiantes_inactivados = []
         archivo = request.FILES.get('archivo')
         semestrePerteneciente = request.POST.get('semestre')
         
@@ -117,6 +120,7 @@ def crearPorListadoEstudiantes(request):
             estudiantes_anteriores = Estudiante.objects.filter(semestre=semestrePerteneciente)
             #estudiantes_anteriores.delete()
             if len(estudiantes_anteriores) == 0:
+                contEstudiantes = 0
                 for index, row in df.iterrows():
                     programa = row['PROG -']
                     codigo = row['CÓDIGO'].split('.')[0]    
@@ -135,6 +139,7 @@ def crearPorListadoEstudiantes(request):
                             estado=True
                         )
                     nuevo_estudiante.save()
+                    estudiantes_creados.append(nuevo_estudiante)
             else:
                 # Crea una lista para almacenar los códigos de estudiantes anteriores
                 codigos_estudiantes = [str(estudiante.codigo) for estudiante in estudiantes_anteriores]
@@ -165,22 +170,22 @@ def crearPorListadoEstudiantes(request):
                             estado=True
                         )
                         nuevo_estudiante.save()
-                        print(f'Estudiante con el código {codigo} se registro: ',estudianteAcrear)
+                        estudiantes_nuevos.append(nuevo_estudiante)
                     else:
                         estudiante_a_actualizar = Estudiante.objects.get(codigo=codigo)
                         estudiante_a_actualizar.estado = True
                         estudiante_a_actualizar.save()
-                        print(f'Estado(True) actualizado para el estudiante con código {codigo}') 
+                        estudiantes_activados.append(estudiante_a_actualizar)
                 # Compara los códigos en df con los códigos de estudiantes anteriores
-                for codigo in codigos_estudiantes:
-                    if codigo not in codigos_df:
-                        estudiante_a_actualizar = Estudiante.objects.get(codigo=codigo)
-                        estudiante_a_actualizar.estado = False
-                        estudiante_a_actualizar.save()
-                        print(f'Estado(false) actualizado para el estudiante con código {codigo}')
 
+            cambiosRealizados = {
+                "Estudiantes creados": [model_to_dict(estudiante) for estudiante in estudiantes_creados],
+                "Estudiantes nuevos": [model_to_dict(estudiante) for estudiante in estudiantes_nuevos],
+                "Estudiantes activados": [model_to_dict(estudiante) for estudiante in estudiantes_activados],
+                "Estudiantes inactivados": [model_to_dict(estudiante) for estudiante in estudiantes_inactivados]
+            }                
 
-            return Response({'Estado': "Estudiantes agregados"}, status=status.HTTP_200_OK)
+            return Response({'Cambios': cambiosRealizados}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
@@ -197,7 +202,7 @@ def crearPorListadoAspirantes(request):
         try:
             df = crearDfAspirantes(archivo)
             aspirantes_a_eliminar = Estudiante.objects.filter(semestre=semestrePerteneciente)
-            aspirantes_a_eliminar.delete()
+            #aspirantes_a_eliminar.delete()
             for index, row in df.iterrows():
                 item = row['ITEM']
                 periodo_de_practica = row['PERIODO DE PRÁCTICA']
@@ -299,3 +304,28 @@ def crearDfEstudiantes(archivoExcel):
     df = df.astype(str)
     return df
 
+@api_view(['POST'])
+def crearSemestre(request):
+    if request.method == 'POST':
+        try:
+            # Obtener los datos de la solicitud POST
+            fecha_inicio = request.data['fechaInicio']
+            fecha_fin = request.data['fechaFin']
+            numero_semestre = request.data['numeroSemestre']
+            vigente = request.data['vigente']
+
+            # Crear un nuevo objeto Semestre
+            semestre = Semestre(
+                fechaInicio=fecha_inicio,
+                fechaFin=fecha_fin,
+                numeroSemestre=numero_semestre,
+                vigente=vigente
+            )
+
+            # Guardar el objeto en la base de datos
+            semestre.save()
+
+            return Response({'message': 'Semestre creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
