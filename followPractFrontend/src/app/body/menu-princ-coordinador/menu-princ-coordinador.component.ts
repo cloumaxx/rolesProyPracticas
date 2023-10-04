@@ -13,4 +13,9 @@ export class MenuPrincCoordinadorComponent {
   routLinkVisualizarCrearSemestre(){
     this.router.navigate(['body/formulario_nuevo_semestre']);
   }
+
+  routLinkVisualizarCrearDocente(){
+    this.router.navigate(['body/formulario_nuevo_docente']);
+  }
+  
 }

@@ -5,6 +5,7 @@ import { CargarListadoAspirantesComponent } from './cargar-listado-aspirantes/ca
 import { VisualizarBaseDeDatosCompletaComponent } from './visualizar-base-de-datos-completa/visualizar-base-de-datos-completa.component';
 import { MenuPrincCoordinadorComponent } from './menu-princ-coordinador/menu-princ-coordinador.component';
 import { FormularioNuevoSemestreComponent } from './forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
+import { FormularioNuevoDocenteMonitorComponent } from './forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
 const routes: Routes = [
   {
     path:'',
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'body/formulario_nuevo_semestre',
     component: FormularioNuevoSemestreComponent
+  },
+  {
+    path: 'body/formulario_nuevo_docente',
+    component: FormularioNuevoDocenteMonitorComponent
   }
 ];
 
