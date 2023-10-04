@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResponseDialogComponentComponent } from './response-dialog-component.component';
+import { ResponseDialogComponent } from './response-dialog-component.component';
 
-describe('ResponseDialogComponentComponent', () => {
-  let component: ResponseDialogComponentComponent;
-  let fixture: ComponentFixture<ResponseDialogComponentComponent>;
+describe('ResponseDialogComponent', () => {
+  let component: ResponseDialogComponent;
+  let fixture: ComponentFixture<ResponseDialogComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResponseDialogComponentComponent]
+      declarations: [ResponseDialogComponent]
     });
-    fixture = TestBed.createComponent(ResponseDialogComponentComponent);
+    fixture = TestBed.createComponent(ResponseDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

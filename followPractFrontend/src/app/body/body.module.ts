@@ -10,6 +10,7 @@ import { FormularioNuevoDocenteMonitorComponent } from './forms/formulario-nuevo
 import { ResponseDialogComponent } from './response-dialog-component/response-dialog-component.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 @NgModule({
@@ -24,9 +25,10 @@ import { CommonModule } from '@angular/common';
     ResponseDialogComponent
   ],
   imports: [
-    CommonModule,
     BodyRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    CommonModule,
+    CarouselModule.forRoot()
   ]
 })
 export class BodyModule { }

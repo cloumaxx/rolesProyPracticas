@@ -7,6 +7,7 @@ import {
 } from 'src/app/services/EstudianteServices/estudiante-services.service';
 import { NotificationService } from 'src/app/notification.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ResponseDialogComponent } from '../response-dialog-component/response-dialog-component.component';
 
 
 @Component({
@@ -69,7 +70,6 @@ export class CargarListadoComponent implements OnInit {
             this.notificationService.showNotification('Archivo cargado con éxito');
             console.log('Archivo cargado con éxito', response);
         
-            // Abre un diálogo/modal para mostrar la respuesta
             this.openResponseDialog();
           },
           (error) => {
