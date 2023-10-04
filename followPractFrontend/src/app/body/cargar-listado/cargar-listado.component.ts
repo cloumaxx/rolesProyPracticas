@@ -7,7 +7,7 @@ import {
 } from 'src/app/services/EstudianteServices/estudiante-services.service';
 import { NotificationService } from 'src/app/notification.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ResponseDialogComponent } from '../response-dialog-component/response-dialog-component.component';
+import { ResponseDialogComponent } from './response-dialog-component/response-dialog-component.component';
 
 
 @Component({
