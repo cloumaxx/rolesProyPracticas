@@ -11,6 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from .models import AspirantesDoc2, DocenteMonitor, Estudiante, Semestre
 from django.forms.models import model_to_dict
+from .forms import DocenteMonitorForm
+from rest_framework import generics
 
 @api_view(['GET'])
 def estudiantes_list(request):
@@ -427,6 +429,7 @@ def docentes_monitores_list(request):
         return Response(data,status=status.HTTP_200_OK)
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
+    
 @api_view(['GET'])
 def semestres_list(request):
     try:
@@ -445,3 +448,38 @@ def semestres_list(request):
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'No hay semestres'}, status=404)
     
+@api_view(['POST'])
+def crearDocenteMonitor(request):
+    if request.method == 'POST':
+        try:
+            # Obtener los datos de la solicitud POST
+            nombre = request.data['nombre']
+            apellido = request.data['apellido']
+            cedula = request.data['cedula']
+            correo_personal = request.data['correoPersonal']
+            correo_institucional = request.data['correoInstitucional']
+            contrasena = request.data['contrasena']
+            fecha_nacimiento = request.data['fechaNacimiento']
+            estado = request.data['estado']
+            horas_disponibles = request.data['horasDispobibles']
+
+            # Crear un nuevo objeto DocenteMonitor
+            docente = DocenteMonitor(
+                nombre=nombre,
+                apellido=apellido,
+                cedula=cedula,
+                correoPersonal=correo_personal,
+                correoInstitucional=correo_institucional,
+                contrasena=contrasena,
+                fechaNacimiento=fecha_nacimiento,
+                estado=estado,
+                horasDispobibles=horas_disponibles
+            )
+
+            # Guardar el objeto en la base de datos
+            docente.save()
+
+            return Response({'message': 'Docente creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
