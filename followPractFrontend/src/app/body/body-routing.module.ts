@@ -8,12 +8,20 @@ import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
-import { FormularioNuevoDocenteMonitorComponent } from './Coordindaor_Practicas/forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
-
+import { LoginComponent } from './login/login.component';
+import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
 const routes: Routes = [
   {
     path:'',
+    component:LoginComponent
+  },
+  {
+    path:'body/MenuPrincCoordinador',
     component:MenuPrincCoordinadorComponent
+  },
+  {
+    path:'body/MenuPrincOficinaPracticas',
+    component:MenuPrincOficinaPracticasComponent
   },
   {
     path:'body/cargarListado',
@@ -34,10 +42,6 @@ const routes: Routes = [
   {
     path: 'body/formulario_nuevo_semestre',
     component: FormularioNuevoSemestreComponent
-  },
-  {
-    path: 'body/formulario_nuevo_docente',
-    component: FormularioNuevoDocenteMonitorComponent
   },
   {
     path: 'body/visualizar_semestres',
