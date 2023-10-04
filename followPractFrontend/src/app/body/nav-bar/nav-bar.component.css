@@ -7,14 +7,14 @@
   display: block;
   width: 0px;
   height: 2px;
-  background: #041f52;
+  background: white;
   transition: 0.4s
 }
 
 .nav-item:hover::after {
   width: 100%
 }
-
+.navbar-brand,
 .dropdown-menu,
 .dropdown-item {
   cursor: pointer;
@@ -69,5 +69,12 @@
   position: absolute;
   top: 50%;
   left: 49%;
+  color: white;
+}
+#navBarTitles{
+  color: white;
+}
+#navbar{
+  background-color: #FF8000;
   color: white;
 }

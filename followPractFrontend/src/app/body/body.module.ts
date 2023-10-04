@@ -11,6 +11,8 @@ import { ResponseDialogComponent } from './cargar-listado/response-dialog-compon
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ResponseDialogComponentAspirantesComponent } from './cargar-listado/response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
+import { VisualizarSemestresComponent } from './visualizar-semestres/visualizar-semestres.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MenuPrincCoordinadorComponent,
     FormularioNuevoSemestreComponent,
     FormularioNuevoDocenteMonitorComponent,
-    ResponseDialogComponent
+    ResponseDialogComponent,
+    ResponseDialogComponentAspirantesComponent,
+    VisualizarSemestresComponent
   ],
   imports: [
     BodyRoutingModule,
