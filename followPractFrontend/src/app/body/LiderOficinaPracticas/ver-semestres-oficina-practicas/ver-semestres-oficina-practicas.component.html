@@ -1,0 +1,39 @@
+
+<body class="body">
+    <header>
+        <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
+    </header>
+    <main >
+          <div class="form-group">
+          <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="searchText" placeholder="Buscar...">
+        </div>
+            <div class="container">
+                <h1>Listado de Semestres</h1>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Fecha de Inicio</th>
+                      <th>Fecha de Fin</th>
+                      <th>Número de Semestre</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let semestre of semestres" [hidden]="!matchesFilter(semestre)">
+                      <td>{{ semestre.id }}</td>
+                      <td>{{ semestre.fechaInicio }}</td>
+                      <td>{{ semestre.fechaFin }}</td>
+                      <td>{{ semestre.numeroSemestre }}</td>
+                      
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+    </main>
+    <footer>
+    
+    </footer>
+        
+        
+</body>

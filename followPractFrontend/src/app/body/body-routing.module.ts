@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
 import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
+import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
 const routes: Routes = [
   {
     path:'',
@@ -62,6 +63,10 @@ const routes: Routes = [
     path: 'body/oficinaPracticas/crear_semestre',
     component: FormularioNuevoSemestreComponent
   },
+  {
+    path: 'body/oficinaPracticas/ver_semestres',
+    component: VerSemestresOficinaPracticasComponent
+  }
   
 ];
 

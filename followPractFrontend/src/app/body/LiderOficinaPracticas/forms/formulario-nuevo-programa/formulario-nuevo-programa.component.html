@@ -1,0 +1,29 @@
+<header>
+    <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
+</header>
+<main>
+    <!-- semestre.component.html -->
+    <div>
+        <h2>Registrar Programa</h2>
+        <form (submit)="crearPrograma()">
+            
+          
+            <label for="programaNombre">Nombre del programa:</label>
+            <input type="text" id="programaNombre" [(ngModel)]="programaData.programaNombre" name="programaNombre" required>
+            <br>
+            <label for="programaCodigo">Código  del programa:</label>
+            <input type="text" id="programaCodigo" [(ngModel)]="programaData.programaCodigo" name="programaCodigo" required>
+            <br>
+            
+            
+            <br>
+            <button type="submit">Crear Programa</button>
+          </form>
+     
+    </div>
+    
+</main>
+
+<footer>
+
+</footer>
