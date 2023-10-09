@@ -13,4 +13,7 @@ export class MenuPrincOficinaPracticasComponent {
   routLinkVisualizarVerSemestre(){
     this.router.navigate(['body/oficinaPracticas/crear_semestre']);
   }
+  routLinkVisualizarMenuInicial(){
+    this.router.navigate(['']);
+  }
 }
