@@ -15,4 +15,8 @@ export class ProgramaServicesService {
     return this.http.post(url, programaData);
   }
 
+  verProgramas(): Observable<any> {
+    const url = `${this.baseUrl}programas_list/`;
+    return this.http.get(url);
+  }
 }

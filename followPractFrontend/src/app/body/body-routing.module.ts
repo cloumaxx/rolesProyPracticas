@@ -10,9 +10,10 @@ import { LoginComponent } from './login/login.component';
 import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
 import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
-import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
+import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
 import { FormularioNuevoProgramaComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-programa/formulario-nuevo-programa.component';
 import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-coordinador/formulario-nuevo-coordinador.component';
+import { VerCoordinadoresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-coordinadores-oficina-practicas/ver-coordinadores-oficina-practicas.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,10 @@ const routes: Routes = [
   {
     path: 'body/oficinaPracticas/crear_coordinador',
     component:FormularioNuevoCoordinadorComponent
+  },
+  {
+    path:'body/oficinaPracticas/visualizar_listado_coordinadores',
+    component:VerCoordinadoresOficinaPracticasComponent
   }
   
 

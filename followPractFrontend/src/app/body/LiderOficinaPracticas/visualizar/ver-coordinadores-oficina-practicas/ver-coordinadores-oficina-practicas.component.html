@@ -1,0 +1,46 @@
+
+<body class="body">
+    <header>
+        <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
+    </header>
+    <main >
+          
+            <div class="container">
+                <h1>Listado de Semestres</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo Personal</th>
+                            <th>Correo Institucional</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                  <tbody>
+                    <tr *ngFor="let coordinador of coordinadores" >
+                      <td>{{coordinador.id}}</td>
+                        <td>{{coordinador.nombre}}</td>
+                        <td>{{coordinador.apellido}}</td>
+                        <td>{{coordinador.cedula}}</td>
+                        <td>{{coordinador.correoPersonal}}</td>
+                        <td>{{coordinador.correoInstitucional}}</td>
+                        <td>{{coordinador.fechaNacimiento}}</td>
+                        <td>{{ coordinador.estado ? 'activo' : 'inactivo' }}</td>
+
+                      
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+    </main>
+    <footer>
+    
+    </footer>
+        
+        
+</body>

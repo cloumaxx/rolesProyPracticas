@@ -15,6 +15,8 @@ export class NavBarOfcPracticasComponent {
   }
   VerSemestresOficinaPracticasComponent(){
     this.router.navigate(['body/oficinaPracticas/ver_semestres']);
-
+  }
+  routerLinkVisualozarListadoCoordinadores(){
+    this.router.navigate(['body/oficinaPracticas/visualizar_listado_coordinadores']);
   }
 }

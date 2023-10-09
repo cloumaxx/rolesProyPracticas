@@ -15,4 +15,9 @@ export class CoordinadorServicesService {
     return this.http.post(url, programaData);
   }
 
+  verCoordinadores(): Observable<any> {
+    const url = `${this.baseUrl}coordinador_list/`;
+    return this.http.get(url);
+  }
+
 }
