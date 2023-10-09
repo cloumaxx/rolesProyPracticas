@@ -1,0 +1,43 @@
+<header>
+    <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
+</header>
+<main>
+    <!-- semestre.component.html -->
+    <div class="container"> 
+        <h2>Registrar coordinador</h2>
+        <form (submit)="crearPrograma()">
+            
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" [(ngModel)]="coordinadorData.nombre" name="nombre" required><br>
+    
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" [(ngModel)]="coordinadorData.apellido" name="apellido" required><br>
+    
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" [(ngModel)]="coordinadorData.cedula" name="cedula" required><br>
+    
+            <label for="correoPersonal">Correo Personal:</label>
+            <input type="email" id="correoPersonal" [(ngModel)]="coordinadorData.correoPersonal" name="correoPersonal" required><br>
+    
+            <label for="correoInstitucional">Correo Institucional:</label>
+            <input type="email" id="correoInstitucional" [(ngModel)]="coordinadorData.correoInstitucional" name="correoInstitucional" required><br>
+    
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" [(ngModel)]="coordinadorData.contrasena" name="contrasena" required><br>
+    
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" [(ngModel)]="coordinadorData.fechaNacimiento" name="fechaNacimiento" required><br>
+    
+            <label for="estado">Estado:</label>
+            <input type="checkbox" id="estado" [(ngModel)]="coordinadorData.estado" name="estado" value="true"> Activo<br>
+
+            <button type="submit">Enviar</button>
+          </form>
+     
+    </div>
+    
+</main>
+
+<footer>
+
+</footer>

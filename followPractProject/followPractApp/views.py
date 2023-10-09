@@ -9,7 +9,7 @@ from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, DocenteMonitor, Estudiante, Semestre
+from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre
 from django.forms.models import model_to_dict
 
 ##############################################################################################
@@ -467,6 +467,28 @@ def docentes_monitores_list(request):
 ##############################################################################################
 #####################################    Programa       ######################################
 ##############################################################################################
+@api_view(['POST'])
+def crearPrograma(request):
+    if request.method == 'POST':
+        try:
+            # Obtener los datos de la solicitud POST
+            programaNombre = request.data['programaNombre']
+            programaCodigo = request.data['programaCodigo']
+            idCoordinador = request.data['idCoordinador']
+            # Crear un nuevo objeto Semestre
+            programa = Programa(
+                programaNombre=programaNombre,
+                programaCodigo=programaCodigo,
+                idCoordinador=idCoordinador,
+            )
+
+            # Guardar el objeto en la base de datos
+            programa.save()
+
+            return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -478,3 +500,41 @@ def docentes_monitores_list(request):
 ##############################################################################################
 #####################################    Asignatura       ######################################
 ##############################################################################################
+
+
+
+##############################################################################################
+#####################################    Coordinador      ####################################
+##############################################################################################
+@api_view(['POST'])
+def crearCoordinador(request):
+    if request.method == 'POST':
+        try:
+            # Obtener los datos de la solicitud POST
+            nombre = request.data['nombre']
+            apellido = request.data['apellido']
+            cedula = request.data['cedula']
+            correoPersonal = request.data['correoPersonal']
+            correoInstitucional = request.data['correoInstitucional']
+            contrasena = request.data['contrasena']
+            fechaNacimiento = request.data['fechaNacimiento']
+            estado = request.data['estado']
+            # Crear un nuevo objeto Semestre
+            coordinador = Coordinador(
+                nombre=nombre,
+                apellido=apellido,
+                cedula=cedula,
+                correoPersonal=correoPersonal,
+                correoInstitucional=correoInstitucional,
+                contrasena=contrasena,
+                fechaNacimiento=fechaNacimiento,
+                estado=estado,
+            )
+            
+            # Guardar el objeto en la base de datos
+            coordinador.save()
+
+            return Response({'message': 'Coordinador creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)

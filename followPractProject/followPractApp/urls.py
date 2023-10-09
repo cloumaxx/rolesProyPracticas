@@ -16,5 +16,8 @@ urlpatterns = [
     path('semestre/crear_semestre/', views.crearSemestre, name='crear_semestre'),
 
     path('semestre/semestres_list/', views.semestres_list, name='semestres_list'),
-    #path('docentes/', views.docentes_list, name='listado_docentes'),
+
+    path('programas/crear_programa/', views.crearPrograma, name='crear_programa'),
+
+    path('coordinador/crear_coordinador/', views.crearCoordinador, name='crear_coordinador'),
 ]
