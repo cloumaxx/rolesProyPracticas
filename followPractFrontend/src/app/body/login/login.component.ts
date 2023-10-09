@@ -10,11 +10,11 @@ export class LoginComponent {
   constructor(private router:Router){
   }
   routLinkIrMenuCoordinador(){
-    this.router.navigate(['body/MenuPrincCoordinador']);
+    this.router.navigate(['body/coordinadorPracticas/MenuPrincCoordinador']);
 
   }
   routLinkIrMenuOficinaPracticas(){
-    this.router.navigate(['body/MenuPrincOficinaPracticas']);
+    this.router.navigate(['body/oficinaPracticas/MenuPrincOficinaPracticas']);
 
   }
 }
