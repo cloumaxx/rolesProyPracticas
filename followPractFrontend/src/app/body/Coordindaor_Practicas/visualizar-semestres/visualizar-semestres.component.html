@@ -14,7 +14,6 @@
                       <th>Fecha de Inicio</th>
                       <th>Fecha de Fin</th>
                       <th>Número de Semestre</th>
-                      <th>Vigente</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -23,8 +22,7 @@
                       <td>{{ semestre.fechaInicio }}</td>
                       <td>{{ semestre.fechaFin }}</td>
                       <td>{{ semestre.numeroSemestre }}</td>
-                      <td *ngIf="semestre.vigente == true">Si</td>
-                        <td *ngIf="semestre.vigente == false">No</td>
+                      
                     </tr>
                   </tbody>
                 </table>

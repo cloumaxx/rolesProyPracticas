@@ -10,7 +10,7 @@ export class NavBarOfcPracticasComponent {
   constructor(private router:Router){
   }
   routLinkIrMenuOficinaPracticas(){
-    this.router.navigate(['body/MenuPrincOficinaPracticas']);
+    this.router.navigate(['body/oficinaPracticas/MenuPrincOficinaPracticas']);
 
   }
 }

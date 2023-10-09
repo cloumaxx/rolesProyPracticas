@@ -12,7 +12,14 @@ class Estudiante(models.Model):
     fechaRegistro = models.DateField(auto_now_add=True)
     estado = models.BooleanField(default=True)
     semestre = models.CharField(max_length=10)
+
+    certificadoArl = models.CharField(max_length=500)
+    certificadoEps = models.CharField(max_length=500)
+    contratoPractica = models.CharField(max_length=500)
+
     idDocenteMonitor = models.IntegerField(default=0)
+    idAsignatura = models.IntegerField(default=0)
+
     def __str__(self):
         return self.nombre
     
@@ -53,6 +60,7 @@ class AspirantesDoc2(models.Model):
 
 class DocenteMonitor(models.Model):
     id = models.AutoField(primary_key=True)
+    idPrograma = models.CharField(max_length=50) 
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     cedula = models.CharField(max_length=100)
@@ -63,9 +71,27 @@ class DocenteMonitor(models.Model):
     estado = models.BooleanField(default=True)
     horasDispobibles = models.IntegerField()
 
-class Semestre(models.Model):
+class Semestre(models.Model):      
     id = models.AutoField(primary_key=True)
     fechaInicio = models.DateField()
     fechaFin = models.DateField()
     numeroSemestre = models.CharField(max_length=20)
-    vigente = models.BooleanField(default=True)
+
+class AsignacionEstudiantesDocentes(models.Model):
+    id = models.AutoField(primary_key=True)
+    idEstudiante = models.IntegerField()
+    idDocenteMonitor = models.IntegerField()
+    idSemestre = models.IntegerField()
+    fechaAsignacion = models.DateField(auto_now_add=True)
+    programa = models.CharField(max_length=50) 
+
+class Asignatura(models.Model):
+    id = models.AutoField(primary_key=True)
+    asignaturaCodigo = models.CharField(max_length=50)
+    asignaturaNombre = models.CharField(max_length=50)
+
+
+class Programa(models.Model):
+    id = models.AutoField(primary_key=True)
+    programaNombre = models.CharField(max_length=50)
+    programaCodigo = models.CharField(max_length=50)
