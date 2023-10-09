@@ -61,7 +61,7 @@ const routes: Routes = [
   {
     path: 'body/oficinaPracticas/crear_semestre',
     component: FormularioNuevoSemestreComponent
-  }
+  },
   
 ];
 
