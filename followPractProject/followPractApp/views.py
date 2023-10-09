@@ -386,14 +386,12 @@ def crearSemestre(request):
             fecha_inicio = request.data['fechaInicio']
             fecha_fin = request.data['fechaFin']
             numero_semestre = request.data['numeroSemestre']
-            vigente = request.data['vigente']
 
             # Crear un nuevo objeto Semestre
             semestre = Semestre(
                 fechaInicio=fecha_inicio,
                 fechaFin=fecha_fin,
                 numeroSemestre=numero_semestre,
-                vigente=vigente
             )
 
             # Guardar el objeto en la base de datos
@@ -439,7 +437,6 @@ def semestres_list(request):
                 'fechaInicio': semestre.fechaInicio.strftime('%Y-%m-%d'),
                 'fechaFin': semestre.fechaFin.strftime('%Y-%m-%d'),
                 'numeroSemestre': semestre.numeroSemestre,
-                'vigente': semestre.vigente
             })
         return Response(data,status=status.HTTP_200_OK)
     except Estudiante.DoesNotExist:

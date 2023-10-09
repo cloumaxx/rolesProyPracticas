@@ -1,8 +1,6 @@
-import { Component, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
-import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
 
 @Component({
   selector: 'app-formulario-nuevo-semestre',
@@ -14,7 +12,6 @@ export class FormularioNuevoSemestreComponent {
     fechaInicio: '',
     fechaFin: '',
     numeroSemestre: '',
-    vigente: false
   };
   semestreSeleccionado: string = '';
   year: number = 2022;
