@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProgramaServicesService } from 'src/app/services/ProgramaServices/programa-services.service';
 
 @Component({
   selector: 'app-formulario-nuevo-programa',
@@ -8,9 +9,21 @@ import { Component } from '@angular/core';
 export class FormularioNuevoProgramaComponent {
   programaData = {
     programaNombre:'',
-    programaCodigo: ''
+    programaCodigo: '',
+    idCoordinador:''
     
   };
+  constructor(private programaService: ProgramaServicesService) { }
   crearPrograma() {
+    console.log(this.programaData);
+    this.programaService.crearPrograma(this.programaData)
+      .subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          console.error('Error al crear el programa', error);
+        }
+      );
   }
 }

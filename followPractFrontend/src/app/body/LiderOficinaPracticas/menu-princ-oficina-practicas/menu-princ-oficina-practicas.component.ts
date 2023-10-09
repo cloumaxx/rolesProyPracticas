@@ -18,6 +18,11 @@ export class MenuPrincOficinaPracticasComponent {
   }
   VerSemestresOficinaPracticasComponent(){
     this.router.navigate(['body/oficinaPracticas/ver_semestres']);
-
+  }
+  routerLinkCrearPrograma(){
+    this.router.navigate(['body/oficinaPracticas/crear_programa']);
+  }
+  routerLinkCrearCoordinador(){
+    this.router.navigate(['body/oficinaPracticas/crear_coordinador']);
   }
 }

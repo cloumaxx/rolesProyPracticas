@@ -11,6 +11,9 @@ import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu
 import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
+import { FormularioNuevoProgramaComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-programa/formulario-nuevo-programa.component';
+import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-coordinador/formulario-nuevo-coordinador.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -66,7 +69,17 @@ const routes: Routes = [
   {
     path: 'body/oficinaPracticas/ver_semestres',
     component: VerSemestresOficinaPracticasComponent
+  },
+  {
+    path: 'body/oficinaPracticas/crear_programa',
+    component:FormularioNuevoProgramaComponent
+  },
+  {
+    path: 'body/oficinaPracticas/crear_coordinador',
+    component:FormularioNuevoCoordinadorComponent
   }
+  
+
   
 ];
 
