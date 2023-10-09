@@ -25,6 +25,7 @@ import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu
 import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc-practicas/nav-bar-ofc-practicas.component';
 import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
+import { VerSemestresOficinaPracticasComponent } from './lieroficinapracticas/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualiz
     MenuPrincEstudianteComponent,
     MenuPrincOficinaPracticasComponent,
     NavBarOfcPracticasComponent,
-    FormularioNuevoSemestreComponent
+    FormularioNuevoSemestreComponent,
+    VerSemestresOficinaPracticasComponent
   ],
   imports: [
     BodyRoutingModule,
