@@ -95,3 +95,16 @@ class Programa(models.Model):
     id = models.AutoField(primary_key=True)
     programaNombre = models.CharField(max_length=50)
     programaCodigo = models.CharField(max_length=50)
+    idCoordinador = models.IntegerField()
+
+class Coordinador(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    cedula = models.CharField(max_length=50)
+    correoPersonal = models.EmailField()
+    correoInstitucional = models.EmailField()
+    contrasena = models.CharField(max_length=50)
+    fechaNacimiento = models.DateField()
+    estado = models.BooleanField(default=True)
+    
