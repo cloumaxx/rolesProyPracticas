@@ -439,6 +439,18 @@ def semestres_list(request):
 #####################################    Docente       ######################################
 ##############################################################################################
 
+@api_view(['POST'])
+def crearDocenteMonitor(request):
+    if request.method == 'POST':
+        try:
+            #
+
+            return Response({'message': 'Semestre creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def docentes_monitores_list(request):
     try:
