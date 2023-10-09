@@ -12,6 +12,11 @@ from rest_framework.request import Request
 from .models import AspirantesDoc2, DocenteMonitor, Estudiante, Semestre
 from django.forms.models import model_to_dict
 
+##############################################################################################
+#####################################    ESTUDIANTES    ######################################
+##############################################################################################
+
+
 @api_view(['GET'])
 def estudiantes_list(request):
     try:
@@ -36,79 +41,6 @@ def estudiantes_list(request):
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
 
-@api_view(['GET'])
-def tablaCompletaPracticas_list(request,semestreEntrada):
-    try:
-        resultados = AspirantesDoc2.objects.filter(
-            codigo__in=Estudiante.objects.values('codigo'),
-            semestreRegistro=semestreEntrada  
-        )
-        
-        # Convertir el QuerySet en una lista de diccionarios
-        resultados_serializable = []
-        for item in resultados:
-            estudiante = Estudiante.objects.get(codigo=item.codigo)
-            if estudiante is not None:
-                resultado_serializable = {
-                    'id': item.id,
-                    'semestreRegistro': item.semestreRegistro,
-                    'semestre': estudiante.programa.split('-')[1],
-                    'asignatura': '79073-7L',
-                    'asignaturanombre': 'PRACTICA EMPRESARIAL',
-                    'practicanteprograma':'SISTEMAS',
-                    'asisID':'8',
-                    'practicantesemestre': estudiante.programa,
-                    'practicantecodigo':estudiante.codigo,
-                    'practicanteemail':estudiante.emailInstitucional,
-                    'practicanteemailOtro':estudiante.emailPersonal,
-                    'practicantetelefono':estudiante.telefono,
-                    'practicantenombre':estudiante.nombre,
-                    'practicanteestado':'',
-                    'seguimientoinicio':'',  
-                    'seguimientocierre':'',
-                    'notacierre':'',
-                    'notamecanismo':'',
-                    'notafecha':'',
-                    'docentemonitor':'',
-                    'docenteasignacion':'',
-                    'matriculaasis':'',
-                    'matriculaok':'',
-                    'matriculafecha':'',
-                    'item': item.item,
-                    'periodoPractica': item.periodoPractica,
-                    'aprobacionProg': item.aprobacionProg,
-                    'comentariosProg': item.comentariosProg,
-                    'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
-                    'nombres': item.nombres,
-                    'apellidos': item.apellidos,
-                    'codigo': item.codigo,
-                    'cedula': item.cedula,
-                    'celular': item.celular,
-                    'correo': item.correo,
-                    'planEstudios': item.planEstudios,
-                    'jornada': item.jornada,
-                    'inscripcion': item.inscripcion,
-                    'cursoInduccion': item.cursoInduccion,
-                    'rutaPreparacionVl': item.rutaPreparacionVl,
-                    'envioHv': item.envioHv,
-                    'tituloTecnico': item.tituloTecnico,
-                    'practicaDondeLabora': item.practicaDondeLabora,
-                    'estadoUbicacion': item.estadoUbicacion,
-                    'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
-                    'tipoContrato': item.tipoContrato,
-                    'fechaInicio': item.fechaInicio,
-                    'fechaFinal': item.fechaFinal,
-                    'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
-                    'datosTutor': item.datosTutor,
-                    'documentosPendientes': item.documentosPendientes,
-                    'sector': item.sector,
-                }
-                resultados_serializable.append(resultado_serializable)
-        
-
-        return JsonResponse(resultados_serializable, safe=False)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 @api_view(['POST'])
 def crearPorListadoEstudiantes(request):
     if request.method == 'POST':
@@ -196,7 +128,38 @@ def crearPorListadoEstudiantes(request):
             return Response({'Cambios': cambiosRealizados}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def estudiante_detail(request, estudiante_id):
+    try:
         
+        estudiante = Estudiante.objects.get(id=estudiante_id)
+        data = {
+            'id': estudiante.id,
+            'programa': estudiante.programa,
+            'codigo': estudiante.codigo,
+            'emailInstitucional': estudiante.emailInstitucional,
+            'emailPersonal': estudiante.emailPersonal,
+            'telefono': estudiante.telefono,
+            'nombre': estudiante.nombre,
+            'fechaRegistro': estudiante.fechaRegistro.strftime("%Y-%m-%d")
+        }
+        return JsonResponse(data)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'Estudiante no encontrado'}, status=404)
+ 
+
+def crearDfEstudiantes(archivoExcel):
+    # Lee el archivo Excel en un DataFrame de pandas
+    df = pd.read_excel(archivoExcel, sheet_name='Sheet1', usecols="B:H", skiprows=11)
+    df = df[df['PROG -'] != 'SEM']
+    df = df.dropna(how='all')
+    df = df.astype(str)
+    return df
+
+##############################################################################################
+#####################################    Aspirantes     ######################################
+##############################################################################################
 
 @api_view(['POST'])
 def crearPorListadoAspirantes(request):
@@ -344,25 +307,6 @@ def crearPorListadoAspirantes(request):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
-def estudiante_detail(request, estudiante_id):
-    try:
-        
-        estudiante = Estudiante.objects.get(id=estudiante_id)
-        data = {
-            'id': estudiante.id,
-            'programa': estudiante.programa,
-            'codigo': estudiante.codigo,
-            'emailInstitucional': estudiante.emailInstitucional,
-            'emailPersonal': estudiante.emailPersonal,
-            'telefono': estudiante.telefono,
-            'nombre': estudiante.nombre,
-            'fechaRegistro': estudiante.fechaRegistro.strftime("%Y-%m-%d")
-        }
-        return JsonResponse(data)
-    except Estudiante.DoesNotExist:
-        return JsonResponse({'error': 'Estudiante no encontrado'}, status=404)
- 
 def crearDfAspirantes(archivoExcel):
     df = pd.read_excel(archivoExcel, skiprows=2)
     df = df.dropna(how='all')
@@ -370,14 +314,84 @@ def crearDfAspirantes(archivoExcel):
     return df
 
 
-def crearDfEstudiantes(archivoExcel):
-    # Lee el archivo Excel en un DataFrame de pandas
-    df = pd.read_excel(archivoExcel, sheet_name='Sheet1', usecols="B:H", skiprows=11)
-    df = df[df['PROG -'] != 'SEM']
-    df = df.dropna(how='all')
-    df = df.astype(str)
-    return df
+@api_view(['GET'])
+def tablaCompletaPracticas_list(request,semestreEntrada):
+    try:
+        resultados = AspirantesDoc2.objects.filter(
+            codigo__in=Estudiante.objects.values('codigo'),
+            semestreRegistro=semestreEntrada  
+        )
+        
+        # Convertir el QuerySet en una lista de diccionarios
+        resultados_serializable = []
+        for item in resultados:
+            estudiante = Estudiante.objects.get(codigo=item.codigo)
+            if estudiante is not None:
+                resultado_serializable = {
+                    'id': item.id,
+                    'semestreRegistro': item.semestreRegistro,
+                    'semestre': estudiante.programa.split('-')[1],
+                    'asignatura': '79073-7L',
+                    'asignaturanombre': 'PRACTICA EMPRESARIAL',
+                    'practicanteprograma':'SISTEMAS',
+                    'asisID':'8',
+                    'practicantesemestre': estudiante.programa,
+                    'practicantecodigo':estudiante.codigo,
+                    'practicanteemail':estudiante.emailInstitucional,
+                    'practicanteemailOtro':estudiante.emailPersonal,
+                    'practicantetelefono':estudiante.telefono,
+                    'practicantenombre':estudiante.nombre,
+                    'practicanteestado':'',
+                    'seguimientoinicio':'',  
+                    'seguimientocierre':'',
+                    'notacierre':'',
+                    'notamecanismo':'',
+                    'notafecha':'',
+                    'docentemonitor':'',
+                    'docenteasignacion':'',
+                    'matriculaasis':'',
+                    'matriculaok':'',
+                    'matriculafecha':'',
+                    'item': item.item,
+                    'periodoPractica': item.periodoPractica,
+                    'aprobacionProg': item.aprobacionProg,
+                    'comentariosProg': item.comentariosProg,
+                    'matriculadoAcadFinanc': item.matriculadoAcadFinanc,
+                    'nombres': item.nombres,
+                    'apellidos': item.apellidos,
+                    'codigo': item.codigo,
+                    'cedula': item.cedula,
+                    'celular': item.celular,
+                    'correo': item.correo,
+                    'planEstudios': item.planEstudios,
+                    'jornada': item.jornada,
+                    'inscripcion': item.inscripcion,
+                    'cursoInduccion': item.cursoInduccion,
+                    'rutaPreparacionVl': item.rutaPreparacionVl,
+                    'envioHv': item.envioHv,
+                    'tituloTecnico': item.tituloTecnico,
+                    'practicaDondeLabora': item.practicaDondeLabora,
+                    'estadoUbicacion': item.estadoUbicacion,
+                    'comentariosProcesoUbicacion': item.comentariosProcesoUbicacion,
+                    'tipoContrato': item.tipoContrato,
+                    'fechaInicio': item.fechaInicio,
+                    'fechaFinal': item.fechaFinal,
+                    'datosEncargadoProcesoSeleccion': item.datosEncargadoProcesoSeleccion,
+                    'datosTutor': item.datosTutor,
+                    'documentosPendientes': item.documentosPendientes,
+                    'sector': item.sector,
+                }
+                resultados_serializable.append(resultado_serializable)
+        
 
+        return JsonResponse(resultados_serializable, safe=False)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+##############################################################################################
+#####################################    Semestre       ######################################
+##############################################################################################
 @api_view(['POST'])
 def crearSemestre(request):
     if request.method == 'POST':
@@ -403,6 +417,29 @@ def crearSemestre(request):
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+def semestres_list(request):
+    try:
+        
+        semestres = Semestre.objects.all()
+        data = []
+        for semestre in semestres:
+            data.append({
+                'id': semestre.id,
+                'fechaInicio': semestre.fechaInicio.strftime('%Y-%m-%d'),
+                'fechaFin': semestre.fechaFin.strftime('%Y-%m-%d'),
+                'numeroSemestre': semestre.numeroSemestre,
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except Estudiante.DoesNotExist:
+        return JsonResponse({'error': 'No hay semestres'}, status=404)
+    
+
+
+##############################################################################################
+#####################################    Docente       ######################################
+##############################################################################################
+
+@api_view(['GET'])
 def docentes_monitores_list(request):
     try:
         
@@ -425,20 +462,19 @@ def docentes_monitores_list(request):
         return Response(data,status=status.HTTP_200_OK)
     except Estudiante.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
-@api_view(['GET'])
-def semestres_list(request):
-    try:
-        
-        semestres = Semestre.objects.all()
-        data = []
-        for semestre in semestres:
-            data.append({
-                'id': semestre.id,
-                'fechaInicio': semestre.fechaInicio.strftime('%Y-%m-%d'),
-                'fechaFin': semestre.fechaFin.strftime('%Y-%m-%d'),
-                'numeroSemestre': semestre.numeroSemestre,
-            })
-        return Response(data,status=status.HTTP_200_OK)
-    except Estudiante.DoesNotExist:
-        return JsonResponse({'error': 'No hay semestres'}, status=404)
     
+
+##############################################################################################
+#####################################    Programa       ######################################
+##############################################################################################
+
+
+
+##############################################################################################
+########################    Asignacion Estudiantes Docentes       ############################
+##############################################################################################
+
+
+##############################################################################################
+#####################################    Asignatura       ######################################
+##############################################################################################

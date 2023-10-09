@@ -13,4 +13,8 @@ export class NavBarOfcPracticasComponent {
     this.router.navigate(['body/oficinaPracticas/MenuPrincOficinaPracticas']);
 
   }
+  VerSemestresOficinaPracticasComponent(){
+    this.router.navigate(['body/oficinaPracticas/ver_semestres']);
+
+  }
 }
