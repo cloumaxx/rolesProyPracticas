@@ -14,4 +14,9 @@ export class MenuPrincCoordinadorComponent {
   routLinkVisualizarVerSemestre(){
     this.router.navigate(['body/coordinadorPracticas/visualizar_semestres']);
   }
+  routLinkVisualizarMenuInicial(){
+    this.router.navigate(['']);
+  }
+  
+  
 }
