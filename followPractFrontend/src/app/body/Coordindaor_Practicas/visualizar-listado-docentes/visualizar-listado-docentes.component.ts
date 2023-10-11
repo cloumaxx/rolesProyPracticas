@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTableModule} from '@angular/material/table';
-import { DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
-
-
+import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { Docente, DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 
 @Component({
   selector: 'app-visualizar-listado-docentes',
@@ -12,22 +9,51 @@ import { DocenteServicesService } from 'src/app/services/DocenteServices/docente
   styleUrls: ['./visualizar-listado-docentes.component.css']
 })
 export class VisualizarListadoDocentesComponent {
-docentes: any[] = [];
+  docentes: Docente[] = [];
+  displayedColumns: string[] = ['nombre', 'apellido', 'cedula', 'acciones'];
+  dataSource = new MatTableDataSource<Docente>(this.docentes);
 
- constructor(private docenteService: DocenteServicesService) { }
+  constructor(private docenteService: DocenteServicesService,
+     private router:Router) { }
 
- ngOnInit() {
-  this.obtenerDocentes();
-}
+  ngOnInit() {
+    this.obtenerDocentes();
+  }
 
- obtenerDocentes() {
-  this.docenteService.verDocentes().subscribe(
-    (data) => {
-      this.docentes = data;
-    },
-    (error) => {
-      console.error('Error al obtener los docentes', error);
+  obtenerDocentes() {
+    this.docenteService.verDocentes().subscribe(
+      (data: Docente[]) => {
+        this.docentes = data;
+        this.dataSource.data = this.docentes;
+      },
+      (error) => {
+        console.error('Error al obtener los docentes', error);
+      }
+    );
+  }
+
+  editarDocente(docenteId: number) {
+    this.router.navigate(['body/coordinadorPracticas/editar-docente/', docenteId]);
+    
+    console.log(`Editar docente con ID ${docenteId}`);
+  }
+  
+   
+  eliminarDocente(docenteId: number) {
+    // Confirmamos con el usuario antes de realizar la eliminación.
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar a este docente?');
+    
+    if (confirmacion) {
+      this.docenteService.eliminarDocente(docenteId).subscribe(
+        () => {
+          console.log('Docente eliminado con éxito');
+          // Vuelve a cargar la lista de docentes después de la eliminación.
+          this.obtenerDocentes();
+        },
+        error => {
+          console.error('Error al eliminar el docente', error);
+        }
+      );
     }
-  );
-}
+  }
 }

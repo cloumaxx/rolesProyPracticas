@@ -1,6 +1,6 @@
 from rest_framework import serializers 
 from followPractApp.models import Estudiante, Semestre
-from followPractApp.models import AspirantesDoc2
+from followPractApp.models import AspirantesDoc2, DocenteMonitor
 
 class FollowPractSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +27,8 @@ class serializerSemestre(serializers.ModelSerializer):
                     'fechaFin',
                     'fechaRegistro',
                     'estado')
+        
+class DocenteMonitorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocenteMonitor
+        fields = '__all__'

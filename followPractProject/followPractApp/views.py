@@ -3,7 +3,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-from followPractApp.followPractAppSerializer import Estudiante
+from followPractApp.followPractAppSerializer import DocenteMonitorSerializer, Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
@@ -11,6 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre
 from django.forms.models import model_to_dict
+from rest_framework import status
+from .models import DocenteMonitor
 
 ##############################################################################################
 #####################################    ESTUDIANTES    ######################################
@@ -497,9 +499,68 @@ def docentes_monitores_list(request):
 
             })
         return Response(data,status=status.HTTP_200_OK)
-    except Estudiante.DoesNotExist:
+    except DocenteMonitor.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
     
+@api_view(['PUT'])
+def actualizar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return JsonResponse({'message': 'Docente no encontrado'}, status=404)
+
+    if request.method == 'PUT':
+        # Obtener datos de la solicitud PUT
+        data = request.data  # O request.data dependiendo de la versión de Django
+
+        # Actualizar los campos relevantes del objeto
+        docente.nombre = data.get('nombre', docente.nombre)
+        docente.apellido = data.get('apellido', docente.apellido)
+        docente.cedula = data.get('cedula', docente.cedula)
+        docente.correoPersonal = data.get('correoPersonal', docente.correoPersonal)
+        docente.correoInstitucional = data.get('correoInstitucional', docente.correoInstitucional)
+        docente.contrasena = data.get('contrasena', docente.contrasena)
+        docente.fechaNacimiento = data.get('fechaNacimiento', docente.fechaNacimiento)
+        docente.estado = data.get('estado', docente.estado)
+        docente.horasDispobibles = data.get('horasDispobibles', docente.horasDispobibles)
+
+        # Guardar los cambios en la base de datos
+        docente.save()
+
+        return JsonResponse({'message': 'Docente actualizado con éxito'}, status=200)
+    else:
+        return JsonResponse({'message': 'Método no permitido'}, status=405)
+
+
+@api_view(['DELETE'])
+def eliminar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'message': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    docente.delete()
+    return Response({'message': 'Docente eliminado con éxito'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def obtener_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+        data = {
+            'id': docente.id,
+            'nombre': docente.nombre,
+            'apellido': docente.apellido,
+            'cedula': docente.cedula,
+            'correoPersonal': docente.correoPersonal,
+            'correoInstitucional': docente.correoInstitucional,
+            'contrasena': docente.contrasena,
+            'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
+            'estado': docente.estado,
+            'horasDispobibles': docente.horasDispobibles
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'error': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 ##############################################################################################
 #####################################    Programa       ######################################

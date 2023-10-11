@@ -26,6 +26,6 @@ export class MenuPrincCoordinadorComponent {
   }
 
   routLinkVisualizarCrearMonitor(){
-    this.router.navigate(['body/formulario_nuevo_monitor']);
+    this.router.navigate(['body/coordinadorPracticas/crear_docente']);
   }
 }

@@ -1,0 +1,65 @@
+<!-- Agrega este enlace en el head de tu index.html -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<header>
+    <app-nav-bar></app-nav-bar>
+  </header>
+  <main>
+    <div class="container">
+      <h2>Editar Docente</h2>
+      
+      <form (ngSubmit)="actualizarDocente()">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" [(ngModel)]="docente.nombre" name="nombre" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" [(ngModel)]="docente.apellido" name="apellido" required>
+        </div>
+  
+        <div class="form-group">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" [(ngModel)]="docente.cedula" name="cedula" required>
+          </div>
+    
+          <div class="form-group">
+            <label for="correoPersonal">Correo Personal:</label>
+            <input type="email" id="correoPersonal" [(ngModel)]="docente.correoPersonal" name="correoPersonal" required>
+          </div>
+    
+          <div class="form-group">
+            <label for="correoInstitucional">Correo Institucional:</label>
+            <input type="email" id="correoInstitucional" [(ngModel)]="docente.correoInstitucional" name="correoInstitucional" required>
+          </div>
+    
+          <div class="form-group">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" [(ngModel)]="docente.contrasena" name="contrasena" required>
+          </div>
+    
+          <div class="form-group">
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" [(ngModel)]="docente.fechaNacimiento" name="fechaNacimiento" required>
+          </div>
+    
+  
+        <div class="form-group">
+          <label for="estado">Estado:</label>
+          <input type="checkbox" id="estado" [(ngModel)]="docente.estado" name="estado">
+        </div>
+  
+        <div class="form-group">
+          <label for="horasDispobibles">Horas Disponibles:</label>
+          <input type="number" id="horasDispobibles" [(ngModel)]="docente.horasDispobibles" name="horasDispobibles" required>
+        </div>
+  
+        <div class="form-group">
+          <button type="submit">Actualizar Docente</button>
+          <button type="button" class="button-regresar" (click)="volverAtras()">Volver</button>
+        </div>        
+      </form>
+    </div>
+  </main>
+  

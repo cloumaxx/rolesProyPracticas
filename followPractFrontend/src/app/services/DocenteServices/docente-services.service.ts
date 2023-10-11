@@ -12,7 +12,7 @@ export interface Docente {
   contrasena: string;
   fechaNacimiento: Date;
   estado: boolean;
-  horasDisponibles: number;
+  horasDispobibles: number;
 }
 
 
