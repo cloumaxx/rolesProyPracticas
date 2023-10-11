@@ -3,33 +3,49 @@
 <app-nav-bar> </app-nav-bar>
 </header>
 <body>
-  <div class="container" >
-    <h2>Cargar Listado de Estudiantes</h2>
-    <br>
-    <div style="padding-bottom: 10px;">
-      <label>Elige el año:</label>
-      <input type="number" name="year" min="1900" max="2099" step="1" value="2022" (change)="onYearChange($event)">
-      <label>Selecciona el periodo:</label>
-      <select id="semester" name="semester" (change)="onSemesterChange($event)">
-          <option value="01">01</option>
-          <option value="02">02</option>
-      </select>
-      <br><br>
-      <label>Semestre seleccionado: {{semestreSeleccionado}}<span id="semestreSeleccionado"></span></label>
-  </div>
-    <div>
-      <input type="file" id="fileInput" accept=".xls,.xlsx" (change)="onFileSelected($event)" />
-    </div>
-    <div>
-      <button id="upload-button" class="btn btn-primary" (click)="uploadFile()">Cargar Archivo</button>
-    </div>
-    <div class="notification-area" *ngIf="notificationMessage">
-      {{ notificationMessage }}
-      <button class="close-button" (click)="clearNotification()">X</button>
+  <div id="container_total">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <h2>Cargar Listado de Estudiantes</h2>
+          <br>
+          <div style="padding-bottom: 10px;">
+          
+            <label><b>Semestre seleccionado: {{numeroSemestre}}</b><span id="semestreSeleccionado"></span></label>
+        </div>
+        
+          <div>
+            <input type="file" id="fileInput" accept=".xls,.xlsx" (change)="onFileSelected($event)" />
+          </div>
+          <div><br>
+            <button id="upload-button" class="btn btn-primary" (click)="uploadFile()">Cargar Archivo</button>
+          </div>
+          <div class="notification-area" *ngIf="notificationMessage">
+            {{ notificationMessage }}
+            <button class="close-button" (click)="clearNotification()">X</button>
+          </div>
+          
+          
+        
+        </div>
+        <div class="col-md-5">
+          <h5>Los semestres disponibles son:</h5><br>
+          <div id="container_coordinadores">
+              <input type="text" [(ngModel)]="filtro" placeholder="Buscar por número" class="busqueda-input">
+              <br><br>
+              <div class="coordinador-container">
+                  <div *ngFor="let semestre of semestres " [hidden]="!matchesFilter(semestre)" class="coordinador-card" (click)="seleccionarSemestre(semestre.numeroSemestre)">
+                      <p><b>Numero del semestre:</b> {{semestre.numeroSemestre}} </p>
+                      
+                  </div>
+              </div>
+          </div>
+          
+      </div>
+      </div>
     </div>
     
-  
-  
   </div>
+  
 </body>
 

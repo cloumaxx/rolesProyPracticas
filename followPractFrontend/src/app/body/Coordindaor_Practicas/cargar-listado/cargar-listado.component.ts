@@ -8,6 +8,7 @@ import {
 import { NotificationService } from 'src/app/notification.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ResponseDialogComponent } from './response-dialog-component/response-dialog-component.component';
+import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
 
 
 @Component({
@@ -19,24 +20,28 @@ import { ResponseDialogComponent } from './response-dialog-component/response-di
   `,
 })
 export class CargarListadoComponent implements OnInit {
+  filtro: string = ''; 
+
   selectedFile: File | undefined;
   semestreSeleccionado: string = "";
   year: number = 2022;
   semester: string = '01';
   notificationMessage: string = '';
   serverResponse: any;
-
+  numeroSemestre: string = '';
+  semestres : any[] = [];
   constructor(
     private estudianteService: EstudianteService,
     private notificationService: NotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private semestreService: SemestreService,
   )
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
 
   }
   ngOnInit(): void {
-    // Subscribe to notifications
+    this.consultarSemestres();
     this.notificationService.notifications.subscribe((message) => {
       this.notificationMessage = message;
       if (message) {
@@ -62,7 +67,7 @@ export class CargarListadoComponent implements OnInit {
 
 
   uploadFile(): void {
-    if (this.semestreSeleccionado != "") {
+    if (this.numeroSemestre != "") {
       if (this.selectedFile) {
         this.estudianteService.cargarArchivoExcel(this.selectedFile, this.semestreSeleccionado).subscribe(
           (response) => {
@@ -98,4 +103,31 @@ export class CargarListadoComponent implements OnInit {
     dialogConfig.data = this.serverResponse; // Pasa la respuesta al diálogo
     this.dialog.open(ResponseDialogComponent, dialogConfig);
   }
+
+  consultarSemestres(){
+    this.semestreService.verSemestres().subscribe(
+      (data) => {
+        console.log(data);
+        this.semestres = data;
+      },
+      (error) => {
+        console.error('Error al obtener los semestres', error);
+      }
+    );
+  
+  
+}
+
+seleccionarSemestre(numSemestre: string){
+  this.numeroSemestre = numSemestre;
+  console.log(numSemestre);
+}
+matchesFilter(semestre: any): boolean {
+  const searchTextLowerCase = this.filtro.toLowerCase();
+  // Puedes agregar más condiciones para filtrar por otros campos si lo necesitas
+  return (
+    semestre.numeroSemestre.toLowerCase().includes(searchTextLowerCase) 
+  );
+
+}
 }

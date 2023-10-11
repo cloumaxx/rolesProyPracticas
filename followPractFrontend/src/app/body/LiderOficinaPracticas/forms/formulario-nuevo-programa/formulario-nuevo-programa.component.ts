@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CoordinadorServicesService } from 'src/app/services/CoordinadorServices/coordinador-services.service';
 import { ProgramaServicesService } from 'src/app/services/ProgramaServices/programa-services.service';
@@ -15,6 +16,8 @@ export class FormularioNuevoProgramaComponent {
     idCoordinador:''
     
   };
+  @ViewChild('miFormulario', { static: false }) formulario: NgForm | undefined;
+
   filtro: string = ''; 
   nombreCoordinador: string = '';
   coordinadores: any[] = [];
@@ -24,19 +27,33 @@ export class FormularioNuevoProgramaComponent {
     this.consultarCoordinadores();
    }
   crearPrograma() {
+    
+    this.programaData.idCoordinador = this.programaData.idCoordinador.toString();
     console.log(this.programaData);
     if(this.programaData.programaNombre != '' && this.programaData.programaCodigo != '' && this.programaData.idCoordinador != ''){
       this.programaService.crearPrograma(this.programaData)
       .subscribe(
         response => {
           console.log(response);
+          this.mostrarMensaje('Programa creado exitosamente', 'success');
+          this.programaData.idCoordinador = '';
+          this.formulario?.resetForm(); // Esto restablecerá los valores de los campos del formulario.
+
         },
         error => {
           console.error('Error al crear el programa', error);
+          this.mostrarMensaje('Error al crear el programa', 'error');
+
         }
       );
     }else{
-      this.mostrarMensaje('Hay datos vacios', 'error');
+      if(this.programaData.idCoordinador == ''){
+        this.mostrarMensaje('Debe seleccionar un coordinador', 'error');
+
+      }else{
+        this.mostrarMensaje('Hay datos vacios', 'error');
+
+      }
 
     }
     
@@ -79,4 +96,5 @@ export class FormularioNuevoProgramaComponent {
       coordinador.apellido.toLowerCase().includes(searchTextLowerCase) 
     );
   }
+  
 }

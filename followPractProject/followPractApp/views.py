@@ -402,18 +402,21 @@ def crearSemestre(request):
             fecha_inicio = request.data['fechaInicio']
             fecha_fin = request.data['fechaFin']
             numero_semestre = request.data['numeroSemestre']
+            semestreAnterior = Semestre.objects.filter(numeroSemestre=numero_semestre)
+            if semestreAnterior:
+                return Response({'message': 'El semestre ya existe'}, status=status.HTTP_201_CREATED)
+            else:
+                # Crear un nuevo objeto Semestre
+                semestre = Semestre(
+                    fechaInicio=fecha_inicio,
+                    fechaFin=fecha_fin,
+                    numeroSemestre=numero_semestre,
+                )
 
-            # Crear un nuevo objeto Semestre
-            semestre = Semestre(
-                fechaInicio=fecha_inicio,
-                fechaFin=fecha_fin,
-                numeroSemestre=numero_semestre,
-            )
+                # Guardar el objeto en la base de datos
+                semestre.save()
 
-            # Guardar el objeto en la base de datos
-            semestre.save()
-
-            return Response({'message': 'Semestre creado con éxito'}, status=status.HTTP_201_CREATED)
+                return Response({'message': 'Semestre creado con éxito'}, status=status.HTTP_201_CREATED)
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
@@ -573,18 +576,21 @@ def crearPrograma(request):
             programaNombre = request.data['programaNombre']
             programaCodigo = request.data['programaCodigo']
             idCoordinador = request.data['idCoordinador']
+            coordinador = Coordinador.objects.get(id=idCoordinador)
+            if coordinador:
             # Crear un nuevo objeto Semestre
-            programa = Programa(
-                programaNombre=programaNombre,
-                programaCodigo=programaCodigo,
-                idCoordinador=idCoordinador,
-            )
+                programa = Programa(
+                    programaNombre=programaNombre,
+                    programaCodigo=programaCodigo,
+                    idCoordinador=idCoordinador,
+                )
+                
+                # Guardar el objeto en la base de datos
+                programa.save()
 
-            # Guardar el objeto en la base de datos
-            programa.save()
-
-            return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
-
+                return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'message': 'El coordinador no existe'}, status=status.HTTP_201_CREATED)
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
