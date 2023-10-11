@@ -3,6 +3,7 @@ import { NotificationService } from 'src/app/notification.service';
 import { AspiranteServicesService } from 'src/app/services/AspiranteServices/aspirante-services.service';
 import { ResponseDialogComponentAspirantesComponent } from './response-dialog-component-aspirantes/response-dialog-component-aspirantes.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
 
 @Component({
   selector: 'app-cargar-listado-aspirantes',
@@ -16,18 +17,23 @@ export class CargarListadoAspirantesComponent {
   semester: string = '01';
   notificationMessage: string = '';
   serverResponse: any;
+  filtro: string = ''; 
+  numeroSemestre: string = '';
+  semestres : any[] = [];
 
   constructor(
     private aspiranteService: AspiranteServicesService,
     private notificationService: NotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private semestreService: SemestreService,
   )
    {
     this.semestreSeleccionado = this.year + "-" + this.semester;
 
   }
   ngOnInit(): void {
-    // Subscribe to notifications
+    this.consultarSemestres();
+
     this.notificationService.notifications.subscribe((message) => {
       this.notificationMessage = message;
       if (message) {
@@ -88,5 +94,30 @@ export class CargarListadoAspirantesComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = this.serverResponse; // Pasa la respuesta al diálogo
     this.dialog.open(ResponseDialogComponentAspirantesComponent, dialogConfig);
+  }
+  consultarSemestres(){
+    this.semestreService.verSemestres().subscribe(
+      (data) => {
+        console.log(data);
+        this.semestres = data;
+      },
+      (error) => {
+        console.error('Error al obtener los semestres', error);
+      }
+    );
+  
+  
+  }
+  seleccionarSemestre(numSemestre: string){
+    this.numeroSemestre = numSemestre;
+    console.log(numSemestre);
+  }
+  matchesFilter(semestre: any): boolean {
+    const searchTextLowerCase = this.filtro.toLowerCase();
+    // Puedes agregar más condiciones para filtrar por otros campos si lo necesitas
+    return (
+      semestre.numeroSemestre.toLowerCase().includes(searchTextLowerCase) 
+    );
+  
   }
 }

@@ -33,8 +33,14 @@ export class FormularioNuevoSemestreComponent {
     this.semestreService.crearSemestre(this.semestreData)
       .subscribe(
         response => {
-          console.log(response);
-          this.mostrarMensaje('Semestre creado correctamente', 'success');
+          console.log();
+          if(response.message == 'Semestre creado correctamente'){
+            this.mostrarMensaje('Semestre creado correctamente', 'success');
+
+          }else{
+            this.mostrarMensaje('Semestre ya existe', 'error');
+
+          }
 
 
         },

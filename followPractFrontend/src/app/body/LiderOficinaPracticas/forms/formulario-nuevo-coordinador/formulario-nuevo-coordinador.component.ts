@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { CoordinadorServicesService } from 'src/app/services/CoordinadorServices/coordinador-services.service';
 
@@ -28,6 +29,14 @@ export class FormularioNuevoCoordinadorComponent {
       response => {
         console.log(response);
         this.mostrarMensaje('Coordinador creado correctamente', 'success');
+        this.coordinadorData.nombre = '';
+        this.coordinadorData.apellido = '';
+        this.coordinadorData.cedula = '';
+        this.coordinadorData.correoPersonal = '';
+        this.coordinadorData.correoInstitucional = '';
+        this.coordinadorData.contrasena = '';
+        this.coordinadorData.fechaNacimiento = '';
+        this.coordinadorData.estado = true;
 
       },
       error => {

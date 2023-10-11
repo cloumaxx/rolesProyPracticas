@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <h5>Ingresa los siguientes datos:</h5><br>
-                    <form (submit)="crearPrograma()">
+                    <form (submit)="crearPrograma()" #miFormulario="ngForm">
             
           
                         <label for="programaNombre">Nombre del programa:</label>
@@ -19,7 +19,7 @@
                         <br>
                         
                        
-                        <label for="idCoordinador">Código  del programa:</label>
+                        <label for="idCoordinador">Coordinador del programa:</label>
                         <input type="text"  value=" {{nombreCoordinador}}" required>
 
                         <br>
