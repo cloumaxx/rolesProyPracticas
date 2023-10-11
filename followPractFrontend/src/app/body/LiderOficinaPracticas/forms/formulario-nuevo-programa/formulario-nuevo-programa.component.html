@@ -1,0 +1,55 @@
+<header>
+    <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
+</header>
+<main>
+    <div id="container_total">
+        <h2>Registrar Programa</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <h5>Ingresa los siguientes datos:</h5><br>
+                    <form (submit)="crearPrograma()" #miFormulario="ngForm">
+            
+          
+                        <label for="programaNombre">Nombre del programa:</label>
+                        <input type="text" id="programaNombre" [(ngModel)]="programaData.programaNombre" name="programaNombre" required>
+                        <br>
+                        <label for="programaCodigo">Código  del programa:</label>
+                        <input type="text" id="programaCodigo" [(ngModel)]="programaData.programaCodigo" name="programaCodigo" required>
+                        <br>
+                        
+                       
+                        <label for="idCoordinador">Coordinador del programa:</label>
+                        <input type="text"  value=" {{nombreCoordinador}}" required>
+
+                        <br>
+                        <br>
+                        <button type="submit"  style="margin: 0 auto; display: block;">Crear Programa</button>
+                      </form>
+                 
+                </div>
+                <div class="col-md-5">
+                    <h5>Los coordinadores disponibles son:</h5><br>
+                    <div id="container_coordinadores">
+                        <input type="text" [(ngModel)]="filtro" placeholder="Buscar por nombre" class="busqueda-input">
+                        <br><br>
+                        <div class="coordinador-container">
+                            <div *ngFor="let coordinador of coordinadores " [hidden]="!matchesFilter(coordinador)" class="coordinador-card" (click)="seleccionarCoordinador(coordinador.id, coordinador.nombre, coordinador.apellido)">
+                                <p><b>Nombre:</b> {{coordinador.nombre}} {{coordinador.apellido}}</p>
+                                <p><b>Código:</b> {{coordinador.id}}</p>
+                                <p><b>Estado:</b> {{coordinador.estado ? 'activo' : 'inactivo' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</main>
+
+<footer>
+
+</footer>

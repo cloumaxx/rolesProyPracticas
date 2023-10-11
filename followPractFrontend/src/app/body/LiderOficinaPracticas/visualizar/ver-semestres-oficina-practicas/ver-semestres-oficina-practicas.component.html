@@ -1,10 +1,12 @@
 
 <body class="body">
     <header>
-        <app-nav-bar> </app-nav-bar>
+        <app-nav-bar-ofc-practicas></app-nav-bar-ofc-practicas>
     </header>
     <main >
-          
+          <div class="form-group">
+          <input style="width: 50%;" type="text" class="form-control" [(ngModel)]="searchText" placeholder="Buscar...">
+        </div>
             <div class="container">
                 <h1>Listado de Semestres</h1>
                 <table>
@@ -17,7 +19,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let semestre of semestres">
+                    <tr *ngFor="let semestre of semestres" [hidden]="!matchesFilter(semestre)">
                       <td>{{ semestre.id }}</td>
                       <td>{{ semestre.fechaInicio }}</td>
                       <td>{{ semestre.fechaFin }}</td>

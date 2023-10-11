@@ -11,12 +11,10 @@ import { ResponseDialogComponentAspirantesComponent } from './Coordindaor_Practi
 import { CargarListadoComponent } from './Coordindaor_Practicas/cargar-listado/cargar-listado.component';
 import { ResponseDialogComponent } from './Coordindaor_Practicas/cargar-listado/response-dialog-component/response-dialog-component.component';
 import { FormularioNuevoDocenteMonitorComponent } from './Coordindaor_Practicas/forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
-import { FormularioNuevoSemestreComponent } from './Coordindaor_Practicas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { MenuPrincCoordinadorComponent } from './Coordindaor_Practicas/menu-princ-coordinador/menu-princ-coordinador.component';
 import { NavBarComponent } from './Coordindaor_Practicas/nav-bar/nav-bar.component';
 import { VisualizarAspirantesComponent } from './Coordindaor_Practicas/visualizar-aspirantes/visualizar-aspirantes.component';
 import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/visualizar-base-de-datos-completa/visualizar-base-de-datos-completa.component';
-import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,6 +27,13 @@ import { MenuPrincDocenteMonitorComponent } from './Docente_monitor/menu-princ-d
 import { MenuPrincEstudianteComponent } from './Estudiante/menu-princ-estudiante/menu-princ-estudiante.component';
 import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu-princ-oficina-practicas/menu-princ-oficina-practicas.component';
 import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc-practicas/nav-bar-ofc-practicas.component';
+import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
+import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
+import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
+import { FormularioNuevoProgramaComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-programa/formulario-nuevo-programa.component';
+import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-coordinador/formulario-nuevo-coordinador.component';
+import { VerCoordinadoresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-coordinadores-oficina-practicas/ver-coordinadores-oficina-practicas.component';
+import { VerProgramasOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-programas-oficina-practicas/ver-programas-oficina-practicas.component';
 
 
 @NgModule({
@@ -38,7 +43,6 @@ import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc
     CargarListadoAspirantesComponent,
     VisualizarBaseDeDatosCompletaComponent,
     MenuPrincCoordinadorComponent,
-    FormularioNuevoSemestreComponent,
     FormularioNuevoDocenteMonitorComponent,
     ResponseDialogComponent,
     ResponseDialogComponentAspirantesComponent,
@@ -51,7 +55,13 @@ import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc
     MenuPrincDocenteMonitorComponent,
     MenuPrincEstudianteComponent,
     MenuPrincOficinaPracticasComponent,
-    NavBarOfcPracticasComponent
+    NavBarOfcPracticasComponent,
+    FormularioNuevoSemestreComponent,
+    VerSemestresOficinaPracticasComponent,
+    FormularioNuevoProgramaComponent,
+    FormularioNuevoCoordinadorComponent,
+    VerCoordinadoresOficinaPracticasComponent,
+    VerProgramasOficinaPracticasComponent
   ],
   imports: [
     BodyRoutingModule,

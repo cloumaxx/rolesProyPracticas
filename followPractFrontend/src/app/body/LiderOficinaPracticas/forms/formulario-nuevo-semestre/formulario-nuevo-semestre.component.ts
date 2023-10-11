@@ -1,8 +1,6 @@
-import { Component, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
-import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
 
 @Component({
   selector: 'app-formulario-nuevo-semestre',
@@ -14,7 +12,6 @@ export class FormularioNuevoSemestreComponent {
     fechaInicio: '',
     fechaFin: '',
     numeroSemestre: '',
-    vigente: false
   };
   semestreSeleccionado: string = '';
   year: number = 2022;
@@ -36,8 +33,14 @@ export class FormularioNuevoSemestreComponent {
     this.semestreService.crearSemestre(this.semestreData)
       .subscribe(
         response => {
-          console.log(response);
-          this.mostrarMensaje('Semestre creado correctamente', 'success');
+          console.log();
+          if(response.message == 'Semestre creado correctamente'){
+            this.mostrarMensaje('Semestre creado correctamente', 'success');
+
+          }else{
+            this.mostrarMensaje('Semestre ya existe', 'error');
+
+          }
 
 
         },

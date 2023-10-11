@@ -14,7 +14,7 @@ body {
 /* Estilos para el contenedor principal */
 .container {
     background-color: #fff;
-    max-width: 80%;
+    max-width: 500px;
     margin: 20px auto;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -107,64 +107,4 @@ label, button, select {
 /* Estilos para el archivo seleccionado */
 #file {
     display: none;
-}
-#container_total {
-    background-color: #fff;
-    max-width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    text-align: center;
-}
-
-input[type="number"],
-select,
-input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-label, button, select {
-    display: block;
-}
-.coordinador-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.coordinador-card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer; 
-
-}
-#container_coordinadores {
-    width: 600px; /* Ancho fijo del contenedor */
-    height: 400px; /* Altura fija del contenedor */
-    border: 1px solid #ccc;
-    overflow: auto; /* Agregar scrollbar cuando el contenido excede el tamaño del contenedor */
-    padding: 10px;
-}
-
-.busqueda-input {
-    width: 100%; /* Ancho 100% para ocupar todo el ancho del contenedor */
-    padding: 5px;
-    margin-bottom: 10px;
-    box-sizing: border-box; /* Incluye el padding en el ancho total */
-    z-index: 1; /* Coloca el input por encima del contenido desplazable */
-    background-color: white; /* Fondo blanco para el input */
-    position: sticky; /* Mantén el input visible incluso cuando se desplace */
-    top: 0; /* Posición en la parte superior del contenedor */
-}
-
-.coordinador-card p {
-    margin: 0;
-    font-size: 16px;
 }

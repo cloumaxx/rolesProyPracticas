@@ -12,7 +12,7 @@ body {
 }
 
 /* Estilos para el contenedor principal */
-.container {
+#container_total {
     background-color: #fff;
     max-width: 80%;
     margin: 20px auto;
@@ -94,39 +94,6 @@ input[type="file"] {
 }
 
 /* Estilos generales para etiquetas y elementos */
-label, button, select {
-    display: block;
-}
-
-/* Estilos para el contenedor de carga de archivos */
-.file-upload {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Estilos para el archivo seleccionado */
-#file {
-    display: none;
-}
-#container_total {
-    background-color: #fff;
-    max-width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    text-align: center;
-}
-
-input[type="number"],
-select,
-input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 label, button, select {
     display: block;
 }

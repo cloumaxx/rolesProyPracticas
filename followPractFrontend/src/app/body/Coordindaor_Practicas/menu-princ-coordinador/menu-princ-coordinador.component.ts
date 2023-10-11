@@ -10,10 +10,13 @@ export class MenuPrincCoordinadorComponent {
   constructor(private router:Router){
     
   }
-  routLinkVisualizarCrearSemestre(){
-    this.router.navigate(['body/formulario_nuevo_semestre']);
-  }
+  
   routLinkVisualizarVerSemestre(){
-    this.router.navigate(['body/visualizar_semestres']);
+    this.router.navigate(['body/coordinadorPracticas/visualizar_semestres']);
   }
+  routLinkVisualizarMenuInicial(){
+    this.router.navigate(['']);
+  }
+  
+  
 }

@@ -10,7 +10,13 @@ export class NavBarOfcPracticasComponent {
   constructor(private router:Router){
   }
   routLinkIrMenuOficinaPracticas(){
-    this.router.navigate(['body/MenuPrincOficinaPracticas']);
+    this.router.navigate(['body/oficinaPracticas/MenuPrincOficinaPracticas']);
 
+  }
+  VerSemestresOficinaPracticasComponent(){
+    this.router.navigate(['body/oficinaPracticas/ver_semestres']);
+  }
+  routerLinkVisualozarListadoCoordinadores(){
+    this.router.navigate(['body/oficinaPracticas/visualizar_listado_coordinadores']);
   }
 }
