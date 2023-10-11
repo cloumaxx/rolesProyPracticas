@@ -25,9 +25,11 @@ import { MenuPrincOficinaPracticasComponent } from './LiderOficinaPracticas/menu
 import { NavBarOfcPracticasComponent } from './LiderOficinaPracticas/nav-bar-ofc-practicas/nav-bar-ofc-practicas.component';
 import { FormularioNuevoSemestreComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-semestre/formulario-nuevo-semestre.component';
 import { VisualizarEstudiantesComponent } from './Coordindaor_Practicas/visualizar-estudiantes/visualizar-estudiantes.component';
-import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
+import { VerSemestresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-semestres-oficina-practicas/ver-semestres-oficina-practicas.component';
 import { FormularioNuevoProgramaComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-programa/formulario-nuevo-programa.component';
 import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/forms/formulario-nuevo-coordinador/formulario-nuevo-coordinador.component';
+import { VerCoordinadoresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-coordinadores-oficina-practicas/ver-coordinadores-oficina-practicas.component';
+import { VerProgramasOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-programas-oficina-practicas/ver-programas-oficina-practicas.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/for
     FormularioNuevoSemestreComponent,
     VerSemestresOficinaPracticasComponent,
     FormularioNuevoProgramaComponent,
-    FormularioNuevoCoordinadorComponent
+    FormularioNuevoCoordinadorComponent,
+    VerCoordinadoresOficinaPracticasComponent,
+    VerProgramasOficinaPracticasComponent
   ],
   imports: [
     BodyRoutingModule,

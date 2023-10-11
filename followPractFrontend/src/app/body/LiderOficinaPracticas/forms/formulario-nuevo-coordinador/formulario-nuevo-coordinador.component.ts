@@ -22,17 +22,17 @@ export class FormularioNuevoCoordinadorComponent {
 
   constructor(private coordinadorService:CoordinadorServicesService,private snackBar: MatSnackBar) { }
 
-  crearPrograma(){
+  crearCoordinador(){
     console.log(this.coordinadorData);
     this.coordinadorService.crearCoordinador(this.coordinadorData).subscribe(
       response => {
         console.log(response);
-        this.mostrarMensaje('Programa creado correctamente', 'success');
+        this.mostrarMensaje('Coordinador creado correctamente', 'success');
 
       },
       error => {
-        console.error('Error al crear el programa', error);
-        this.mostrarMensaje('Error al crear el programa', 'error');
+        console.error('Error al crear el Coordinador', error);
+        this.mostrarMensaje('Error al crear el Coordinador', 'error');
 
       }
     )

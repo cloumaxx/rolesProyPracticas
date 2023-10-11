@@ -527,6 +527,22 @@ def crearPrograma(request):
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def programa_list(request):
+    try:
+        programas = Programa.objects.all()
+        data = []
+        for programa in programas:
+            data.append({
+                'id': programa.id,
+                'programaNombre': programa.programaNombre,
+                'programaCodigo': programa.programaCodigo,
+                'idCoordinador': programa.idCoordinador,
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except:
+        return JsonResponse({'error': 'No hay programas'}, status=404)
+
 
 
 ##############################################################################################
@@ -575,3 +591,25 @@ def crearCoordinador(request):
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def coordinador_list(request):
+    try:
+        coordinador = Coordinador.objects.all()
+        data = []
+        for coord in coordinador:
+            data.append({
+                'id': coord.id,
+                'nombre': coord.nombre,
+                'apellido': coord.apellido,
+                'cedula': coord.cedula,
+                'correoPersonal': coord.correoPersonal,
+                'correoInstitucional': coord.correoInstitucional,
+                'contrasena': coord.contrasena,
+                'fechaNacimiento': coord.fechaNacimiento.strftime('%Y-%m-%d'),
+                'estado': coord.estado
+
+            })
+        return Response(data,status=status.HTTP_200_OK)
+    except:
+       return JsonResponse({'error': 'No hay coordinadores'}, status=404)
