@@ -31,16 +31,17 @@
                         <td>{{ docente.correoPersonal }}</td>
                         <td>{{ docente.correoInstitucional }}</td>
                         <td>{{ docente.fechaNacimiento }}</td>
-                        <td>{{ docente.estado }}</td>
+                        <td *ngIf="docente.estado == true" >Activo</td>
+
+                        <td *ngIf="docente.estado == false" >Inactivo</td>
+
                         <td>{{ docente.horasDispobibles }}</td>
                         <td>
                           <!-- Agregar botones de acción para editar y eliminar -->
                           <button color="primary" (click)="editarDocente(docente.id)">
-                            edit
+                            editar
                           </button>
-                          <button color="warn" (click)="eliminarDocente(docente.id)">
-                            delete
-                          </button>
+                        
                         </td>
                       </tr>
                     </tbody>
