@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
+import { DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
@@ -20,7 +20,7 @@ export class FormularioNuevoDocenteMonitorComponent {
       horasDispobibles: 0
     };
   
-    constructor(private docenteService: DocenteService, private snackBar: MatSnackBar) {}
+    constructor(private docenteService: DocenteServicesService, private snackBar: MatSnackBar) {}
   
     registrarDocente() {
       this.docenteService.registrarDocente(this.docente).subscribe(

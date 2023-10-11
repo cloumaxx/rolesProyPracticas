@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-import { DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
+import { DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 
 
 
@@ -14,7 +14,7 @@ import { DocenteService } from 'src/app/services/DocenteServices/docente-service
 export class VisualizarListadoDocentesComponent {
 docentes: any[] = [];
 
- constructor(private docenteService: DocenteService) { }
+ constructor(private docenteService: DocenteServicesService) { }
 
  ngOnInit() {
   this.obtenerDocentes();

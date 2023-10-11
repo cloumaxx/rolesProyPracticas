@@ -1,49 +1,47 @@
-
 <body class="body">
-    <header>
-        <app-nav-bar> </app-nav-bar>
-    </header>
-    <main >
+  <header>
+      <app-nav-bar> </app-nav-bar>
+  </header>
+  <main >
 
-            <div class="container">
-                <h1>Listado de Docentes</h1>
-                <table>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Cédula</th>
-                        <th>Correo Personal</th>
-                        <th>Correo Institucional</th>
-                        <th>Contraseña</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Estado</th>
-                        <th>Horas Disponibles</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let docente of docentes">
-                        <td>{{ docente.id }}</td>
-                        <td>{{ docente.nombre }}</td>
-                        <td>{{ docente.apellido }}</td>
-                        <td>{{ docente.cedula }}</td>
-                        <td>{{ docente.correoPersonal }}</td>
-                        <td>{{ docente.correoInstitucional }}</td>
-                        <td>{{ docente.contrasena }}</td>
-                        <td>{{ docente.fechaNacimiento }}</td>
-                        <td>{{ docente.estado }}</td>
-                        <td>{{ docente.horasDispobibles }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
-              
-    </main>
-    <footer>
-    
-    </footer>
-        
-        
+          <div class="container">
+              <h1>Listado de Docentes</h1>
+              <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Cédula</th>
+                      <th>Correo Personal</th>
+                      <th>Correo Institucional</th>
+                      <th>Contraseña</th>
+                      <th>Fecha de Nacimiento</th>
+                      <th>Estado</th>
+                      <th>Horas Disponibles</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let docente of docentes">
+                      <td>{{ docente.id }}</td>
+                      <td>{{ docente.nombre }}</td>
+                      <td>{{ docente.apellido }}</td>
+                      <td>{{ docente.cedula }}</td>
+                      <td>{{ docente.correoPersonal }}</td>
+                      <td>{{ docente.correoInstitucional }}</td>
+                      <td>{{ docente.contrasena }}</td>
+                      <td>{{ docente.fechaNacimiento }}</td>
+                      <td>{{ docente.estado }}</td>
+                      <td>{{ docente.horasDispobibles }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            
+  </main>
+  <footer>
+  
+  </footer>
+      
+      
 </body>
-

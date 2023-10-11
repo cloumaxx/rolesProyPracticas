@@ -10,13 +10,22 @@ export class MenuPrincCoordinadorComponent {
   constructor(private router:Router){
     
   }
-  
-  routLinkVisualizarVerSemestre(){
-    this.router.navigate(['body/coordinadorPracticas/visualizar_semestres']);
-  }
+
   routLinkVisualizarMenuInicial(){
     this.router.navigate(['']);
   }
-  
-  
+  routLinkVisualizarCrearSemestre(){
+    this.router.navigate(['body/formulario_nuevo_semestre']);
+  }
+  routLinkVisualizarVerSemestre(){
+    this.router.navigate(['body/visualizar_semestres']);
+  }
+
+  routLinkVisualizarCrearDocente(){
+    this.router.navigate(['body/formulario_nuevo_docente']);
+  }
+
+  routLinkVisualizarCrearMonitor(){
+    this.router.navigate(['body/formulario_nuevo_monitor']);
+  }
 }

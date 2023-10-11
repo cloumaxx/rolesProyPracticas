@@ -77,8 +77,15 @@ const routes: Routes = [
   {
     path: 'body/oficinaPracticas/crear_coordinador',
     component:FormularioNuevoCoordinadorComponent
+  },
+  {
+    path: 'body/visualizar_listado_docentes',
+    component: VisualizarListadoDocentesComponent
+  },
+  {
+    path: 'body/visualizar_listado_estudiantes',
+    component: VisualizarEstudiantesComponent
   }
-  
 
   
 ];
