@@ -549,7 +549,7 @@ def asignar_random_estudiantes_docentes(req):
         asignados_nuevos = []
         estudiantes = list(Estudiante.objects.filter(
             estado=True,
-            #idDocenteMonitor=None
+            idDocenteMonitor=None
         ))
 
         docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDispobibles')
