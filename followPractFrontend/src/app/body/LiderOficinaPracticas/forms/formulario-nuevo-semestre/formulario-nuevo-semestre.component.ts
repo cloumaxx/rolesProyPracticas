@@ -34,7 +34,7 @@ export class FormularioNuevoSemestreComponent {
       .subscribe(
         response => {
           console.log();
-          if(response.message == 'Semestre creado correctamente'){
+          if(response.message == 'Semestre creado con éxito'){
             this.mostrarMensaje('Semestre creado correctamente', 'success');
 
           }else{
