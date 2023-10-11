@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-formulario-nuevo-docente-monitor',
@@ -20,7 +22,7 @@ export class FormularioNuevoDocenteMonitorComponent {
       horasDispobibles: 0
     };
   
-    constructor(private docenteService: DocenteServicesService, private snackBar: MatSnackBar) {}
+    constructor(private docenteService: DocenteServicesService, private snackBar: MatSnackBar, private router: Router) {}
   
     registrarDocente() {
       this.docenteService.registrarDocente(this.docente).subscribe(
@@ -46,5 +48,9 @@ export class FormularioNuevoDocenteMonitorComponent {
       }
   
       this.snackBar.open(mensaje, '', config);
+    }
+
+    volverAtras() {
+      this.router.navigate(['/body/coordinadorPracticas/menu_principal_coordinador']);
     }
 }
