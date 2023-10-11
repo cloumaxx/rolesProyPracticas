@@ -17,6 +17,10 @@ import { VisualizarAspirantesComponent } from './Coordindaor_Practicas/visualiza
 import { VisualizarBaseDeDatosCompletaComponent } from './Coordindaor_Practicas/visualizar-base-de-datos-completa/visualizar-base-de-datos-completa.component';
 import { VisualizarListadoDocentesComponent } from './Coordindaor_Practicas/visualizar-listado-docentes/visualizar-listado-docentes.component';
 import { VisualizarSemestresComponent } from './Coordindaor_Practicas/visualizar-semestres/visualizar-semestres.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+
 import { LoginComponent } from './login/login.component';
 import { MenuPrincDirectorComponent } from './DirectorCity/menu-princ-director/menu-princ-director.component';
 import { MenuPrincDocenteMonitorComponent } from './Docente_monitor/menu-princ-docente-monitor/menu-princ-docente-monitor.component';
@@ -66,8 +70,7 @@ import { VerProgramasOficinaPracticasComponent } from './LiderOficinaPracticas/v
     CarouselModule.forRoot(),
     FormsModule,
     MatSnackBarModule,
-    
-
+    MatFormFieldModule, MatTableModule, MatInputModule
     
   ]
 })
