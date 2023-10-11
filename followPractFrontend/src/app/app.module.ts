@@ -8,10 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BodyModule } from './body/body.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AsignarDocEstComponent } from './src/app/body/Coordindaor_Practicas/asignar-doc-est/asignar-doc-est.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AsignarDocEstComponent,
   ],
   imports: [
     CommonModule,

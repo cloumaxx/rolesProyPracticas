@@ -17,6 +17,8 @@ export class MenuPrincCoordinadorComponent {
   routLinkVisualizarMenuInicial(){
     this.router.navigate(['']);
   }
-  
+  routLinkAsignarEstudiantesDocentes(){
+    this.router.navigate(['body/coordinadorPracticas/asignar_estudiantes_docentes']);
+  } 
   
 }

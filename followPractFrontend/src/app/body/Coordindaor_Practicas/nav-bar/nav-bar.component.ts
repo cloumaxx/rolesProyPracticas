@@ -38,5 +38,9 @@ export class NavBarComponent {
   routLinkVisualizarListadoEstudiantes(){
     this.router.navigate(['body/coordinadorPracticas/visualizar_listado_estudiantes']);
   }
+
+  routLinkVisualizarListadoMonitorias(){
+    this.router.navigate(['body/coordinadorPracticas/visualizar_monitorias'])
+  }
 }
 

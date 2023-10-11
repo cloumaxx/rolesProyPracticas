@@ -2,7 +2,7 @@ USE rolesdb;
 
 insert IGNORE into followPractApp_docentemonitor(id, nombre, apellido, cedula, correoPersonal, correoInstitucional, contrasena, fechaNacimiento, estado, horasDispobibles)
 VALUES
-    (33, 'Johann', 'Bernoulli', '314159265', 'thermo@dynamics.io', 'mathaxs@usbcali.edu', 'safepassword', '1700-02-08', 0, 10),
+    (1, 'Johann', 'Bernoulli', '314159265', 'thermo@dynamics.io', 'mathaxs@usbcali.edu', 'safepassword', '1700-02-08', 0, 10),
     (34, 'Leonhard', 'Euler', '271828182', 'leonhard.euler@mathwiz.io', 'mathaxs@usbcali.edu', 'eulerpassword', '1707-04-15', 1, 15),
     (35, 'Carl Friedrich', 'Gauss', '141421356', 'carl.gauss@mathwiz.io', 'mathaxs@usbcali.edu', 'gausspassword', '1777-04-30', 1, 12),
     (36, 'Paul', 'Dirac', '303030303', 'paul.dirac@quantum.io', 'physics@usbcali.edu', 'diracpassword', '1902-08-08', 1, 8),
