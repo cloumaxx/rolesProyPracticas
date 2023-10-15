@@ -24,3 +24,5 @@ TestResults.xml
 venv/
 #node
 followPractFrontend/node_modules/
+#
+followPractProject/followPractApp/__pycache__/
