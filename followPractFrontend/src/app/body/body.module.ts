@@ -35,6 +35,7 @@ import { FormularioNuevoCoordinadorComponent } from './LiderOficinaPracticas/for
 import { VerCoordinadoresOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-coordinadores-oficina-practicas/ver-coordinadores-oficina-practicas.component';
 import { VerProgramasOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-programas-oficina-practicas/ver-programas-oficina-practicas.component';
 import { AsignarDocEstComponent } from './Coordindaor_Practicas/asignar-doc-est/asignar-doc-est.component';
+import { FormularioEditarDocenteMonitorComponent } from './Coordindaor_Practicas/forms/formulario-editar-docente-monitor/formulario-editar-docente-monitor.component';
 
 
 @NgModule({
@@ -63,8 +64,8 @@ import { AsignarDocEstComponent } from './Coordindaor_Practicas/asignar-doc-est/
     FormularioNuevoCoordinadorComponent,
     VerCoordinadoresOficinaPracticasComponent,
     VerProgramasOficinaPracticasComponent,
-    AsignarDocEstComponent
-    
+    AsignarDocEstComponent,
+    FormularioEditarDocenteMonitorComponent
   ],
   imports: [
     BodyRoutingModule,

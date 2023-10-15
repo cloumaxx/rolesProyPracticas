@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
+import { DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 
 @Component({
   selector: 'app-asignar-doc-est',
@@ -8,7 +8,7 @@ import { DocenteService } from 'src/app/services/DocenteServices/docente-service
 })
 export class AsignarDocEstComponent implements OnInit {
 
-  constructor(private docenteService: DocenteService) {}
+  constructor(private docenteService: DocenteServicesService) {}
 
   asignarRandomEstudiantes() {
     
