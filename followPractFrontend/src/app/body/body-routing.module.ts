@@ -17,6 +17,7 @@ import { VerCoordinadoresOficinaPracticasComponent } from './LiderOficinaPractic
 
 import { FormularioNuevoDocenteMonitorComponent } from './Coordindaor_Practicas/forms/formulario-nuevo-docente-monitor/formulario-nuevo-docente-monitor.component';
 import { FormularioEditarDocenteMonitorComponent } from './Coordindaor_Practicas/forms/formulario-editar-docente-monitor/formulario-editar-docente-monitor.component';
+import { VerProgramasOficinaPracticasComponent } from './LiderOficinaPracticas/visualizar/ver-programas-oficina-practicas/ver-programas-oficina-practicas.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path:'body/oficinaPracticas/visualizar_listado_coordinadores',
     component:VerCoordinadoresOficinaPracticasComponent
+  },
+  {
+    path:'body/oficinaPracticas/visualizar_listado_programas',
+    component:VerProgramasOficinaPracticasComponent
   },
   {
     path: 'body/visualizar_listado_docentes',

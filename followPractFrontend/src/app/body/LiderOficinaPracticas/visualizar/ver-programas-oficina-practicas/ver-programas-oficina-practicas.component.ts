@@ -13,26 +13,41 @@ export class VerProgramasOficinaPracticasComponent {
   constructor(private programasService: ProgramaServicesService) { }
 
   ngOnInit(): void {
-    this.obtenerSemestres();
+    this.obtenerPrograma();
+    console.log(this.programas);
   }
 
-  obtenerSemestres() {
+  obtenerPrograma() {
     this.programasService.verProgramas().subscribe(
       (data) => {
-        this.programasService = data;
+        this.programas = data;
       },
       (error) => {
-        console.error('Error al obtener los semestres', error);
+        console.error('Error al obtener los progrmas', error);
       }
     );
   }
+
+  /*
+  obtenerSemestres() {
+    this.coordinadorService.verCoordinadores().subscribe(
+      (data) => {
+        this.coordinadores = data;
+      },
+      (error) => {
+        console.error('Error al obtener los coordinadores', error);
+      }
+    );
+  }
+  */
   matchesFilter(programa: any): boolean {
     const searchTextLowerCase = this.searchText.toLowerCase();
     // Puedes agregar más condiciones para filtrar por otros campos si lo necesitas
     return (
-      programa.numeroSemestre.toLowerCase().includes(searchTextLowerCase) ||
-      programa.fechaFin.toLowerCase().includes(searchTextLowerCase) ||
-      programa.fechaInicio.toLowerCase().includes(searchTextLowerCase)
+      programa.programaNombre.toLowerCase().includes(searchTextLowerCase) ||
+      programa.programaCodigo.toLowerCase().includes(searchTextLowerCase) ||
+      programa.idCoordinador.toString().toLowerCase().includes(searchTextLowerCase)
     );
   }
 }
+

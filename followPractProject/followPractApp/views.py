@@ -181,7 +181,7 @@ def crearPorListadoAspirantes(request):
 
         try:
             df = crearDfAspirantes(archivo)
-            aspirantes_anteriores = AspirantesDoc2.objects.filter(semestreRegistro=semestrePerteneciente)
+            aspirantes_anteriores = Aspirantes.objects.filter(semestreRegistro=semestrePerteneciente)
             
             if len(aspirantes_anteriores) == 0:
                 for index, row in df.iterrows():
@@ -214,7 +214,7 @@ def crearPorListadoAspirantes(request):
                     documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
                     sector = row['SECTOR']
 
-                    nuevo_aspirante = AspirantesDoc2(
+                    nuevo_aspirante = Aspirantes(
                         item=item,
                         periodoPractica=periodo_de_practica,
                         aprobacionProg=aprobacion_del_prog_academico,
@@ -256,7 +256,7 @@ def crearPorListadoAspirantes(request):
                     if codigo not in codigos_aspirantes:
                         aspirante_nuevo = df[df['CODIGO'] == codigo].iloc[0]
                         
-                        nuevo_aspirante = AspirantesDoc2(
+                        nuevo_aspirante = Aspirantes(
                             item=aspirante_nuevo['ITEM'],
                             periodoPractica=aspirante_nuevo['PERIODO DE PRÁCTICA'],
                             aprobacionProg=aspirante_nuevo['APROBACIÓN DEL PROG ACADEMICO'],
@@ -290,7 +290,7 @@ def crearPorListadoAspirantes(request):
                         nuevo_aspirante.save()
                         AspirantesDoc2_nuevos.append(model_to_dict(nuevo_aspirante))
                     else:
-                        aspirante_a_activar = AspirantesDoc2.objects.get(codigo=codigo)
+                        aspirante_a_activar = Aspirantes.objects.get(codigo=codigo)
                         aspirante_a_activar.save()
                         AspirantesDoc2_activados.append(model_to_dict(aspirante_a_activar))
                 
@@ -322,7 +322,7 @@ def crearDfAspirantes(archivoExcel):
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
     try:
-        resultados = AspirantesDoc2.objects.filter(
+        resultados = Aspirantes.objects.filter(
             codigo__in=Estudiante.objects.values('codigo'),
             semestreRegistro=semestreEntrada  
         )
@@ -578,22 +578,23 @@ def crearPrograma(request):
             # Obtener los datos de la solicitud POST
             programaNombre = request.data['programaNombre']
             programaCodigo = request.data['programaCodigo']
-            idCoordinador = request.data['idCoordinador']
-            coordinador = Coordinador.objects.get(id=idCoordinador)
-            if coordinador:
+            try:
+                idCoordinador = request.data['idCoordinador']
+                coordinador = Coordinador.objects.get(id=idCoordinador)
+
+            except: 
+                coordinador = -1  
             # Crear un nuevo objeto Semestre
-                programa = Programa(
+            programa = Programa(
                     programaNombre=programaNombre,
                     programaCodigo=programaCodigo,
-                    idCoordinador=idCoordinador,
+                    idCoordinador=coordinador,
                 )
                 
                 # Guardar el objeto en la base de datos
-                programa.save()
+            programa.save()
 
-                return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
-            else:
-                return Response({'message': 'El coordinador no existe'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
