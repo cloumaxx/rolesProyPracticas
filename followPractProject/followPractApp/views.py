@@ -1,19 +1,19 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-from followPractApp.followPractAppSerializer import DocenteMonitorSerializer, Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
+from .models import Aspirantes, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
 from django.forms.models import model_to_dict
 from django.views.generic import ListView
 from random import shuffle
-from datetime import datetime
+from django.db.models import Q
 
 ##############################################################################################
 #####################################    ESTUDIANTES    ######################################
@@ -79,7 +79,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                     nuevo_estudiante.save()
                     estudiantes_creados.append(nuevo_estudiante)
@@ -110,7 +111,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                         nuevo_estudiante.save()
                         estudiantes_nuevos.append(nuevo_estudiante)
@@ -643,13 +645,12 @@ def docente_estudiantes_list(req, docente_id):
 def asignar_random_estudiantes_docentes(req):
     try:
         asignados_nuevos = []
-        estudiantes = list(Estudiante.objects.filter(
-            estado=True,
-            idDocenteMonitor=None
-        ))
+        estudiantes = list(Estudiante.objects.filter(estado=1).filter(Q(idDocenteMonitor=-1)))
 
+        print(estudiantes)
         docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDispobibles')
-
+        print("\n\n")
+        print(docentes)
         if not estudiantes or not docentes:
             return Response({'error': 'No data para estudiantes o docentes monitores'}, status=status.HTTP_400_BAD_REQUEST)
         
