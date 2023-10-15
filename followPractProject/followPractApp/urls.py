@@ -35,4 +35,14 @@ urlpatterns = [
     path('coordinador/crear_coordinador/', views.crearCoordinador, name='crear_coordinador'),
 
     path('coordinador/coordinador_list/', views.coordinador_list, name='coordinador_list'),
+
+    path('docentes/crear_docente/', views.crearDocenteMonitor, name='crear_docente'),
+
+    path('docentes/listar_docentes/', views.docentes_monitores_list, name='listar_docentes'),
+
+    path('docentes/actualizar_docente/<int:docente_id>/', views.actualizar_docente, name='actualizar_docente'),
+    
+    path('docentes/eliminar_docente/<int:docente_id>/', views.eliminar_docente, name='eliminar_docente'),
+
+    path('docentes/obtener_docente/<int:docente_id>/', views.obtener_docente, name='obtener_docente'),
 ]

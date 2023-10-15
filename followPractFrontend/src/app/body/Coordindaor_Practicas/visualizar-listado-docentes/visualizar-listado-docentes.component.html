@@ -1,86 +1,58 @@
 
-<body>
+<body class="body">
     <header>
-      <app-nav-bar></app-nav-bar>
+        <app-nav-bar> </app-nav-bar>
     </header>
-    <main>
-      <div class="container">
-          
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
-    </mat-form-field>
+    <main >
 
-    <table mat-table [dataSource]="docentes_list" class="mat-elevation-z8">
+            <div class="container">
+                <h1>Listado de Docentes</h1>
+                <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cédula</th>
+                        <th>Correo Personal</th>
+                        <th>Correo Institucional</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Estado</th>
+                        <th>Horas Disponibles</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let docente of docentes">
+                        <td>{{ docente.id }}</td>
+                        <td>{{ docente.nombre }}</td>
+                        <td>{{ docente.apellido }}</td>
+                        <td>{{ docente.cedula }}</td>
+                        <td>{{ docente.correoPersonal }}</td>
+                        <td>{{ docente.correoInstitucional }}</td>
+                        <td>{{ docente.fechaNacimiento }}</td>
+                        <td *ngIf="docente.estado == true" >Activo</td>
 
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.id}} </td>
-        </ng-container>
+                        <td *ngIf="docente.estado == false" >Inactivo</td>
 
-        <!-- Nombre Column -->
-        <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.nombre}} </td>
-        </ng-container>
-
-        <!-- Apellido Column -->
-        <ng-container matColumnDef="apellido">
-            <th mat-header-cell *matHeaderCellDef> Apellido </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.apellido}} </td>
-        </ng-container>
-
-        <!-- Cedula Column -->
-        <ng-container matColumnDef="cedula">
-            <th mat-header-cell *matHeaderCellDef> Cedula </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.cedula}} </td>
-        </ng-container>
-
-        <!-- Correo Personal Column -->
-        <ng-container matColumnDef="correoPersonal">
-            <th mat-header-cell *matHeaderCellDef> Correo Personal </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.correoPersonal}} </td>
-        </ng-container>
-
-        <!-- Correo Institucional Column -->
-        <ng-container matColumnDef="correoInstitucional">
-            <th mat-header-cell *matHeaderCellDef> Correo Institucional </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.correoInstitucional}} </td>
-        </ng-container>
-
-        <!-- Contraseña Column -->
-        <ng-container matColumnDef="contraseña">
-            <th mat-header-cell *matHeaderCellDef> Contraseña </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.contrasena}} </td>
-        </ng-container>
-
-        <!-- Fecha Nacimiento Column -->
-        <ng-container matColumnDef="fechaNacimiento">
-            <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.fechaNacimiento}} </td>
-        </ng-container>
-
-        <!-- Estado Column -->
-        <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef> Estado </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.estado}} </td>
-        </ng-container>
-
-        <!-- Horas Disponibles Column -->
-        <ng-container matColumnDef="horasDisponibles">
-            <th mat-header-cell *matHeaderCellDef> Horas Disponibles </th>
-            <td mat-cell *matCellDef="let docente"> {{docente.horasDisponibles}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-  </div>
-  </main> 
-  <footer></footer>
+                        <td>{{ docente.horasDispobibles }}</td>
+                        <td>
+                          <!-- Agregar botones de acción para editar y eliminar -->
+                          <button color="primary" (click)="editarDocente(docente.id)">
+                            editar
+                          </button>
+                        
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              
+    </main>
+    <footer>
+    
+    </footer>
+        
+        
 </body>
-        
-        
-
 

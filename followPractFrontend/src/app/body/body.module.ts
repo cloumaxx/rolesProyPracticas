@@ -64,6 +64,7 @@ import { AsignarDocEstComponent } from './Coordindaor_Practicas/asignar-doc-est/
     VerCoordinadoresOficinaPracticasComponent,
     VerProgramasOficinaPracticasComponent,
     AsignarDocEstComponent
+    
   ],
   imports: [
     BodyRoutingModule,

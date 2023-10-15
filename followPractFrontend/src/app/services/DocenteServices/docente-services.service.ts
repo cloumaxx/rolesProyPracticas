@@ -12,7 +12,7 @@ export interface Docente {
   contrasena: string;
   fechaNacimiento: Date;
   estado: boolean;
-  horasDisponibles: number;
+  horasDispobibles: number;
 }
 
 
@@ -20,7 +20,7 @@ export interface Docente {
   providedIn: 'root'
 })
 
-export class DocenteService {
+export class DocenteServicesService {
   private baseUrl = 'http://localhost:8080/docentes/';
 
   constructor( private http: HttpClient ) { }

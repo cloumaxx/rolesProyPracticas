@@ -3,7 +3,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-from followPractApp.followPractAppSerializer import Estudiante
+from followPractApp.followPractAppSerializer import DocenteMonitorSerializer, Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
@@ -445,6 +445,43 @@ def semestres_list(request):
 #####################################    Docente       ######################################
 ##############################################################################################
 
+@api_view(['POST'])
+def crearDocenteMonitor(request):
+    if request.method == 'POST':
+        try:
+            # Obtener los datos de la solicitud POST
+            nombre = request.data['nombre']
+            apellido = request.data['apellido']
+            cedula = request.data['cedula']
+            correo_personal = request.data['correoPersonal']
+            correo_institucional = request.data['correoInstitucional']
+            contrasena = request.data['contrasena']
+            fecha_nacimiento = request.data['fechaNacimiento']
+            estado = request.data['estado']
+            horas_disponibles = request.data['horasDispobibles']
+
+            # Crear un nuevo objeto DocenteMonitor
+            docente = DocenteMonitor(
+                nombre=nombre,
+                apellido=apellido,
+                cedula=cedula,
+                correoPersonal=correo_personal,
+                correoInstitucional=correo_institucional,
+                contrasena=contrasena,
+                fechaNacimiento=fecha_nacimiento,
+                estado=estado,
+                horasDispobibles=horas_disponibles
+            )
+
+            # Guardar el objeto en la base de datos
+            docente.save()
+
+            return Response({'message': 'Docente creado con éxito'}, status=status.HTTP_201_CREATED)
+
+        except KeyError:
+            return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def docentes_monitores_list(request):
     try:
@@ -466,9 +503,68 @@ def docentes_monitores_list(request):
 
             })
         return Response(data,status=status.HTTP_200_OK)
-    except Estudiante.DoesNotExist:
+    except DocenteMonitor.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
     
+@api_view(['PUT'])
+def actualizar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return JsonResponse({'message': 'Docente no encontrado'}, status=404)
+
+    if request.method == 'PUT':
+        # Obtener datos de la solicitud PUT
+        data = request.data  # O request.data dependiendo de la versión de Django
+
+        # Actualizar los campos relevantes del objeto
+        docente.nombre = data.get('nombre', docente.nombre)
+        docente.apellido = data.get('apellido', docente.apellido)
+        docente.cedula = data.get('cedula', docente.cedula)
+        docente.correoPersonal = data.get('correoPersonal', docente.correoPersonal)
+        docente.correoInstitucional = data.get('correoInstitucional', docente.correoInstitucional)
+        docente.contrasena = data.get('contrasena', docente.contrasena)
+        docente.fechaNacimiento = data.get('fechaNacimiento', docente.fechaNacimiento)
+        docente.estado = data.get('estado', docente.estado)
+        docente.horasDispobibles = data.get('horasDispobibles', docente.horasDispobibles)
+
+        # Guardar los cambios en la base de datos
+        docente.save()
+
+        return JsonResponse({'message': 'Docente actualizado con éxito'}, status=200)
+    else:
+        return JsonResponse({'message': 'Método no permitido'}, status=405)
+
+
+@api_view(['DELETE'])
+def eliminar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'message': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    docente.delete()
+    return Response({'message': 'Docente eliminado con éxito'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def obtener_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+        data = {
+            'id': docente.id,
+            'nombre': docente.nombre,
+            'apellido': docente.apellido,
+            'cedula': docente.cedula,
+            'correoPersonal': docente.correoPersonal,
+            'correoInstitucional': docente.correoInstitucional,
+            'contrasena': docente.contrasena,
+            'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
+            'estado': docente.estado,
+            'horasDispobibles': docente.horasDispobibles
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'error': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 ##############################################################################################
 #####################################    Programa       ######################################
