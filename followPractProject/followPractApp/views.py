@@ -9,8 +9,11 @@ from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre
+from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
 from django.forms.models import model_to_dict
+from django.views.generic import ListView
+from random import shuffle
+from datetime import datetime
 
 ##############################################################################################
 #####################################    ESTUDIANTES    ######################################
@@ -518,11 +521,102 @@ def programa_list(request):
 ########################    Asignacion Estudiantes Docentes       ############################
 ##############################################################################################
 
+@api_view(['GET'])
+def docente_estudiantes_list(req, docente_id):
+    try:
+        asignaciones = AsignacionEstudiantesDocentes.objects.filter(idDocenteMonitor=docente_id)
+
+        estudiantes = []
+        for asig in asignaciones:
+            estudiante = Estudiante.objects.get(id = asig.idEstudiante)
+            estudiantes.append(
+                {
+                    'id': estudiante.id,
+                    'nombre': estudiante.nombre,
+                    'programa': estudiante.programa
+                }
+            )
+
+        return Response(estudiantes, status=status.HTTP_200_OK)
+    except AsignacionEstudiantesDocentes.DoesNotExist:
+        return Response({'error': 'El docente no tiene estudiantes asignados.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['POST'])
+def asignar_random_estudiantes_docentes(req):
+    try:
+        asignados_nuevos = []
+        estudiantes = list(Estudiante.objects.filter(
+            estado=True,
+            idDocenteMonitor=None
+        ))
+
+        docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDispobibles')
+
+        if not estudiantes or not docentes:
+            return Response({'error': 'No data para estudiantes o docentes monitores'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        shuffle(estudiantes)
+
+        for docente in docentes:
+            if estudiantes:
+                estudiante = estudiantes.pop(0)
+                AsignacionEstudiantesDocentes.objects.create(
+                    idDocenteMonitor=docente.id,
+                    idEstudiante=estudiante.id,
+                    idSemestre=1,
+                    fechaAsignacion=datetime.now().date(),
+                    programa=estudiante.programa
+                )
+                asignados_nuevos.append(estudiante.id)
+        
+        res = {
+            'message': f'Estudiantes asignados aleatoriamente correctamente: {asignados_nuevos}'
+        }
+
+        return Response(res, status=status.HTTP_201_CREATED)
+    
+    except Exception as e:
+        return Response({'error': f'La asignación falló. Error: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+    
+    
+            
+
+        
+
 
 ##############################################################################################
 #####################################    Asignatura       ######################################
 ##############################################################################################
 
+@api_view(['GET'])
+def all_asignaciones_list(req):
+    try:
+        asignaciones = AsignacionEstudiantesDocentes.objects.all()
+
+        asignaciones_data = []
+        for asig in asignaciones:
+            docente = DocenteMonitor.objects.get(id=asig.idDocenteMonitor)
+            estudiante = Estudiante.objects.get(id=asig.idEstudiante)
+
+            asignaciones_data.append({
+                'id': asig.id,
+                'docente_id': docente.id,
+                'docente_nombre': f'{docente.nombre} {docente.apellido}',
+                'estudiante_id': estudiante.id,
+                'estudiante_nombre': estudiante.nombre,
+                'estudiante_programa': estudiante.programa
+            })
+
+        return Response(asignaciones_data, status=status.HTTP_200_OK)
+
+    except AsignacionEstudiantesDocentes.DoesNotExist:
+        return Response({'error': 'No hay asignaciones disponibles.'}, status=status.HTTP_404_NOT_FOUND)
 
 
 ##############################################################################################
