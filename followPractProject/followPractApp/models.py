@@ -12,7 +12,8 @@ class Estudiante(models.Model):
     fechaRegistro = models.DateField(auto_now_add=True)
     estado = models.BooleanField(default=True)
     semestre = models.CharField(max_length=10)
-
+    #username = models.CharField(max_length=50)
+    
     certificadoArl = models.CharField(max_length=500)
     certificadoEps = models.CharField(max_length=500)
     contratoPractica = models.CharField(max_length=500)
