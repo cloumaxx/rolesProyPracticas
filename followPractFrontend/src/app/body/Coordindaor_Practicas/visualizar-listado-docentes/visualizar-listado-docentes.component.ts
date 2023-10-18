@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Docente, DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
 import {MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Docente, DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
+// import { Docente, DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
@@ -18,12 +18,6 @@ export class VisualizarListadoDocentesComponent {
   constructor(private docenteService: DocenteServicesService,
      private router:Router) { }
 
-<<<<<<<
-  constructor(private docenteService: DocenteService) { }
-
-=======
-
->>>>>>>
   ngOnInit() {
     this.obtenerDocentes();
   }

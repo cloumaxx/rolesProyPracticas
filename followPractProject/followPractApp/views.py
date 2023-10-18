@@ -460,10 +460,12 @@ def crearDocenteMonitor(request):
             contrasena = request.data['contrasena']
             fecha_nacimiento = request.data['fechaNacimiento']
             estado = request.data['estado']
-            horas_disponibles = request.data['horasDispobibles']
-
-            # Crear un nuevo objeto DocenteMonitor
-            docente = DocenteMonitor(
+            horas_disponibles = request.data['horasDisponibles']
+            cedulaExiste = DocenteMonitor.objects.filter(cedula=cedula)
+            if cedulaExiste:
+                return Response({'message': 'El docente ya existe'}, status=status.HTTP_201_CREATED)
+            else:
+                docente = DocenteMonitor(
                 nombre=nombre,
                 apellido=apellido,
                 cedula=cedula,
@@ -472,13 +474,10 @@ def crearDocenteMonitor(request):
                 contrasena=contrasena,
                 fechaNacimiento=fecha_nacimiento,
                 estado=estado,
-                horasDispobibles=horas_disponibles
-            )
-
-            # Guardar el objeto en la base de datos
-            docente.save()
-
-            return Response({'message': 'Docente creado con éxito'}, status=status.HTTP_201_CREATED)
+                horasDisponibles=horas_disponibles
+                )
+                docente.save()
+                return Response({'message': f"Docente creado con éxito: {docente.nombre} | {docente.correoInstitucional}"}, status=status.HTTP_201_CREATED)
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
@@ -501,7 +500,7 @@ def docentes_monitores_list(request):
                 'contrasena': docente.contrasena,
                 'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
                 'estado': docente.estado,
-                'horasDispobibles': docente.horasDispobibles
+                'horasDisponibles': docente.horasDisponibles
 
             })
         return Response(data,status=status.HTTP_200_OK)
@@ -528,7 +527,7 @@ def actualizar_docente(request, docente_id):
         docente.contrasena = data.get('contrasena', docente.contrasena)
         docente.fechaNacimiento = data.get('fechaNacimiento', docente.fechaNacimiento)
         docente.estado = data.get('estado', docente.estado)
-        docente.horasDispobibles = data.get('horasDispobibles', docente.horasDispobibles)
+        docente.horasDisponibles = data.get('horasDisponibles', docente.horasDisponibles)
 
         # Guardar los cambios en la base de datos
         docente.save()
@@ -562,7 +561,7 @@ def obtener_docente(request, docente_id):
             'contrasena': docente.contrasena,
             'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
             'estado': docente.estado,
-            'horasDispobibles': docente.horasDispobibles
+            'horasDisponibles': docente.horasDisponibles
         }
         return Response(data, status=status.HTTP_200_OK)
     except DocenteMonitor.DoesNotExist:
@@ -649,7 +648,7 @@ def asignar_random_estudiantes_docentes(req):
         estudiantes = list(Estudiante.objects.filter(estado=1).filter(Q(idDocenteMonitor=-1)))
 
         print(estudiantes)
-        docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDispobibles')
+        docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDisponibles')
         print("\n\n")
         print(docentes)
         if not estudiantes or not docentes:

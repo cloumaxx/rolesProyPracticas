@@ -19,7 +19,7 @@ export class FormularioNuevoDocenteMonitorComponent {
       contrasena: '',
       fechaNacimiento: '',
       estado: true,
-      horasDispobibles: 0
+      horasDisponibles: 0
     };
   
     constructor(private docenteService: DocenteServicesService, private snackBar: MatSnackBar, private router: Router) {}
