@@ -19,7 +19,7 @@ import { AsignarDocEstComponent } from './src/app/body/Coordindaor_Practicas/asi
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    BodyModule,
+    //BodyModule,
     HttpClientModule,
     BrowserAnimationsModule, 
     FormsModule

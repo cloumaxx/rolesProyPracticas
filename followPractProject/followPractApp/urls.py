@@ -35,4 +35,6 @@ urlpatterns = [
     path('coordinador/crear_coordinador/', views.crearCoordinador, name='crear_coordinador'),
 
     path('coordinador/coordinador_list/', views.coordinador_list, name='coordinador_list'),
+
+    path('docentes/crear_docente/', views.crearDocenteMonitor, name='crear_docente'),
 ]

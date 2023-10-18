@@ -82,8 +82,15 @@ const routes: Routes = [
   {
     path:'body/oficinaPracticas/visualizar_listado_coordinadores',
     component:VerCoordinadoresOficinaPracticasComponent
+  },
+  {
+    path: 'body/visualizar_listado_docentes',
+    component: VisualizarListadoDocentesComponent
+  },
+  {
+    path: 'body/visualizar_listado_estudiantes',
+    component: VisualizarEstudiantesComponent
   }
-  
 
   
 ];
