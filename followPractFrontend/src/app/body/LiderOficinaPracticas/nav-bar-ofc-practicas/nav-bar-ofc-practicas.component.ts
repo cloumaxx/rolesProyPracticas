@@ -19,4 +19,7 @@ export class NavBarOfcPracticasComponent {
   routerLinkVisualozarListadoCoordinadores(){
     this.router.navigate(['body/oficinaPracticas/visualizar_listado_coordinadores']);
   }
+  routerLinkVisualozarListadoProgramas(){
+    this.router.navigate(['body/oficinaPracticas/visualizar_listado_programas']);
+  }
 }

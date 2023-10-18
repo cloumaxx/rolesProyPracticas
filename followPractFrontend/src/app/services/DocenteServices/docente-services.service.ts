@@ -12,7 +12,7 @@ export interface Docente {
   contrasena: string;
   fechaNacimiento: Date;
   estado: boolean;
-  horasDisponibles: number;
+  horasDispobibles: number;
 }
 
 
@@ -61,6 +61,7 @@ export class DocenteServicesService {
 
   asignarRandomEstudiantes(): Observable<any>{
     const url = `${this.baseUrl}asignar_estudiantes_docentes/`;
+  
     return this.http.post(url, {})
   }
 

@@ -1,19 +1,19 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-from followPractApp.followPractAppSerializer import Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
+from .models import Aspirantes, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
 from django.forms.models import model_to_dict
 from django.views.generic import ListView
 from random import shuffle
-from datetime import datetime
+from django.db.models import Q
 
 ##############################################################################################
 #####################################    ESTUDIANTES    ######################################
@@ -79,7 +79,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                     nuevo_estudiante.save()
                     estudiantes_creados.append(nuevo_estudiante)
@@ -110,7 +111,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                         nuevo_estudiante.save()
                         estudiantes_nuevos.append(nuevo_estudiante)
@@ -179,7 +181,7 @@ def crearPorListadoAspirantes(request):
 
         try:
             df = crearDfAspirantes(archivo)
-            aspirantes_anteriores = AspirantesDoc2.objects.filter(semestreRegistro=semestrePerteneciente)
+            aspirantes_anteriores = Aspirantes.objects.filter(semestreRegistro=semestrePerteneciente)
             
             if len(aspirantes_anteriores) == 0:
                 for index, row in df.iterrows():
@@ -212,7 +214,7 @@ def crearPorListadoAspirantes(request):
                     documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
                     sector = row['SECTOR']
 
-                    nuevo_aspirante = AspirantesDoc2(
+                    nuevo_aspirante = Aspirantes(
                         item=item,
                         periodoPractica=periodo_de_practica,
                         aprobacionProg=aprobacion_del_prog_academico,
@@ -254,7 +256,7 @@ def crearPorListadoAspirantes(request):
                     if codigo not in codigos_aspirantes:
                         aspirante_nuevo = df[df['CODIGO'] == codigo].iloc[0]
                         
-                        nuevo_aspirante = AspirantesDoc2(
+                        nuevo_aspirante = Aspirantes(
                             item=aspirante_nuevo['ITEM'],
                             periodoPractica=aspirante_nuevo['PERIODO DE PRÁCTICA'],
                             aprobacionProg=aspirante_nuevo['APROBACIÓN DEL PROG ACADEMICO'],
@@ -288,7 +290,7 @@ def crearPorListadoAspirantes(request):
                         nuevo_aspirante.save()
                         AspirantesDoc2_nuevos.append(model_to_dict(nuevo_aspirante))
                     else:
-                        aspirante_a_activar = AspirantesDoc2.objects.get(codigo=codigo)
+                        aspirante_a_activar = Aspirantes.objects.get(codigo=codigo)
                         aspirante_a_activar.save()
                         AspirantesDoc2_activados.append(model_to_dict(aspirante_a_activar))
                 
@@ -320,7 +322,7 @@ def crearDfAspirantes(archivoExcel):
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
     try:
-        resultados = AspirantesDoc2.objects.filter(
+        resultados = Aspirantes.objects.filter(
             codigo__in=Estudiante.objects.values('codigo'),
             semestreRegistro=semestreEntrada  
         )
@@ -503,9 +505,68 @@ def docentes_monitores_list(request):
 
             })
         return Response(data,status=status.HTTP_200_OK)
-    except Estudiante.DoesNotExist:
+    except DocenteMonitor.DoesNotExist:
         return JsonResponse({'error': 'No hay docentes'}, status=404)
     
+@api_view(['PUT'])
+def actualizar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return JsonResponse({'message': 'Docente no encontrado'}, status=404)
+
+    if request.method == 'PUT':
+        # Obtener datos de la solicitud PUT
+        data = request.data  # O request.data dependiendo de la versión de Django
+
+        # Actualizar los campos relevantes del objeto
+        docente.nombre = data.get('nombre', docente.nombre)
+        docente.apellido = data.get('apellido', docente.apellido)
+        docente.cedula = data.get('cedula', docente.cedula)
+        docente.correoPersonal = data.get('correoPersonal', docente.correoPersonal)
+        docente.correoInstitucional = data.get('correoInstitucional', docente.correoInstitucional)
+        docente.contrasena = data.get('contrasena', docente.contrasena)
+        docente.fechaNacimiento = data.get('fechaNacimiento', docente.fechaNacimiento)
+        docente.estado = data.get('estado', docente.estado)
+        docente.horasDispobibles = data.get('horasDispobibles', docente.horasDispobibles)
+
+        # Guardar los cambios en la base de datos
+        docente.save()
+
+        return JsonResponse({'message': 'Docente actualizado con éxito'}, status=200)
+    else:
+        return JsonResponse({'message': 'Método no permitido'}, status=405)
+
+
+@api_view(['DELETE'])
+def eliminar_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'message': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    docente.delete()
+    return Response({'message': 'Docente eliminado con éxito'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def obtener_docente(request, docente_id):
+    try:
+        docente = DocenteMonitor.objects.get(pk=docente_id)
+        data = {
+            'id': docente.id,
+            'nombre': docente.nombre,
+            'apellido': docente.apellido,
+            'cedula': docente.cedula,
+            'correoPersonal': docente.correoPersonal,
+            'correoInstitucional': docente.correoInstitucional,
+            'contrasena': docente.contrasena,
+            'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
+            'estado': docente.estado,
+            'horasDispobibles': docente.horasDispobibles
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    except DocenteMonitor.DoesNotExist:
+        return Response({'error': 'Docente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 ##############################################################################################
 #####################################    Programa       ######################################
@@ -517,22 +578,23 @@ def crearPrograma(request):
             # Obtener los datos de la solicitud POST
             programaNombre = request.data['programaNombre']
             programaCodigo = request.data['programaCodigo']
-            idCoordinador = request.data['idCoordinador']
-            coordinador = Coordinador.objects.get(id=idCoordinador)
-            if coordinador:
+            try:
+                idCoordinador = request.data['idCoordinador']
+                coordinador = Coordinador.objects.get(id=idCoordinador)
+
+            except: 
+                coordinador = -1  
             # Crear un nuevo objeto Semestre
-                programa = Programa(
+            programa = Programa(
                     programaNombre=programaNombre,
                     programaCodigo=programaCodigo,
-                    idCoordinador=idCoordinador,
+                    idCoordinador=coordinador,
                 )
                 
                 # Guardar el objeto en la base de datos
-                programa.save()
+            programa.save()
 
-                return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
-            else:
-                return Response({'message': 'El coordinador no existe'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -584,13 +646,12 @@ def docente_estudiantes_list(req, docente_id):
 def asignar_random_estudiantes_docentes(req):
     try:
         asignados_nuevos = []
-        estudiantes = list(Estudiante.objects.filter(
-            estado=True,
-            idDocenteMonitor=None
-        ))
+        estudiantes = list(Estudiante.objects.filter(estado=1).filter(Q(idDocenteMonitor=-1)))
 
+        print(estudiantes)
         docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDispobibles')
-
+        print("\n\n")
+        print(docentes)
         if not estudiantes or not docentes:
             return Response({'error': 'No data para estudiantes o docentes monitores'}, status=status.HTTP_400_BAD_REQUEST)
         

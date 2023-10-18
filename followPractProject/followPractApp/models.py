@@ -23,7 +23,7 @@ class Estudiante(models.Model):
     def __str__(self):
         return self.nombre
     
-class AspirantesDoc2(models.Model):
+class Aspirantes(models.Model):
     id = models.AutoField(primary_key=True)
     item = models.CharField(max_length=3000)
     periodoPractica = models.CharField(max_length=100)
@@ -69,7 +69,7 @@ class DocenteMonitor(models.Model):
     contrasena = models.CharField(max_length=100)
     fechaNacimiento = models.DateField()
     estado = models.BooleanField(default=True)
-    horasDispobibles = models.IntegerField()
+    horasDisponibles = models.IntegerField()
 
 class Semestre(models.Model):      
     id = models.AutoField(primary_key=True)
@@ -107,4 +107,4 @@ class Coordinador(models.Model):
     contrasena = models.CharField(max_length=50)
     fechaNacimiento = models.DateField()
     estado = models.BooleanField(default=True)
-    
+    programa = models.CharField(max_length=50)

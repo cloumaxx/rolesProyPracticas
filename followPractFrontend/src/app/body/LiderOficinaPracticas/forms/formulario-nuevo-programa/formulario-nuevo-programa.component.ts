@@ -13,7 +13,7 @@ export class FormularioNuevoProgramaComponent {
   programaData = {
     programaNombre:'',
     programaCodigo: '',
-    idCoordinador:''
+    idCoordinador:-1
     
   };
   @ViewChild('miFormulario', { static: false }) formulario: NgForm | undefined;
@@ -28,15 +28,15 @@ export class FormularioNuevoProgramaComponent {
    }
   crearPrograma() {
     
-    this.programaData.idCoordinador = this.programaData.idCoordinador.toString();
+    this.programaData.idCoordinador = this.programaData.idCoordinador;
     console.log(this.programaData);
-    if(this.programaData.programaNombre != '' && this.programaData.programaCodigo != '' && this.programaData.idCoordinador != ''){
+    if(this.programaData.programaNombre != '' && this.programaData.programaCodigo != '' ){
       this.programaService.crearPrograma(this.programaData)
       .subscribe(
         response => {
           console.log(response);
           this.mostrarMensaje('Programa creado exitosamente', 'success');
-          this.programaData.idCoordinador = '';
+          this.programaData.idCoordinador = -1;
           this.formulario?.resetForm(); // Esto restablecerá los valores de los campos del formulario.
 
         },
@@ -47,13 +47,9 @@ export class FormularioNuevoProgramaComponent {
         }
       );
     }else{
-      if(this.programaData.idCoordinador == ''){
-        this.mostrarMensaje('Debe seleccionar un coordinador', 'error');
-
-      }else{
+    
         this.mostrarMensaje('Hay datos vacios', 'error');
 
-      }
 
     }
     
@@ -73,7 +69,7 @@ export class FormularioNuevoProgramaComponent {
   }
   seleccionarCoordinador(idCoordinador: string, nombCoordinador: string, apellidoCoordinador: string){
     this.nombreCoordinador = nombCoordinador + ' ' + apellidoCoordinador;
-    this.programaData.idCoordinador = idCoordinador;
+    this.programaData.idCoordinador = Number(idCoordinador);
     console.log(idCoordinador);
   }
   mostrarMensaje(mensaje: string, tipo: 'success' | 'error') {

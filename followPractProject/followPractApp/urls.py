@@ -13,16 +13,11 @@ urlpatterns = [
 
     path('docentes/docentes_list/', views.docentes_monitores_list, name='docentes_monitores_list'),
 
-    path('docentes/<int:docente_id>/estudiantes/',
-         views.docente_estudiantes_list, name='docenteEstudiante_list'),
+    path('docentes/<int:docente_id>/estudiantes/',views.docente_estudiantes_list, name='docenteEstudiante_list'),
     
-    path('docentes/asignar_estudiantes_docentes',
-         views.asignar_random_estudiantes_docentes,
-         name='asignacion_doc_est'),
+    path('docentes/asignar_estudiantes_docentes/',views.asignar_random_estudiantes_docentes,name='asignacion_doc_est'),
 
-    path('docentes/ver_monitorias',
-         views.all_asignaciones_list,
-         name='lista_asignaciones'),
+    path('docentes/ver_monitorias',views.all_asignaciones_list,name='lista_asignaciones'),
 
     path('semestre/crear_semestre/', views.crearSemestre, name='crear_semestre'),
 
@@ -37,4 +32,12 @@ urlpatterns = [
     path('coordinador/coordinador_list/', views.coordinador_list, name='coordinador_list'),
 
     path('docentes/crear_docente/', views.crearDocenteMonitor, name='crear_docente'),
+
+    path('docentes/listar_docentes/', views.docentes_monitores_list, name='listar_docentes'),
+
+    path('docentes/actualizar_docente/<int:docente_id>/', views.actualizar_docente, name='actualizar_docente'),
+    
+    path('docentes/eliminar_docente/<int:docente_id>/', views.eliminar_docente, name='eliminar_docente'),
+
+    path('docentes/obtener_docente/<int:docente_id>/', views.obtener_docente, name='obtener_docente'),
 ]
