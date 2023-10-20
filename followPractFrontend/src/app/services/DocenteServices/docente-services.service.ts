@@ -59,4 +59,15 @@ export class DocenteServicesService {
     return this.http.delete(url);
   }
 
+  asignarRandomEstudiantes(): Observable<any>{
+    const url = `${this.baseUrl}asignar_estudiantes_docentes/`;
+  
+    return this.http.post(url, {})
+  }
+
+  getAllAsignaciones(): Observable<any>{
+    const url = `${this.baseUrl}ver_monitorias`;
+    return this.http.get(url);
+  }
+
 }

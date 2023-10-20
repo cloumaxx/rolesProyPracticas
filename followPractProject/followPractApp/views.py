@@ -1,18 +1,19 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 from rest_framework.response import Response
-from followPractApp.followPractAppSerializer import DocenteMonitorSerializer, Estudiante
 from rest_framework.decorators import api_view
 from django.core import serializers
 import pandas as pd
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
-from .models import AspirantesDoc2, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre
+from .models import Aspirantes, Coordinador, DocenteMonitor, Estudiante, Programa, Semestre, AsignacionEstudiantesDocentes
 from django.forms.models import model_to_dict
-from rest_framework import status
-from .models import DocenteMonitor
+from django.views.generic import ListView
+from random import shuffle
+from django.db.models import Q
 
 ##############################################################################################
 #####################################    ESTUDIANTES    ######################################
@@ -78,7 +79,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                     nuevo_estudiante.save()
                     estudiantes_creados.append(nuevo_estudiante)
@@ -109,7 +111,8 @@ def crearPorListadoEstudiantes(request):
                             telefono=telefono,
                             nombre=nombre,
                             semestre=semestrePerteneciente,
-                            estado=True
+                            estado=True,
+                            idDocenteMonitor= -1
                         )
                         nuevo_estudiante.save()
                         estudiantes_nuevos.append(nuevo_estudiante)
@@ -178,7 +181,7 @@ def crearPorListadoAspirantes(request):
 
         try:
             df = crearDfAspirantes(archivo)
-            aspirantes_anteriores = AspirantesDoc2.objects.filter(semestreRegistro=semestrePerteneciente)
+            aspirantes_anteriores = Aspirantes.objects.filter(semestreRegistro=semestrePerteneciente)
             
             if len(aspirantes_anteriores) == 0:
                 for index, row in df.iterrows():
@@ -211,7 +214,7 @@ def crearPorListadoAspirantes(request):
                     documentos_pendientes_de_formalizacion = row['DOCUMENTOS PENDIENTES DE FORMALIZACIÓN']
                     sector = row['SECTOR']
 
-                    nuevo_aspirante = AspirantesDoc2(
+                    nuevo_aspirante = Aspirantes(
                         item=item,
                         periodoPractica=periodo_de_practica,
                         aprobacionProg=aprobacion_del_prog_academico,
@@ -253,7 +256,7 @@ def crearPorListadoAspirantes(request):
                     if codigo not in codigos_aspirantes:
                         aspirante_nuevo = df[df['CODIGO'] == codigo].iloc[0]
                         
-                        nuevo_aspirante = AspirantesDoc2(
+                        nuevo_aspirante = Aspirantes(
                             item=aspirante_nuevo['ITEM'],
                             periodoPractica=aspirante_nuevo['PERIODO DE PRÁCTICA'],
                             aprobacionProg=aspirante_nuevo['APROBACIÓN DEL PROG ACADEMICO'],
@@ -287,7 +290,7 @@ def crearPorListadoAspirantes(request):
                         nuevo_aspirante.save()
                         AspirantesDoc2_nuevos.append(model_to_dict(nuevo_aspirante))
                     else:
-                        aspirante_a_activar = AspirantesDoc2.objects.get(codigo=codigo)
+                        aspirante_a_activar = Aspirantes.objects.get(codigo=codigo)
                         aspirante_a_activar.save()
                         AspirantesDoc2_activados.append(model_to_dict(aspirante_a_activar))
                 
@@ -319,7 +322,7 @@ def crearDfAspirantes(archivoExcel):
 @api_view(['GET'])
 def tablaCompletaPracticas_list(request,semestreEntrada):
     try:
-        resultados = AspirantesDoc2.objects.filter(
+        resultados = Aspirantes.objects.filter(
             codigo__in=Estudiante.objects.values('codigo'),
             semestreRegistro=semestreEntrada  
         )
@@ -457,10 +460,12 @@ def crearDocenteMonitor(request):
             contrasena = request.data['contrasena']
             fecha_nacimiento = request.data['fechaNacimiento']
             estado = request.data['estado']
-            horas_disponibles = request.data['horasDispobibles']
-
-            # Crear un nuevo objeto DocenteMonitor
-            docente = DocenteMonitor(
+            horas_disponibles = request.data['horasDisponibles']
+            cedulaExiste = DocenteMonitor.objects.filter(cedula=cedula)
+            if cedulaExiste:
+                return Response({'message': 'El docente ya existe'}, status=status.HTTP_201_CREATED)
+            else:
+                docente = DocenteMonitor(
                 nombre=nombre,
                 apellido=apellido,
                 cedula=cedula,
@@ -469,13 +474,10 @@ def crearDocenteMonitor(request):
                 contrasena=contrasena,
                 fechaNacimiento=fecha_nacimiento,
                 estado=estado,
-                horasDispobibles=horas_disponibles
-            )
-
-            # Guardar el objeto en la base de datos
-            docente.save()
-
-            return Response({'message': 'Docente creado con éxito'}, status=status.HTTP_201_CREATED)
+                horasDisponibles=horas_disponibles
+                )
+                docente.save()
+                return Response({'message': f"Docente creado con éxito: {docente.nombre} | {docente.correoInstitucional}"}, status=status.HTTP_201_CREATED)
 
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
@@ -498,7 +500,7 @@ def docentes_monitores_list(request):
                 'contrasena': docente.contrasena,
                 'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
                 'estado': docente.estado,
-                'horasDispobibles': docente.horasDispobibles
+                'horasDisponibles': docente.horasDisponibles
 
             })
         return Response(data,status=status.HTTP_200_OK)
@@ -525,7 +527,7 @@ def actualizar_docente(request, docente_id):
         docente.contrasena = data.get('contrasena', docente.contrasena)
         docente.fechaNacimiento = data.get('fechaNacimiento', docente.fechaNacimiento)
         docente.estado = data.get('estado', docente.estado)
-        docente.horasDispobibles = data.get('horasDispobibles', docente.horasDispobibles)
+        docente.horasDisponibles = data.get('horasDisponibles', docente.horasDisponibles)
 
         # Guardar los cambios en la base de datos
         docente.save()
@@ -559,7 +561,7 @@ def obtener_docente(request, docente_id):
             'contrasena': docente.contrasena,
             'fechaNacimiento': docente.fechaNacimiento.strftime('%Y-%m-%d'),
             'estado': docente.estado,
-            'horasDispobibles': docente.horasDispobibles
+            'horasDisponibles': docente.horasDisponibles
         }
         return Response(data, status=status.HTTP_200_OK)
     except DocenteMonitor.DoesNotExist:
@@ -575,22 +577,23 @@ def crearPrograma(request):
             # Obtener los datos de la solicitud POST
             programaNombre = request.data['programaNombre']
             programaCodigo = request.data['programaCodigo']
-            idCoordinador = request.data['idCoordinador']
-            coordinador = Coordinador.objects.get(id=idCoordinador)
-            if coordinador:
+            try:
+                idCoordinador = request.data['idCoordinador']
+                coordinador = Coordinador.objects.get(id=idCoordinador)
+
+            except: 
+                coordinador = -1  
             # Crear un nuevo objeto Semestre
-                programa = Programa(
+            programa = Programa(
                     programaNombre=programaNombre,
                     programaCodigo=programaCodigo,
-                    idCoordinador=idCoordinador,
+                    idCoordinador=coordinador,
                 )
                 
                 # Guardar el objeto en la base de datos
-                programa.save()
+            programa.save()
 
-                return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
-            else:
-                return Response({'message': 'El coordinador no existe'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Programa creado con éxito'}, status=status.HTTP_201_CREATED)
         except KeyError:
             return Response({'message': 'Datos incompletos o incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -616,11 +619,101 @@ def programa_list(request):
 ########################    Asignacion Estudiantes Docentes       ############################
 ##############################################################################################
 
+@api_view(['GET'])
+def docente_estudiantes_list(req, docente_id):
+    try:
+        asignaciones = AsignacionEstudiantesDocentes.objects.filter(idDocenteMonitor=docente_id)
+
+        estudiantes = []
+        for asig in asignaciones:
+            estudiante = Estudiante.objects.get(id = asig.idEstudiante)
+            estudiantes.append(
+                {
+                    'id': estudiante.id,
+                    'nombre': estudiante.nombre,
+                    'programa': estudiante.programa
+                }
+            )
+
+        return Response(estudiantes, status=status.HTTP_200_OK)
+    except AsignacionEstudiantesDocentes.DoesNotExist:
+        return Response({'error': 'El docente no tiene estudiantes asignados.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['POST'])
+def asignar_random_estudiantes_docentes(req):
+    try:
+        asignados_nuevos = []
+        estudiantes = list(Estudiante.objects.filter(estado=1).filter(Q(idDocenteMonitor=-1)))
+
+        print(estudiantes)
+        docentes = DocenteMonitor.objects.filter(estado=True).order_by('-horasDisponibles')
+        print("\n\n")
+        print(docentes)
+        if not estudiantes or not docentes:
+            return Response({'error': 'No data para estudiantes o docentes monitores'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        shuffle(estudiantes)
+
+        for docente in docentes:
+            if estudiantes:
+                estudiante = estudiantes.pop(0)
+                AsignacionEstudiantesDocentes.objects.create(
+                    idDocenteMonitor=docente.id,
+                    idEstudiante=estudiante.id,
+                    idSemestre=1,
+                    fechaAsignacion=datetime.now().date(),
+                    programa=estudiante.programa
+                )
+                asignados_nuevos.append(estudiante.id)
+        
+        res = {
+            'message': f'Estudiantes asignados aleatoriamente correctamente: {asignados_nuevos}'
+        }
+
+        return Response(res, status=status.HTTP_201_CREATED)
+    
+    except Exception as e:
+        return Response({'error': f'La asignación falló. Error: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+    
+    
+            
+
+        
+
 
 ##############################################################################################
 #####################################    Asignatura       ######################################
 ##############################################################################################
 
+@api_view(['GET'])
+def all_asignaciones_list(req):
+    try:
+        asignaciones = AsignacionEstudiantesDocentes.objects.all()
+
+        asignaciones_data = []
+        for asig in asignaciones:
+            docente = DocenteMonitor.objects.get(id=asig.idDocenteMonitor)
+            estudiante = Estudiante.objects.get(id=asig.idEstudiante)
+
+            asignaciones_data.append({
+                'id': asig.id,
+                'docente_id': docente.id,
+                'docente_nombre': f'{docente.nombre} {docente.apellido}',
+                'estudiante_id': estudiante.id,
+                'estudiante_nombre': estudiante.nombre,
+                'estudiante_programa': estudiante.programa
+            })
+
+        return Response(asignaciones_data, status=status.HTTP_200_OK)
+
+    except AsignacionEstudiantesDocentes.DoesNotExist:
+        return Response({'error': 'No hay asignaciones disponibles.'}, status=status.HTTP_404_NOT_FOUND)
 
 
 ##############################################################################################

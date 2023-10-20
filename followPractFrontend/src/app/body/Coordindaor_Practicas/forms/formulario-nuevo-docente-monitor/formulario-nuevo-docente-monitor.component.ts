@@ -19,7 +19,7 @@ export class FormularioNuevoDocenteMonitorComponent {
       contrasena: '',
       fechaNacimiento: '',
       estado: true,
-      horasDispobibles: 0
+      horasDisponibles: 0
     };
   
     constructor(private docenteService: DocenteServicesService, private snackBar: MatSnackBar, private router: Router) {}
@@ -29,6 +29,7 @@ export class FormularioNuevoDocenteMonitorComponent {
         (response) => {
           console.log('Docente registrado exitosamente:', response);
           this.mostrarMensaje('Docente registrado correctamente', 'success');
+          this.router.navigate(['body/coordinadorPracticas/visualizar_listado_docentes']);
         },
         (error) => {
           console.error('Error al registrar docente:', error);

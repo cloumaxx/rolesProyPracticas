@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { Docente, DocenteServicesService } from 'src/app/services/DocenteServices/docente-services.service';
+import {MatTableDataSource, MatTableModule } from '@angular/material/table';
+// import { Docente, DocenteService } from 'src/app/services/DocenteServices/docente-services.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @Component({
   selector: 'app-visualizar-listado-docentes',
@@ -10,7 +13,7 @@ import { Docente, DocenteServicesService } from 'src/app/services/DocenteService
 })
 export class VisualizarListadoDocentesComponent {
   docentes: Docente[] = [];
-  displayedColumns: string[] = ['nombre', 'apellido', 'cedula', 'acciones'];
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'cedula', 'estado', 'correoInstitucional','correoPersonal','horasDisponibles', 'acciones'];
   dataSource = new MatTableDataSource<Docente>(this.docentes);
 
   constructor(private docenteService: DocenteServicesService,
@@ -30,6 +33,10 @@ export class VisualizarListadoDocentesComponent {
         console.error('Error al obtener los docentes', error);
       }
     );
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   editarDocente(docenteId: number) {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { SemestreService } from 'src/app/services/SemestreServices/semestre-services.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class FormularioNuevoSemestreComponent {
   semester: string = '01';
   notificationMessage: string = '';
   serverResponse: any;
-  constructor(private semestreService: SemestreService, private snackBar: MatSnackBar) {}
+  constructor(private semestreService: SemestreService, private snackBar: MatSnackBar,private router:Router) {}
   ngOnInit(): void {
    
     this.semestreSeleccionado = this.year + "-" + this.semester;
@@ -36,6 +37,7 @@ export class FormularioNuevoSemestreComponent {
           console.log();
           if(response.message == 'Semestre creado con éxito'){
             this.mostrarMensaje('Semestre creado correctamente', 'success');
+            this.router.navigate(['body/oficinaPracticas/MenuPrincOficinaPracticas']);
 
           }else{
             this.mostrarMensaje('Semestre ya existe', 'error');
